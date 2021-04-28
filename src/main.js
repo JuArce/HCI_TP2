@@ -3,13 +3,15 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router';
 
+import Home from "@/views/Home";
+
 Vue.use(VueRouter);
 
 Vue.config.productionTip = false
 
 const router = new VueRouter({
     routes: [
-
+        { path: '/', component: Home},
     ]
 })
 
