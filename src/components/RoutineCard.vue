@@ -1,17 +1,17 @@
 <template>
     <v-card class="mx-auto" max-width="600">
-        <v-img class="white--text align-end" height="200px" :src="RoutineInfo.routineImage">
+        <v-img class="white--text align-end" height="200px" :src="getImage">
         </v-img>
 
-        <v-card-title>{{ RoutineInfo.routineName }}</v-card-title>
+        <v-card-title>{{ getName }}</v-card-title>
 
         <v-card-subtitle class="pb-0">by
-            {{ RoutineInfo.author }}
+            {{ getAuthor }}
         </v-card-subtitle>
 
         <v-card-text class="text--primary">
             <br>
-            <div>{{ RoutineInfo.routineInfo }}</div>
+            <div>{{ getInfo }}</div>
         </v-card-text>
 
         <v-card-actions>
@@ -21,16 +21,16 @@
 
             <v-icon>mdi-shield</v-icon>
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
-                {{ RoutineInfo.difficulty }}
+                {{ getDifficulty }}
             </v-card-subtitle>
 
             <v-icon>mdi-alarm</v-icon>
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
-                {{ RoutineInfo.time }}
+                {{ getTime }}
             </v-card-subtitle>
 
             <v-btn icon @click="swipeFav()" >
-                <v-icon v-if="RoutineInfo.favorite" color="teal">mdi-heart</v-icon>
+                <v-icon v-if="isFavorite" color="teal">mdi-heart</v-icon>
                 <v-icon v-else>mdi-heart</v-icon>
             </v-btn>
 
@@ -39,28 +39,84 @@
 </template>
 
 <script>
+// import Routine from "../store/RoutineStore";
+
 export default {
     name: "RoutineCard",
+
+    props: {
+        name: {
+            type: String,
+            required: true
+        },
+        author: {
+            type: String,
+            required: true
+        },
+        info: {
+            type: String,
+            required: true
+        },
+        image: {
+            type: String,
+            required: true
+        },
+        difficulty: {
+            type: String,
+            required: true
+        },
+        time: {
+            type: String,
+            required: true
+        },
+        favorite: {
+            type: Boolean,
+            required: true
+        },
+    },
 
     data: () => ({
         RoutineInfo:
             {
-                routineName: 'Extreme cardio',
-                author: 'Juan Perez',
-                routineInfo: 'Soy una rutina extrema, cuidado reyes de los musculos',
-                routineImage: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
-                difficulty: 'Medium',
-                time: '45 min',
-                favorite: false
+                // routineName: 'Extreme cardio',
+                // author: 'Juan Perez',
+                // routineInfo: 'Soy una rutina extrema, cuidado reyes de los musculos',
+                //routineImage: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',
+                // difficulty: 'Medium',
+                // time: '45 min',
+                // favorite: false
             },
-
     }),
 
     methods: {
         swipeFav() {
-            this.RoutineInfo.favorite = !this.RoutineInfo.favorite;
+            this.favorite = !this.favorite;
         }
     },
+
+    computed: {
+        getName() {
+            return this.name;
+        },
+        getAuthor() {
+            return this.author;
+        },
+        getInfo() {
+            return this.info;
+        },
+        getImage() {
+            return this.image;
+        },
+        getDifficulty() {
+            return this.difficulty;
+        },
+        getTime() {
+            return this.time;
+        },
+        isFavorite() {
+            return this.favorite;
+        },
+    }
 
 }
 
