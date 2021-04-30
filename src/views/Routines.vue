@@ -1,12 +1,10 @@
 <template>
-<div>
-    <h1>Workouts!</h1>
-</div>
+    <h1>My Routines</h1>
 </template>
 
 <script>
 export default {
-    name: "Workouts"
+    name: "Routines"
 }
 </script>
 

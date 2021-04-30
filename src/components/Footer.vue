@@ -1,7 +1,7 @@
 <template>
     <v-footer dark padless>
-        <v-card class="flex teal" flat tile>
-            <v-card-title class="teal">
+        <v-card class="flex #232931" flat tile>
+            <v-card-title class="#232931">
                 <strong class="subheading text-center">© 2021 HCI Fitness Project - All rights reserved.</strong>
                 <v-spacer></v-spacer>
                 <v-btn
