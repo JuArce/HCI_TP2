@@ -3,12 +3,15 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router';
 
+// import { Plugin } from 'vue-responsive-video-background-player';
+
 import Home from "@/views/Home";
 import Workouts from "@/views/Workouts";
 import Profile from "@/views/Profile";
 import Routines from "@/views/Routines";
 
 Vue.use(VueRouter);
+// Vue.use(Plugin);
 
 Vue.config.productionTip = false
 

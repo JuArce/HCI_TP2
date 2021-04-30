@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar class="#232931" dense dark>
+        <v-app-bar dense light>
 
             <v-toolbar-title>LOGO</v-toolbar-title>
 
@@ -10,14 +10,16 @@
                 <!--                        <router-link class="white&#45;&#45;text" :to="view.route">{{ view.view }}</router-link>-->
                 <!--                    </v-btn>-->
                 <!--                </v-btn-toggle>-->
-                <v-tabs fixed-tabs>
-                    <v-tab text class="#232931" v-for="view in views" :key="view">
-                        <router-link class="white--text" :to="view.route">{{ view.view }}</router-link>
+                <v-tabs fixed-tabs background-color="transparent" class="ml-16">
+                    <v-tabs-slider  color="teal"></v-tabs-slider>
+                    <v-tab text v-for="view in views" :key="view" >
+                        <router-link class="black--text" :to="view.route">{{ view.view }}</router-link>
                     </v-tab>
                 </v-tabs>
             </v-toolbar-items>
 
             <v-spacer></v-spacer>
+
             <v-toolbar-items>
                 <v-avatar color="teal" class="ma-1" size="36" >
 <!--                    <img :src="user.photo">-->
