@@ -22,4 +22,4 @@ const RoutineStore = {
 };
 
 
-export default RoutineStore;
+export {RoutineStore, Routine};
