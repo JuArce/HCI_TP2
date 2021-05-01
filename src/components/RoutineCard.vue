@@ -15,7 +15,21 @@
         </v-card-text>
 
         <v-card-actions>
-            <v-btn color="teal" text>View</v-btn>
+            <router-link class="teal--text" :to="{name: 'RoutinePath', params: {routine: routine}}">VIEW</router-link>
+
+
+<!--            Version con overlay-->
+<!--            <v-btn color="teal" @click="showOverlay()" link text>view</v-btn>-->
+
+            <!--            <c-routine-detail v-show="overlay" :routine="routine" :overlay="overlay"></c-routine-detail>-->
+<!--            <v-overlay v-show="overlay" :color="'white'" :opacity="0.9">-->
+<!--                <v-btn color="teal" @click="hideOverlay()" icon>-->
+<!--                    <v-icon>mdi-close</v-icon>-->
+<!--                </v-btn>-->
+<!--                <v-card outlined elevation="1" class="ma-3">-->
+<!--                    <c-routine-detail :routine="routine"></c-routine-detail>-->
+<!--                </v-card>-->
+<!--            </v-overlay>-->
 
             <v-spacer></v-spacer>
 
@@ -40,31 +54,44 @@
 
 <script>
 import {Routine} from "../store/RoutineStore";
-
+// import RoutineDetail from "@/components/RoutineDetail";
 export default {
+    components:{
+      // CRoutineDetail: RoutineDetail,
+    },
     name: "RoutineCard",
 
     props: {
         routine: {
           type: Routine,
           required: true
-        }
+        },
+        overlay: {
+            type: Boolean,
+            required: true
+        },
     },
 
-    data: () => ({
 
+    data: () => ({
     }),
 
     methods: {
         swipeFav() {
             this.routine.favorite = !this.routine.favorite;
+        },
+        showOverlay() {
+            this.overlay = true;
+        },
+        hideOverlay() {
+            this.overlay = false;
         }
     },
 
     computed: {
         isFavorite() {
             return this.routine.favorite;
-        }
+        },
     }
 
 }
@@ -74,3 +101,4 @@ export default {
 <style scoped>
 
 </style>
+

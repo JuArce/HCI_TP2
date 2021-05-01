@@ -10,6 +10,9 @@ import Workouts from "@/views/Workouts";
 import Profile from "@/views/Profile";
 import Routines from "@/views/Routines";
 
+// import {Routine} from "./store/RoutineStore";
+import RoutineDetail from "@/views/RoutineDetail";
+
 Vue.use(VueRouter);
 // Vue.use(Plugin);
 
@@ -21,6 +24,7 @@ const router = new VueRouter({
         { path: '/Workouts', component: Workouts},
         { path: '/Profile', component: Profile},
         { path: '/Routines', component: Routines},
+        { path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
     ]
 })
 

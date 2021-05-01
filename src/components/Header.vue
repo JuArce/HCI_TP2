@@ -12,7 +12,7 @@
                 <!--                </v-btn-toggle>-->
                 <v-tabs fixed-tabs background-color="transparent" class="ml-16">
                     <v-tabs-slider  color="teal"></v-tabs-slider>
-                    <v-tab text v-for="view in views" :key="view" >
+                    <v-tab text v-for="view in views" :key="view.view" >
                         <router-link class="black--text" :to="view.route">{{ view.view }}</router-link>
                     </v-tab>
                 </v-tabs>
@@ -53,7 +53,7 @@ export default {
         },
         views: [
             {route: '/', view: 'Home'},
-            {route: '/workouts', view: 'Workouts'},
+            {route: '/Workouts', view: 'Workouts'},
         ],
         profileInfo: [
             {route: '/Profile', name: 'My Profile'},
