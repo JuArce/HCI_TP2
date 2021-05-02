@@ -2,7 +2,7 @@
     <div>
         <v-app-bar dense light>
 
-            <v-toolbar-title>LOGO</v-toolbar-title>
+            <v-toolbar-title>ProFit</v-toolbar-title>
 
             <v-toolbar-items>
                 <!--                <v-btn-toggle class="teal">-->

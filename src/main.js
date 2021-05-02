@@ -7,15 +7,16 @@ import Vuelidate from 'vuelidate'
 // import { Plugin } from 'vue-responsive-video-background-player';
 Vue.use(Vuelidate);
 
-import Home from "@/views/Home";
-import Workouts from "@/views/Workouts";
-import Profile from "@/views/Profile";
-import Routines from "@/views/Routines";
+import Home from "./views/Home";
+import Workouts from "./views/Workouts";
+import Profile from "./views/Profile";
+import Routines from "./views/Routines";
 import LogIn from "./views/LogIn";
 
 // import {Routine} from "./store/RoutineStore";
-import RoutineDetail from "@/views/RoutineDetail";
+import RoutineDetail from "./views/RoutineDetail";
 import CreateRoutine from "./views/CreateRoutine";
+import Error404 from "./views/Error404";
 
 Vue.use(VueRouter);
 // Vue.use(Plugin);
@@ -31,6 +32,7 @@ const router = new VueRouter({
         {path: '/LogIn', component: LogIn},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
         {path: '/CreateRoutine', component: CreateRoutine},
+        {path: '/*', component: Error404},
     ]
 })
 

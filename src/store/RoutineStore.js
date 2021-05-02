@@ -7,6 +7,9 @@ class Routine {
         this.difficulty = difficulty;
         this.time = time;
         this.favorite = true;
+        this.warmup = [];
+        this.exercise = [[]];
+        this.cooldown = [];
     }
 }
 
