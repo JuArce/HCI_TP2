@@ -1,8 +1,5 @@
 <template>
-    <v-card class="mx-auto" max-width="600">
-        <v-img class="white--text align-end" height="200px" :src="routine.image">
-        </v-img>
-
+    <v-card class="mx-auto" outlined>
         <v-card-title>{{ routine.name }}</v-card-title>
 
         <v-card-subtitle class="pb-0">by
@@ -16,7 +13,6 @@
 
         <v-card-actions>
             <router-link class="teal--text" :to="{name: 'RoutinePath', params: {routine: routine}}">VIEW</router-link>
-
             <v-spacer></v-spacer>
 
             <v-icon>mdi-shield</v-icon>
@@ -42,12 +38,12 @@
 import {Routine} from "../store/RoutineStore";
 
 export default {
-    name: "RoutineCard",
+    name: "FavoriteRoutineCard",
 
     props: {
         routine: {
-          type: Routine,
-          required: true
+            type: Routine,
+            required: true
         },
     },
 
@@ -74,4 +70,3 @@ export default {
 <style scoped>
 
 </style>
-

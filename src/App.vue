@@ -1,11 +1,11 @@
 <template>
     <v-app>
 <!--        Preguntar como esconderlo en la pagina de login :)-->
-        <c-header></c-header>
+        <c-header app></c-header>
         <v-main>
             <router-view></router-view>
         </v-main>
-        <c-footer></c-footer>
+        <c-footer app></c-footer>
     </v-app>
 </template>
 

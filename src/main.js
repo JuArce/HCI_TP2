@@ -15,6 +15,7 @@ import LogIn from "./views/LogIn";
 
 // import {Routine} from "./store/RoutineStore";
 import RoutineDetail from "@/views/RoutineDetail";
+import CreateRoutine from "./views/CreateRoutine";
 
 Vue.use(VueRouter);
 // Vue.use(Plugin);
@@ -29,6 +30,7 @@ const router = new VueRouter({
         {path: '/Routines', component: Routines},
         {path: '/LogIn', component: LogIn},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
+        {path: '/CreateRoutine', component: CreateRoutine},
     ]
 })
 

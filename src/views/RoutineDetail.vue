@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ma-5" >
         <h1>{{ routine.name }}</h1>
         <v-img class="teal--text align-end" height="200px" :src="routine.image"></v-img>
 <!--        <v-btn color="teal" @click = "hideOverlay()" link text> off</v-btn>-->
