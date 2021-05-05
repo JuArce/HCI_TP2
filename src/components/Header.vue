@@ -11,8 +11,8 @@
                 <!--                    </v-btn>-->
                 <!--                </v-btn-toggle>-->
                 <v-tabs fixed-tabs background-color="transparent" class="ml-16">
-                    <v-tabs-slider  color="teal"></v-tabs-slider>
-                    <v-tab text v-for="view in views" :key="view.view" >
+                    <v-tabs-slider color="teal"></v-tabs-slider>
+                    <v-tab text v-for="view in views" :key="view.view">
                         <router-link class="black--text" :to="view.route">{{ view.view }}</router-link>
                     </v-tab>
                 </v-tabs>
@@ -21,8 +21,8 @@
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
-                <v-avatar color="teal" class="ma-1" size="36" >
-<!--                    <img :src="user.photo">-->
+                <v-avatar color="teal" class="ma-1" size="36">
+                    <!--                    <img :src="user.photo">-->
                 </v-avatar>
                 <v-toolbar-title class="ma-2">{{ user.name }}</v-toolbar-title>
                 <v-menu left bottom>
@@ -32,35 +32,60 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item v-for="(option) in profileInfo" :key="option.name" :to="option.route" @click="() => {}"
+                        <v-list-item v-for="(option) in profileInfo" :key="option.name" :to="option.route"
+                                     @click="() => {}"
                                      link>
                             <v-list-item-title>{{ option.name }}</v-list-item-title>
                         </v-list-item>
+                        <v-list-item @click="overlay=true">
+                            <v-list-item-title>Log Out</v-list-item-title>
+                        </v-list-item>
+
                     </v-list>
+
                 </v-menu>
+
             </v-toolbar-items>
         </v-app-bar>
+        <v-overlay :value="overlay" :dark="false">
+            <c-confirmation-card message="log out" toPath="/" @confirmationClosed="overlay=false" @confirmationAccepted="logOut"></c-confirmation-card>
+        </v-overlay>
     </div>
 </template>
 
 <script>
+// import {UserApi} from "../store/api/user";
+import {UserStore} from "../store/userStore";
+import ConfirmationCard from "./ConfirmationCard";
+
 export default {
     name: "Header",
+    components: {
+        CConfirmationCard: ConfirmationCard,
+    },
+
     data: () => ({
         user: {
             name: 'Juan',
             photo: './assets/logo.png',
         },
         views: [
-            {route: '/', view: 'Home'},
+            {route: '/Home', view: 'Home'},
             {route: '/Workouts', view: 'Workouts'},
         ],
         profileInfo: [
             {route: '/Profile', name: 'My Profile'},
             {route: '/Routines', name: 'My Routines'},
-            {route: '/', name: 'Log Out'}
+            // {route: '/', name: 'Log Out'}
         ],
-    })
+        overlay: false
+    }),
+    methods: {
+        async logOut() {
+            this.overlay = false;
+            await UserStore.logOutUser();
+        }
+    }
 }
 </script>
 

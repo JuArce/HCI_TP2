@@ -54,7 +54,7 @@
             <v-icon large>mdi-close</v-icon>
         </v-btn>
         <v-overlay :value="overlay" :dark="false">
-            <c-confirmation-card message="exit" @confirmationClosed="overlay=false"></c-confirmation-card>
+            <c-confirmation-card message="exit" toPath="/Routines" @confirmationClosed="overlay=false" @confirmationAccepted="overlay=false"></c-confirmation-card>
         </v-overlay>
 
         <v-btn @click="createRoutine()" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64" height="64">

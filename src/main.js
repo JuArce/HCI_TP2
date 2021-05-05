@@ -18,6 +18,8 @@ import RoutineDetail from "./views/RoutineDetail";
 import CreateRoutine from "./views/CreateRoutine";
 import Error404 from "./views/Error404";
 
+export { router };
+
 Vue.use(VueRouter);
 // Vue.use(Plugin);
 
@@ -25,11 +27,11 @@ Vue.config.productionTip = false
 
 const router = new VueRouter({
     routes: [
-        {path: '/', component: Home},
+        {path: '/', component: LogIn},
+        {path: '/Home', component: Home},
         {path: '/Workouts', component: Workouts},
         {path: '/Profile', component: Profile},
         {path: '/Routines', component: Routines},
-        {path: '/LogIn', component: LogIn},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
         {path: '/CreateRoutine', component: CreateRoutine},
         {path: '/*', component: Error404},

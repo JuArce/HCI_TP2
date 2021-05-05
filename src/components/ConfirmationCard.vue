@@ -18,7 +18,7 @@
             <v-btn @click="closeCard()" outlined rounded text>
                 No
             </v-btn>
-            <v-btn to="/Routines" class="teal" outlined dark rounded text>
+            <v-btn :to="toPath" @click="confirmCard()" class="teal" outlined dark rounded text>
                 Yes
             </v-btn>
         </v-card-actions>
@@ -33,12 +33,19 @@ export default {
         message: {
             type: String,
             require: true
+        },
+        toPath: {
+            type: String,
+            require: true
         }
     },
 
     methods: {
         closeCard() {
             this.$emit('confirmationClosed');
+        },
+        confirmCard() {
+            this.$emit('confirmationAccepted');
         }
     }
 }
