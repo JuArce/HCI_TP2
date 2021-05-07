@@ -3,6 +3,7 @@
         <v-row align="center" justify="space-between">
             <v-col cols="6">
                 <!--        <CAccData></CAccData>-->
+                <c-register></c-register>
             </v-col>
             <v-col cols="6">
                 <v-card class="text-center ma-3 px-3 py-4" elevation="3" tile>
@@ -17,7 +18,7 @@
                             hint="Username must be at least 3 characters long."
                             append-icon="mdi-account"
                         ></v-text-field>
-                        <!--      <div>{{$v}}</div>-->
+<!--                              <div>{{$v}}</div>-->
                         <v-text-field
                             @blur="$v.password.$touch()"
                             v-model="password"
@@ -40,6 +41,7 @@
 </template>
 
 <script>
+import Register from "./Register";
 import {required, maxLength, minLength} from 'vuelidate/lib/validators';
 // import AccountData from "../components/AccountData";
 // import {Credentials, UserApi} from "../store/api/user";
@@ -58,6 +60,7 @@ export default {
     components:
         {
             // CAccData: AccountData,
+            CRegister: Register,
         },
     methods: {
         // Métodos que acceden a la API

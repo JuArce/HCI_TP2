@@ -22,9 +22,9 @@
 
             <v-toolbar-items>
                 <v-avatar color="teal" class="ma-1" size="36">
-                    <!--                    <img :src="user.photo">-->
+                    <img :src="user.photo" alt="">
                 </v-avatar>
-                <v-toolbar-title class="ma-2">{{ user.name }}</v-toolbar-title>
+                <v-toolbar-title class="ma-2">{{ user.firstName }}</v-toolbar-title>
                 <v-menu left bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn icon v-bind="attrs" v-on="on">
@@ -48,13 +48,14 @@
             </v-toolbar-items>
         </v-app-bar>
         <v-overlay :value="overlay" :dark="false">
-            <c-confirmation-card message="log out" toPath="/" @confirmationClosed="overlay=false" @confirmationAccepted="logOut"></c-confirmation-card>
+            <c-confirmation-card message="log out" toPath="/" @confirmationClosed="overlay=false"
+                                 @confirmationAccepted="logOut"></c-confirmation-card>
         </v-overlay>
     </div>
 </template>
 
 <script>
-// import {UserApi} from "../store/api/user";
+//import {UserData} from "../store/api/user";
 import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
 
@@ -66,8 +67,8 @@ export default {
 
     data: () => ({
         user: {
-            name: 'Juan',
-            photo: './assets/logo.png',
+            firstName: '',
+            photo: '',
         },
         views: [
             {route: '/Home', view: 'Home'},
@@ -84,8 +85,19 @@ export default {
         async logOut() {
             this.overlay = false;
             await UserStore.logOutUser();
+        },
+
+        async getUserData() {
+            let userInfo = await UserStore.getCurrentUserData();
+            this.user.firstName = userInfo.email;
+            //this.user.photo = 'https://akns-images.eonline.com/eol_images/Entire_Site/2015015/rs_600x600-150115101957-600.Bradley-Cooper-American-Sniper.jl.011515.jpg?fit=around%7C1080:1080&output-quality=90&crop=1080:1080;center,top';
+            this.user.photo = userInfo.avatarUrl;
         }
-    }
+    },
+
+    created() {
+        this.getUserData();
+    },
 }
 </script>
 

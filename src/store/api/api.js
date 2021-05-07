@@ -12,6 +12,9 @@ class Api {
   }
 
   static async fetch(url, secure, init = {}, controller) {
+    if(!Api.token) {
+      Api.token = localStorage.getItem('securityToken');
+    }
     if (secure && Api.token) {
       if (!init.headers)
         init.headers = {};
@@ -34,7 +37,7 @@ class Api {
       return result;
     } catch (error) {
       if (!error.code) {
-        //error = { "code": 99, "description": error.message.toLowerCase() };
+        throw { "code": 99, "description": error.message.toLowerCase() };
       }
       throw error;
     } finally {

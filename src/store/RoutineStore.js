@@ -19,9 +19,9 @@ const RoutineStore = {
         'Medium',
         '45 min'),
         new Routine('Extreme cardio v2', 'Tomioka',
-        'Soy una rutina extrema, cuidado reyes de los musculos', 'https://www.xtrafondos.com/wallpapers/resized/giyu-tomioka-de-guardianes-de-la-noche-4034.jpg?s=large',
-        'Medium',
-        '45 min'),
+            'Soy una rutina extrema, cuidado reyes de los musculos', 'https://www.xtrafondos.com/wallpapers/resized/giyu-tomioka-de-guardianes-de-la-noche-4034.jpg?s=large',
+            'Medium',
+            '45 min'),
         new Routine('Extreme cardio v3', 'Tomioka',
             'Soy una rutina extrema, cuidado reyes de los musculos', 'https://www.xtrafondos.com/wallpapers/resized/zenitsu-agatsuma-con-espada-de-guardianes-de-la-noche-4039.jpg?s=large',
             'Medium',
@@ -54,12 +54,12 @@ const RoutineStore = {
 
     emptyRoutine: new Routine('', '', '', '', '', ''),
 
-    getFavorites(page, size){
+    getFavorites(page, size) {
         let aux = this.routines.filter(rout => rout.favorite);
         let first = (page - 1) * size;
         let toReturn = [];
         let i
-        for(i = first; i < aux.length && i < first + size; i++) {
+        for (i = first; i < aux.length && i < first + size; i++) {
             toReturn.push(aux[i]);
         }
         // while(i % size !== 0) {
@@ -69,7 +69,7 @@ const RoutineStore = {
         return toReturn;
     },
 
-    getFavoritesSize(){
+    getFavoritesSize() {
         return this.routines.filter(rout => rout.favorite).length;
     }
 };
