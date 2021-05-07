@@ -18,7 +18,7 @@ import RoutineDetail from "./views/RoutineDetail";
 import CreateRoutine from "./views/CreateRoutine";
 import Error404 from "./views/Error404";
 
-export { router };
+export {router};
 
 Vue.use(VueRouter);
 // Vue.use(Plugin);
