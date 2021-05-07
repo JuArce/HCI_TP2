@@ -12,6 +12,7 @@ import Workouts from "./views/Workouts";
 import Profile from "./views/Profile";
 import Routines from "./views/Routines";
 import LogIn from "./views/LogIn";
+import Register from "./views/Register";
 
 // import {Routine} from "./store/RoutineStore";
 import RoutineDetail from "./views/RoutineDetail";
@@ -34,6 +35,7 @@ const router = new VueRouter({
         {path: '/Routines', component: Routines},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
         {path: '/CreateRoutine', component: CreateRoutine},
+        {path: '/Register', component: Register},
         {path: '/*', component: Error404},
     ]
 })
