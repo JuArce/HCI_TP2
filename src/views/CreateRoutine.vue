@@ -104,8 +104,8 @@ export default {
     methods: {
         async createRoutine() {
             try{
-            await RoutineStore.createNewRoutine(this.name, this.detail,
-                this.isPublic, this.difficulty);
+                await RoutineStore.createNewRoutine(this.name, this.detail, this.isPublic, this.difficulty);
+
             }
             catch(error){
                 console.log(error.code);

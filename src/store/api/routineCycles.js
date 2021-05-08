@@ -7,8 +7,8 @@ class RoutineCyclesApi {
         return `${Api.baseUrl}/routines`;
     }
 
-    static async createCycle(routineID, data, controller){
-        const response = await Api.post(`${RoutineCyclesApi.url}/${routineID}/cycles`, true, data, controller);
+    static async createCycle(routineId, data, controller){
+        const response = await Api.post(`${RoutineCyclesApi.url}/${routineId}/cycles`, true, data, controller);
         data.id = response.id;
     }
 
@@ -23,8 +23,16 @@ class RoutineCyclesApi {
         return await Api.get(`${RoutineCyclesApi.url}/${routineID}/cycles?` + new URLSearchParams({...data}), true, controller);
     }
 
-    static async getCycle(routineID, cycleID, controller) {
-        return await Api.get(`${RoutineCyclesApi.url}/${routineID}/cycles/${cycleID}`, true, controller);
+    static async getCycle(routineId, cycleId, controller) {
+        return await Api.get(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, controller);
+    }
+
+    static async modifyCycle(routineId, cycleId, data, controller){
+        return await Api.put(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, data, controller);
+    }
+
+    static async deleteCycle(routineId, cycleId, controller){
+        return await Api.delete(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, controller);
     }
 }
 

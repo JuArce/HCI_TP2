@@ -22,8 +22,20 @@ class RoutineApi {
     *   ordeBy
     *   direction
     * */
-    static async getRoutines(data, controller) {
+    static async getAllRoutines(data, controller) {
         return await Api.get(`${RoutineApi.url}?` + new URLSearchParams({...data}), true, controller);
+    }
+
+    static async getRoutine(routineId, controller) {
+        return await Api.get(`${RoutineApi.url}/${routineId}`, true, controller);
+    }
+
+    static async modifyRoutine(routineId, routineData, controller){
+        return await Api.put(`${RoutineApi.url}/${routineId}`, true, routineData, controller);
+    }
+
+    static async deleteRoutine(routineId, controller){
+        return await Api.delete(`${RoutineApi.url}/${routineId}`, true, controller);
     }
 }
 
