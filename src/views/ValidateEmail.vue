@@ -1,13 +1,12 @@
 <template>
     <div>
-
         <c-video-background></c-video-background>
         <v-row justify="space-between">
             <v-col cols="6">
                 <h1 class="teal--text py-8 px-15 mainText">Please,<br>Check your<br>Email</h1>
             </v-col>
             <v-col cols="6">
-                <v-card lass="rounded-lg text-center ma-8 px-3 py-3" elevation="3" tile
+                <v-card class="rounded-lg text-center ma-8 px-3 py-3" elevation="3" tile
                         color="rgb(255, 255, 255, 0.95)">
                     <v-list-item three-line>
                         <v-list-item-content>
@@ -24,7 +23,12 @@
                                               hint="Insert the token here."></v-text-field>
                             </v-list-item>
                             <v-list-item>
-                                <v-btn class="mt-3" large width="100%" @click="processInput()" dark>Confirm</v-btn>
+                                <v-btn class="mt-3" large width="100%" @click="processInput()" dark>
+                                    Confirm
+                                    <div v-show="loading" class="align-center text-center loading">
+                                        <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
+                                    </div>
+                                </v-btn>
                             </v-list-item>
                         </v-list-item-content>
                         <v-list-item-avatar tile size="80" color="transparent">
@@ -49,7 +53,8 @@ export default {
         return {
             show: false,
             email: '',
-            code: 0
+            code: 0,
+            loading:false
         }
     },
     components: {
@@ -57,9 +62,11 @@ export default {
     },
     methods: {
         async processInput() {
+
             try {
+                this.loading = true;
                 await UserStore.verifyUser(this.email, this.code);
-                await router.replace('/Home');
+                await router.replace('/');
             } catch (error) {
                 console.log(error);
             }
@@ -69,5 +76,8 @@ export default {
 </script>
 
 <style scoped>
-
+    .loading {
+        z-index: 2;
+        position: fixed;
+    }
 </style>

@@ -32,11 +32,14 @@
                             @click:append="show = !show"
                             v-on:keyup.enter="processInput()"
                         ></v-text-field>
-                        <v-btn color="teal" class="mt-3" large width="100%" @click="processInput" dark>Log in</v-btn>
+                        <v-btn color="teal" class="mt-3" large width="100%" @click="processInput" dark>
+                            Log in
+                            <div v-show="loading" class="align-center text-center loading">
+                                <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
+                            </div>
+                        </v-btn>
                     </v-form>
-                    <v-btn to="/Register" elevation="0" color="transparent" class="teal--text">Don't have an account?
-                        Sign In
-                    </v-btn>
+                    <v-btn to="/Register" elevation="0" color="transparent" class="teal--text">Don't have an account? Sign In</v-btn>
                 </v-card>
             </v-col>
         </v-row>
@@ -58,7 +61,8 @@ export default {
         return {
             show: false,
             password: '',
-            username: ''
+            username: '',
+            loading: false
         }
     },
     components:
@@ -69,6 +73,7 @@ export default {
         // Métodos que acceden a la API
         async processInput() {
             if (!this.$v.$invalid) {
+                this.loading = true;
                 // let credential = new Credentials(this.username, this.password);
                 try {
                     await UserStore.loginUser(this.username, this.password);
@@ -101,9 +106,13 @@ export default {
 </script>
 
 <style>
-.mainText {
-    position: absolute;
-    font-weight: bolder;
-    font-size: 64px;
-}
+    .mainText {
+        position: absolute;
+        font-weight: bolder;
+        font-size: 64px;
+    }
+    .loading {
+        z-index: 2;
+        position: fixed;
+    }
 </style>

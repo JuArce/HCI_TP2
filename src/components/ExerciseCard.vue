@@ -14,11 +14,12 @@
             <v-btn color="gray" icon @click="overlay=true">
                 <v-icon medium>mdi-delete</v-icon>
             </v-btn>
-            <v-overlay :value="overlay" :dark="false">
-                <c-confirmation-card message="delete" toPath="/Exercises" @confirmationClosed="overlay=false"
-                                     @confirmationAccepted="deleteExercise()"></c-confirmation-card>
-            </v-overlay>
         </v-card-title>
+
+        <v-overlay :value="overlay" :dark="false">
+            <c-confirmation-card message="delete" toPath="/Exercises" @confirmationClosed="overlay=false"
+                                 @confirmationAccepted="deleteExercise()"></c-confirmation-card>
+        </v-overlay>
 
         <v-card-subtitle class="text-capitalize">{{exercise.type}}</v-card-subtitle>
 

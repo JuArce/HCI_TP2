@@ -106,9 +106,18 @@
                             append-icon="mdi-account"
                         ></v-text-field>
 
-                        <v-btn class="mt-3" large width="100%" @click="processInput" dark>Sign Up</v-btn>
+                        <v-btn class="mt-3" large width="100%" @click="processInput" dark>
+                            Sign Up
+                            <div v-show="loading" class="align-center text-center loading">
+                                <v-progress-circular indeterminate color="teal" size="32"></v-progress-circular>
+                            </div>
+                        </v-btn>
                     </v-form>
+
+
+
                 </v-card>
+
             </v-col>
         </v-row>
     </div>
@@ -138,6 +147,7 @@ export default {
             imageUrl: 'https://cdn.discordapp.com/attachments/753017252277780527/840306939946074112/Bb_icon_v1.jpg',
             editData: false,
             menu: false,
+            loading: false,
         }
     },
     components:
@@ -151,14 +161,20 @@ export default {
             console.log(this.username);
             console.log(this.password);
             console.log(this.email);
-            try {
-                await UserStore.registerUser(this.username, this.password, 'Juan',
-                    'Perez', 'other', this.birthdate, this.email, this.phone, this.imageUrl);
+            if (!this.$v.$invalid) {
+                this.loading = true;
+                try {
 
-                await router.replace('/ValidateEmail');
-            } catch (error) {
-                console.log('tu vieja.');
+                    await UserStore.registerUser(this.username, this.password, 'Juan',
+                        'Perez', 'other', this.birthdate, this.email, this.phone, this.imageUrl);
+
+                    await router.replace('/ValidateEmail');
+                } catch (error) {
+                    console.log('tu vieja.');
+                }
             }
+            // this.loading = false;
+
         },
         maxDate() {
             const date = new Date();
@@ -206,5 +222,9 @@ export default {
 </script>
 
 <style scoped>
+    .loading {
+        z-index: 2;
+        position: fixed;
 
+    }
 </style>
