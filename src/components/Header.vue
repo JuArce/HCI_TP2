@@ -10,7 +10,7 @@
                 <!--                        <router-link class="white&#45;&#45;text" :to="view.route">{{ view.view }}</router-link>-->
                 <!--                    </v-btn>-->
                 <!--                </v-btn-toggle>-->
-                <v-tabs fixed-tabs background-color="transparent" class="ml-16">
+                <v-tabs optional fixed-tabs background-color="transparent" class="ml-16">
                     <v-tabs-slider color="teal"></v-tabs-slider>
                     <v-tab text v-for="view in views" :key="view.view">
                         <router-link class="black--text" :to="view.route">{{ view.view }}</router-link>
@@ -56,7 +56,7 @@
 
 <script>
 //import {UserData} from "../store/api/user";
-import {UserStore} from "../store/userStore";
+import {UserStore} from "@/store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
 
 export default {
