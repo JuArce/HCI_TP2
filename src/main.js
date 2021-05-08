@@ -18,6 +18,11 @@ import Register from "./views/Register";
 import RoutineDetail from "./views/RoutineDetail";
 import CreateRoutine from "./views/CreateRoutine";
 import Error404 from "./views/Error404";
+import Exercises from "./views/Exercises";
+import CreateExercise from "./views/CreateExercise";
+import EditRoutine from "./views/EditRoutine";
+import EditExercise from "./views/EditExercise";
+import ValidateEmail from "./views/ValidateEmail";
 
 export {router};
 
@@ -33,9 +38,14 @@ const router = new VueRouter({
         {path: '/Workouts', component: Workouts},
         {path: '/Profile', component: Profile},
         {path: '/Routines', component: Routines},
+        {path: '/Exercises', component:Exercises},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
         {path: '/CreateRoutine', component: CreateRoutine},
+        {path: '/CreateExercise', component: CreateExercise},
+        {path: '/EditRoutine', component: EditRoutine, name: 'EditRoutinePath', props: true},
+        {path: '/EditExercise', component: EditExercise, name: 'EditExercisePath', props: true},
         {path: '/Register', component: Register},
+        {path: '/ValidateEmail', component: ValidateEmail},
         {path: '/*', component: Error404},
     ]
 })

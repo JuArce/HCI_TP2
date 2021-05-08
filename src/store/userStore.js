@@ -1,18 +1,21 @@
 export {UserStore};
 
 import {UserApi} from "./api/user";
-import {Credentials, UserData} from "./api/user";
-import {router} from "../main";
+import {Credentials, UserData, ValidateCredentials} from "./api/user";
 
 const UserStore = {
     async loginUser(username, password) {
         try {
             const credentials = new Credentials(username, password);
             await UserApi.login(credentials);
-            await router.replace("/Home");
         } catch (error) {
             return -1;
         }
+    },
+
+    async verifyUser(email, code){
+        let credentials = new ValidateCredentials(email, code);
+        await UserApi.verifyEmail(credentials);
     },
 
     async logOutUser() {

@@ -77,6 +77,7 @@ export default {
         profileInfo: [
             {route: '/Profile', name: 'My Profile'},
             {route: '/Routines', name: 'My Routines'},
+            {route: '/Exercises', name: 'My Exercises'}
             // {route: '/', name: 'Log Out'}
         ],
         overlay: false
@@ -102,7 +103,7 @@ export default {
 </script>
 
 <style scoped>
-span a {
-    text-decoration: none;
-}
+    div[role=tab] a {
+        text-decoration: none;
+    }
 </style>

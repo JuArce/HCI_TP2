@@ -1,6 +1,6 @@
 import {Api} from './api.js';
 
-export {UserApi, Credentials, UserData};
+export {UserApi, Credentials, UserData, ValidateCredentials};
 
 class UserApi {
     static get url() {
@@ -43,7 +43,13 @@ class Credentials {
         this.username = username;
         this.password = password;
     }
+}
 
+class ValidateCredentials {
+    constructor(email, code) {
+        this.email = email;
+        this.code = code;
+    }
 }
 
 class UserData{
