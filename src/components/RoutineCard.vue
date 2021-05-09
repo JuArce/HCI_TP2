@@ -74,14 +74,17 @@ export default {
     }),
 
     async created() {
-        this.belongsUser = await this.belongsCurrentUser(this.routine.user.id);
+        let currentUser = await UserStore.getCurrentUserData();
+        let routineUserId = this.routine.user.id;
+        this.belongsUser = currentUser.id === routineUserId;
+        // this.belongsUser = await this.belongsCurrentUser(this.routine.user.id);
     },
 
     methods: {
-        async belongsCurrentUser(id) {
-            const currentUser = await UserStore.getCurrentUserData();
-            return currentUser.id === id;
-        },
+        // async belongsCurrentUser(id) {
+        //     let currentUser = await UserStore.getCurrentUserData();
+        //     return currentUser.id === id;
+        // },
 
         deleteRoutine() {
 

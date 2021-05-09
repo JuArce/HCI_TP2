@@ -1,6 +1,6 @@
 import {RoutineCyclesApi, Cycle} from "./api/routineCycles";
 
-export {RoutineCyclesStore, Cycle};
+export {RoutineCyclesStore, StoreCycle};
 
 const RoutineCyclesStore = {
     async createCycle(routineID, name, detail, type, order, repetitions) {
@@ -13,7 +13,7 @@ const RoutineCyclesStore = {
 * Data: {
 *   page
 *   size
-*   ordeBy
+*   orderBy
 *   direction
 * */
     async getAllCycles(routineID, data) {
@@ -33,4 +33,13 @@ const RoutineCyclesStore = {
         await RoutineCyclesApi.deleteCycle(routineId, cycleId);
     }
 
+}
+
+class StoreCycle {
+    constructor(name) {
+        this.name = name;
+        this.detail = '';
+        this.repetitions = 1;
+        this.cycleExercises = [];
+    }
 }

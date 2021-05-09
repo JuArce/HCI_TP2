@@ -8,10 +8,8 @@ class RoutineCyclesApi {
     }
 
     static async createCycle(routineId, data, controller){
-        console.log("Antes de llamar");
         let response = await Api.post(`${RoutineCyclesApi.url}/${routineId}/cycles`, true, data, controller);
         data.id = response.id;
-        console.log("Despues de llamar");
     }
 
     /*

@@ -3,7 +3,7 @@
         <v-app-bar dense light>
 
             <v-toolbar-title>
-                <v-img src="../assets/ProFit-Logo-text.png" max-height="110" max-width="110"></v-img>
+                <v-img src="../assets/ProFit-Logo-text-v1.1.png" max-height="110" max-width="110"></v-img>
             </v-toolbar-title>
 
             <v-toolbar-items>

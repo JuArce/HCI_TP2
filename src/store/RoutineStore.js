@@ -41,5 +41,3 @@ const RoutineStore = {
         return this.routines.filter(rout => rout.favorite).length;
     }
 };
-
-

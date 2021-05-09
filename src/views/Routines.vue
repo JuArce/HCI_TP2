@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import RoutineCard from '@/components/RoutineCard';
+import RoutineCard from "../components/RoutineCard";
 import {UserStore} from "../store/userStore";
 
 export default {
