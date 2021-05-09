@@ -6,6 +6,7 @@ const CyclesExercisesStore = {
     async createCycleExercise(cycleId, exerciseId, order, duration, repetitions) {
         let cycleExercise = new CycleExercise(order, duration, repetitions);
         await CyclesExercisesApi.createCycleExercise(cycleId, exerciseId, cycleExercise);
+        return cycleExercise;
     },
 
     /*

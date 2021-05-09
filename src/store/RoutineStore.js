@@ -6,6 +6,7 @@ const RoutineStore = {
     async createNewRoutine(name, detail, isPublic, difficulty) {
         let routineData = new Routine(name, detail, isPublic, difficulty);
         await RoutineApi.createRoutine(routineData);
+        return routineData;
     },
 
     async getRoutines(data) {

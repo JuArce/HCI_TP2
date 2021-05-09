@@ -3,7 +3,7 @@
         <c-video-background></c-video-background>
         <v-row justify="space-between">
             <v-col cols="6">
-                <h1 class="teal--text py-8 px-15 mainText">Please,<br>Check your<br>Email</h1>
+                <h1 class="teal--text py-8 px-15 mainText">Jump <br>into<br>your Email!</h1>
             </v-col>
             <v-col cols="6">
                 <v-card class="rounded-lg text-center ma-8 px-3 py-3" elevation="3" tile
@@ -23,19 +23,28 @@
                                               hint="Insert the token here."></v-text-field>
                             </v-list-item>
                             <v-list-item>
-                                <v-btn class="mt-3" large width="100%" @click="processInput()" dark>
+                                <v-btn v-show="!errorAlert && !alert" class="mt-3" large width="100%" @click="processInput()" dark>
                                     Confirm
                                     <div v-show="loading" class="align-center text-center loading">
-                                        <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
+                                        <v-progress-circular indeterminate color="white"
+                                                             size="32"></v-progress-circular>
                                     </div>
                                 </v-btn>
+
+                                <v-alert :value="alert" type="success">
+                                    Successfully Validated your Email, Now Log In!
+                                </v-alert>
+                                <v-alert :value="errorAlert" type="error">
+                                    Validation Rejected, Check for Copy Paste Errors and try again.
+                                </v-alert>
+
                             </v-list-item>
                         </v-list-item-content>
+
                         <v-list-item-avatar tile size="80" color="transparent">
                             <v-icon size="48">mdi-email-outline</v-icon>
                         </v-list-item-avatar>
                     </v-list-item>
-
                 </v-card>
             </v-col>
         </v-row>
@@ -54,7 +63,9 @@ export default {
             show: false,
             email: '',
             code: 0,
-            loading:false
+            loading: false,
+            alert: false,
+            errorAlert: false
         }
     },
     components: {
@@ -62,22 +73,31 @@ export default {
     },
     methods: {
         async processInput() {
-
             try {
                 this.loading = true;
                 await UserStore.verifyUser(this.email, this.code);
-                await router.replace('/');
+                this.alert = true;
+                setTimeout(async () => {
+                    await router.replace('/');
+                    this.alert = false;
+                }, 2000)
             } catch (error) {
+                this.errorAlert = true;
+                setTimeout(() => {
+                    this.errorAlert = false;
+                }, 2000)
                 console.log(error);
             }
+            this.loading = false;
+
         }
     }
 }
 </script>
 
 <style scoped>
-    .loading {
-        z-index: 2;
-        position: fixed;
-    }
+.loading {
+    z-index: 2;
+    position: fixed;
+}
 </style>

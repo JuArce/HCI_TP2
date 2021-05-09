@@ -8,7 +8,7 @@ class CyclesExercisesApi {
     }
 
     static async createCycleExercise(cycleId, exerciseId, data, controller) {
-        const response = await Api.post(`${CyclesExercisesApi.url}/${cycleId}/exercises/${exerciseId}`, true, data, controller)
+        let response = await Api.post(`${CyclesExercisesApi.url}/${cycleId}/exercises/${exerciseId}`, true, data, controller)
         data.exercise = response.exercise;
     }
 

@@ -2,7 +2,9 @@
     <div>
         <v-app-bar dense light>
 
-            <v-toolbar-title>ProFit</v-toolbar-title>
+            <v-toolbar-title>
+                <v-img src="../assets/ProFit-Logo-text.png" max-height="110" max-width="110"></v-img>
+            </v-toolbar-title>
 
             <v-toolbar-items>
                 <!--                <v-btn-toggle class="teal">-->

@@ -6,6 +6,7 @@ const ExerciseStore = {
     async createExercise(name, detail, type){
         let exercise = new Exercise(name, detail, type);
         await ExerciseApi.createExercise(exercise);
+        return exercise;
     },
 
     /*

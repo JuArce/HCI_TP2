@@ -20,9 +20,10 @@
             </div>
         </v-card-title>
 
-        <v-card-subtitle class="pb-0">by
-            {{ routine.user.username }}
-        </v-card-subtitle>
+<!--        Comentado hasta que se arregle la api-->
+<!--        <v-card-subtitle class="pb-0">by-->
+<!--            {{ routine.user.username }}-->
+<!--        </v-card-subtitle>-->
 
         <v-card-text class="text--primary">
             <br>
@@ -41,7 +42,7 @@
 
             <v-icon>mdi-alarm</v-icon>
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
-                {{ routine.name }}
+
             </v-card-subtitle>
 
 <!--            <v-btn icon @click="swipeFav()" >-->

@@ -25,6 +25,10 @@ import {RoutineStore} from "../store/RoutineStore";
 export default {
     name: "Workouts",
 
+    components: {
+        CRoutineCard: RoutineCard,
+    },
+
     data: () => ({
         store: RoutineStore,
         routines: [],
@@ -38,9 +42,7 @@ export default {
 
     }),
 
-    components: {
-        CRoutineCard: RoutineCard,
-    },
+
 
     created() {
         this.getRoutines();
@@ -49,12 +51,10 @@ export default {
     methods: {
         async getRoutines() {
             let aux = await this.store.getRoutines(this.data);
-            // this.data.page = this.data.page + 1;
-            // console.log("aux: ");
-            // console.log(aux.content[0].name);
-            // console.log("-----");
             this.routines.push(...aux.content);
+            // this.data.page = this.data.page + 1;
             this.isLastPage = aux.isLastPage;
+            console.log(this.routines);
             return aux.content;
         }
     }

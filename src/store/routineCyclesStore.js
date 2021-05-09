@@ -1,11 +1,12 @@
 import {RoutineCyclesApi, Cycle} from "./api/routineCycles";
 
-export {RoutineCyclesStore};
+export {RoutineCyclesStore, Cycle};
 
 const RoutineCyclesStore = {
     async createCycle(routineID, name, detail, type, order, repetitions) {
         let cycle = new Cycle(name, detail, type, order, repetitions);
         await RoutineCyclesApi.createCycle(routineID, cycle);
+        return cycle;
     },
 
     /*

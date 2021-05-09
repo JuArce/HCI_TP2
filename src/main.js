@@ -23,6 +23,7 @@ import CreateExercise from "./views/CreateExercise";
 import EditRoutine from "./views/EditRoutine";
 import EditExercise from "./views/EditExercise";
 import ValidateEmail from "./views/ValidateEmail";
+import CreateCycleExercise from "./components/CreateCycleExercise";
 
 export {router};
 
@@ -46,9 +47,30 @@ const router = new VueRouter({
         {path: '/EditExercise', component: EditExercise, name: 'EditExercisePath', props: true},
         {path: '/Register', component: Register},
         {path: '/ValidateEmail', component: ValidateEmail},
+        {path: '/CreateCycleExercise', component: CreateCycleExercise}, //Borrar
         {path: '/*', component: Error404},
     ]
 })
+
+router.beforeEach((to, from, next ) => {
+    if( isLogged() || isValidPath(to.path)){
+        console.log(to.path);
+        next();
+    } else{
+        console.log("Im not logged");
+        next({
+            path: '/',
+        })
+    }
+});
+
+function isLogged(){
+    return localStorage.getItem('securityToken');
+}
+
+function isValidPath(path){
+    return path.localeCompare('/') === 0 || path.localeCompare('/Register') === 0 || path.localeCompare('/ValidateEmail') === 0;
+}
 
 new Vue({
     router,

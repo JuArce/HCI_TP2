@@ -27,27 +27,27 @@
 
         <v-row>
             <v-col class="px-4 pb-6" cols="4">
-                <c-cycle-card class="ma-5" :cycle="routine.warmup" title="Warm-Up"></c-cycle-card>
+                <c-cycle-card class="ma-5" :cycle="warmup" title="Warm-Up"></c-cycle-card>
             </v-col>
-            <v-col class="px-4 pb-6" cols="4" v-for="(ex, index) in routine.exercise" :key="index">
-                <c-cycle-card class="ma-5" :cycle="routine.exercise[index]" v-show="routine.exercise.length !== 0"
+            <v-col class="px-4 pb-6" cols="4" v-for="(ex, index) in exercises" :key="index">
+                <c-cycle-card class="ma-5" :cycle="exercises[index]" v-show="exercises.length !== 0"
                               :title="'Exercise ' + (index+1)">
                 </c-cycle-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4">
                 <v-card class="ma-5" outlined>
-                    <v-btn @click="routine.exercise.push([])" color="teal" class="mx-2" width="64" height="64" icon>
+                    <v-btn @click="exercises.push([])" color="teal" class="mx-2" width="64" height="64" icon>
                         <v-icon large>mdi-plus-thick</v-icon>
                     </v-btn>
 
-                    <v-btn @click="routine.exercise.pop()" color="teal" class="mx-2" width="64" height="64" icon>
+                    <v-btn @click="exercises.pop()" color="teal" class="mx-2" width="64" height="64" icon>
                         <v-icon large>mdi-minus-thick</v-icon>
                     </v-btn>
                 </v-card>
 
             </v-col>
             <v-col class="px-4 pb-6" cols="4">
-                <c-cycle-card class="ma-5" :cycle="routine.cooldown" title="Cool-down"></c-cycle-card>
+                <c-cycle-card class="ma-5" :cycle="cooldown" title="Cool-down"></c-cycle-card>
             </v-col>
         </v-row>
 
@@ -80,6 +80,7 @@
 import CycleCard from "../components/CycleCard";
 import ConfirmationCard from "../components/ConfirmationCard";
 import {RoutineStore} from "../store/RoutineStore";
+import {RoutineCyclesStore} from "../store/routineCyclesStore";
 
 export default {
     name: "CreateRoutine",
@@ -90,8 +91,8 @@ export default {
     },
 
     data: () => ({
-        routine: '',
         store: RoutineStore,
+        routine: '',
         name: '',
         detail: '',
         isPublic: false,
@@ -99,17 +100,44 @@ export default {
         category: '',
         overlay: false,
         items: ['rookie', 'beginner', 'intermediate', 'advanced', 'expert'],
+        warmup: null,
+        exercises: [],
+        cooldown: null,
     }),
+
+    created() {
+        this.initRoutine();
+    },
 
     methods: {
         async createRoutine() {
             try{
-                await RoutineStore.createNewRoutine(this.name, this.detail, this.isPublic, this.difficulty);
-
+                this.routine = await RoutineStore.createNewRoutine(this.name, this.detail, this.isPublic, this.difficulty);
             }
             catch(error){
                 console.log(error.code);
             }
+        },
+
+        async initRoutine() {
+            console.log('antes de iniciar todo');
+            let aux = await RoutineStore.createNewRoutine('', '', false, 'rookie');
+            this.routine = aux;
+            console.log(aux);
+
+
+            aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Warmup', '', 'warmup', 1, 1);
+            this.warmup = aux;
+            console.log(aux);
+
+            aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Exercise', '', 'exercise', 2, 1)
+            this.exercises.push(aux);
+            console.log(aux);
+
+            aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Cooldown', '', 'cooldown', 3, 1)
+            this.cooldown = aux;
+            console.log(aux);
+
         }
     }
 }

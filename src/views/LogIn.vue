@@ -32,12 +32,15 @@
                             @click:append="show = !show"
                             v-on:keyup.enter="processInput()"
                         ></v-text-field>
-                        <v-btn color="teal" class="mt-3" large width="100%" @click="processInput" dark>
+                        <v-btn v-show="!alert && !errorAlert" color="teal" class="mt-3" large width="100%" @click="processInput" dark>
                             Log in
                             <div v-show="loading" class="align-center text-center loading">
                                 <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
                             </div>
                         </v-btn>
+                        <v-alert :value="errorAlert" type="error">
+                            Incorrect user or password.
+                        </v-alert>
                     </v-form>
                     <v-btn to="/Register" elevation="0" color="transparent" class="teal--text">Don't have an account? Sign In</v-btn>
                 </v-card>
@@ -62,7 +65,8 @@ export default {
             show: false,
             password: '',
             username: '',
-            loading: false
+            loading: false,
+            errorAlert: false
         }
     },
     components:
@@ -77,11 +81,19 @@ export default {
                 // let credential = new Credentials(this.username, this.password);
                 try {
                     await UserStore.loginUser(this.username, this.password);
-                    await router.replace("/Home");
+                    await router.replace('/Home');
                 } catch (error) {
-                    console.log(error);
+                    this.errorAlert = true;
+                    setTimeout(() => {
+                        this.errorAlert = false;
+                    }, 2000);
+                    console.log('error :(');
                 }
             } else {
+                this.errorAlert = true;
+                setTimeout(() => {
+                    this.errorAlert = false;
+                }, 2000);
                 console.log('error :(');
             }
             // do something.
