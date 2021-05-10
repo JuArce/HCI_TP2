@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto" max-width="600">
+    <v-card outlined class="mx-auto" max-width="600">
 <!--        <v-img class="white&#45;&#45;text align-end" height="200px" :src="routine.image">-->
 <!--        </v-img>-->
 
@@ -14,7 +14,7 @@
                     <v-icon medium>mdi-delete</v-icon>
                 </v-btn>
                 <v-overlay :value="overlay" :dark="false">
-                    <c-confirmation-card message="delete" toPath="/Workouts" @confirmationClosed="overlay=false"
+                    <c-confirmation-card message="delete" :toPath="path" @confirmationClosed="overlay=false"
                                          @confirmationAccepted="deleteRoutine()"></c-confirmation-card>
                 </v-overlay>
             </div>
@@ -59,6 +59,7 @@
 import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
 import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
+import {RoutineStore} from "../store/RoutineStore";
 
 export default {
     name: "RoutineCard",
@@ -67,7 +68,7 @@ export default {
         CConfirmationCard: ConfirmationCard
     },
 
-    props: ['routine'],
+    props: ['routine', 'path'],
 
     data: () => ({
         belongsUser: false,
@@ -89,19 +90,24 @@ export default {
         //     return currentUser.id === id;
         // },
 
-        deleteRoutine() {
-
+        async deleteRoutine() {
+            await RoutineStore.deleteRoutine(this.routine.id);
+            this.overlay = false;
         },
+        // swipeFav() {
+        //     this.routine.favorite = !this.routine.favorite;
+        // },
+
         async manageFav() {
             if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
-                this.favorite=true;
+                this.favorite = true;
                 await FavoriteRoutinesStore.addToFavorites(this.routine.id);
-            }else {
-                this.favorite=false;
+            } else {
+                this.favorite = false;
                 await FavoriteRoutinesStore.removeFavorite(this.routine.id);
             }
         },
-    },
+    }
 
 }
 

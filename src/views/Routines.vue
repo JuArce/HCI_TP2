@@ -1,16 +1,16 @@
 <template>
     <div>
-        <h1>My Routines</h1>
+        <h1 class="ma-5">My Routines</h1>
         <v-row>
             <v-col class="px-8 pb-6" cols="4"
                    v-for="(routine, index) in routines" :key="index">
                 <!--            la key del for de arriba debe ser routine.id o algo asi :)-->
                 <!--            <div v-for="(routine) in store.routines" :key="routine">-->
-                <c-routine-card :routine="routine"></c-routine-card>
+                <c-routine-card :routine="routine" :path="'/Routines'"></c-routine-card>
                 <!--            </div>-->
             </v-col>
         </v-row>
-        <div v-if="!isLastPage" class="text-center" >
+        <div v-if="!isLastPage" class="text-center ma-5" >
             <v-btn rounded @click="getRoutines">
                 See More
                 <v-icon>mdi-chevron-down</v-icon>
@@ -51,8 +51,10 @@ export default {
     methods: {
         async getRoutines() {
             let aux = await UserStore.getCurrentUserRoutines(this.data);
-            this.routines.push(...aux.content);
+            // this.routines.push(...aux.content);
             // this.data.page = this.data.page + 1;
+            this.routines = aux.content;
+            this.data.size += 10;
             this.isLastPage = aux.isLastPage;
             let userData = await UserStore.getCurrentUserData();
             this.routines.forEach(rout => {

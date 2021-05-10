@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1>Workouts!</h1>
+        <h1 class="ma-5">Workouts!</h1>
         <v-row>
             <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
     <!--            la key del for de arriba debe ser routine.id o algo asi :)-->
     <!--            <div v-for="(routine) in store.routines" :key="routine">-->
-                    <c-routine-card :routine="routine"></c-routine-card>
+                    <c-routine-card :routine="routine" :path="'/Workouts'"></c-routine-card>
     <!--            </div>-->
             </v-col>
         </v-row>
