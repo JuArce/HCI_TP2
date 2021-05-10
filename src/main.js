@@ -54,10 +54,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next ) => {
     if( isLogged() || isValidPath(to.path)){
-        console.log(to.path);
         next();
     } else{
-        console.log("Im not logged");
         next({
             path: '/',
         })

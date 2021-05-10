@@ -3,7 +3,7 @@
         <v-row>
             <v-col class="px-8 pb-6" cols="12" v-for="(routine, index) in currentRoutines" :key="index">
                 <!--            la key del for de arriba debe ser routine.id o algo asi :)-->
-                <c-favorite-routine-card :routine="routine"></c-favorite-routine-card>
+                <c-routine-card class="ma-5" :routine="routine"></c-routine-card>
             </v-col>
         </v-row>
 
@@ -19,22 +19,23 @@
 </template>
 
 <script>
-import FavoriteRoutineCard from "./FavoriteRoutineCard";
-import {RoutineStore} from "../store/RoutineStore";
+//import FavoriteRoutineCard from "./FavoriteRoutineCard";
+import {FavoriteRoutinesStore} from "@/store/favoriteRoutinesStore";
+import RoutineCard from "@/components/RoutineCard";
 
 export default {
     name: "FavoritesCard",
 
     components: {
-        CFavoriteRoutineCard: FavoriteRoutineCard,
+        CRoutineCard: RoutineCard,
     },
 
     data: () => ({
-        store: RoutineStore,
+        store: FavoriteRoutinesStore,
         currentRoutines: [],
         page: 1,
-        totalPages: 0,
-        itemsPerPage: 3,
+        size: 1,
+        itemsPerPages: 2,
         pages: 0,
     }),
 
@@ -43,11 +44,21 @@ export default {
     },
 
     methods: {
-        changePage() {
-            this.totalPages = this.store.getFavoritesSize();
-            this.pages = Math.ceil(this.totalPages / this.itemsPerPage);
-            this.currentRoutines = this.store.getFavorites(this.page, this.itemsPerPage);
-        }
+        async changePage() {
+            const data = {
+                page: this.page - 1,
+                size: 1,
+                orderBy: 'id',
+                direction: 'asc'
+            };
+            let aux = await this.store.getAllFavoriteRoutines(data, this.itemsPerPage);
+            this.currentRoutines = aux.content;
+            this.totalPages  = aux.totalCount;
+            this.pages = Math.ceil( this.totalPages / this.itemsPerPage); //NO FUNCIONA LA API
+            this.isLastPage = aux.isLastPage;
+            //console.log(this.routines);
+            //return aux.content;
+        },
     }
 }
 

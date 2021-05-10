@@ -8,7 +8,7 @@
                 </v-avatar>
             </v-col>
             <v-col>
-                <h1 class="pt-14 pl-15">{{firstName + ' ' + lastName }}</h1>
+                <h1 class="pt-14 pl-15">{{ firstName + ' ' + lastName }}</h1>
             </v-col>
         </v-row>
 
@@ -26,40 +26,31 @@
                             </v-btn>
                         </v-col>
                     </v-row>
-                    <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        :disabled="!editData"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                placeholder="Pick Date of Birth..."
-                                label="Date of Birth"
-                                :value="birthdate"
-                                readonly
-                                v-bind="attrs"
-                                v-on="on"
-                                class="ma-4" style="width: 90%"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker v-if="editData"
-                                       v-model="birthdate"
-                                       :max="maxDate()"
-                                       min="1930-01-01"
-                                       width="500px"
-                        ></v-date-picker>
-                    </v-menu>
-                    <v-text-field
-                        placeholder="Type Phone Number..."
-                        label="Phone"
-                        class="my-6 ml-4" style="width: 90%;"
-                        v-model="phone"
-                        :readonly="!editData"
-                        no-resize
-                        dense
-                    ></v-text-field>
+<!--                    <v-menu>-->
+<!--                        v-model="menu"-->
+<!--                        :close-on-content-click="false"-->
+<!--                        transition="scale-transition"-->
+<!--                        offset-y-->
+<!--                        :disabled="!editData"-->
+<!--                    >-->
+<!--                        <template v-slot:activator="{ on, attrs }">-->
+<!--                            <v-text-field-->
+<!--                                placeholder="Pick Date of Birth..."-->
+<!--                                label="Date of Birth"-->
+<!--                                :value="birthdate"-->
+<!--                                readonly-->
+<!--                                v-bind="attrs"-->
+<!--                                v-on="on"-->
+<!--                                class="ma-4" style="width: 90%"-->
+<!--                            ></v-text-field>-->
+<!--                        </template>-->
+<!--                        <v-date-picker v-if="editData"-->
+<!--                                       v-model="birthdate"-->
+<!--                                       :max="maxDate()"-->
+<!--                                       min="1930-01-01"-->
+<!--                                       width="500px"-->
+<!--                        ></v-date-picker>-->
+<!--                    </v-menu>-->
                     <v-text-field
                         placeholder="Type your First Name..."
                         label="First Name"
@@ -79,9 +70,19 @@
                         dense
                     ></v-text-field>
                     <v-text-field
+                        placeholder="Type Phone Number..."
+                        label="Phone"
+                        class="my-6 ml-4" style="width: 90%;"
+                        v-model="phone"
+                        :readonly="!editData"
+                        no-resize
+                        dense
+                    ></v-text-field>
+
+                    <v-text-field
                         placeholder="Enter An Image URL To Use As An Avatar..."
                         label="Profle Picture URL"
-                        class="mt-6 mb-2 ml-4" style="width: 90%;"
+                        class="mt-6 mb-2 ml-4" style=" width: 90%;"
                         v-model="avatarUrl"
                         :readonly="!editData"
                         no-resize
@@ -128,20 +129,19 @@ export default {
     name: "Profile",
 
     components: {
-        CFavorites: Favorites,
+         CFavorites: Favorites,
         // CAccData: AccountData,
     },
 
     data: () => ({
         store: UserStore,
+        routines: [],
         username: '',
         firstName: '',
         lastName: '',
-        age: '',
-        email: '',
-        birthdate: '',
         avatarUrl: '',
         phone: '',
+        email: '',
         show: false,
         editData: false,
         menu: false,
@@ -150,7 +150,7 @@ export default {
     methods: {
         async editProfile() {
             try {
-                await UserStore.modifyUser(this.username, this.firstName, this.lastName, 'other', 1602139940660, this.email, this.phone, this.avatarUrl);
+                await this.store.modifyUser(this.username, this.firstName, this.lastName ,this.email , this.phone, this.avatarUrl);
                 await router.replace('/Profile');
             } catch (error) {
                 console.log(error.code);
@@ -158,31 +158,36 @@ export default {
             console.log(this.phone);
         },
         async getUserData() {
-            let userInfo = await UserStore.getCurrentUserData();
+            let userInfo = await this.store.getCurrentUserData();
             console.log(userInfo.username);
             this.username = userInfo.username;
             this.firstName = userInfo.firstName;
             this.lastName = userInfo.lastName;
-            this.email = userInfo.email;
             this.avatarUrl = userInfo.avatarUrl;
+            this.phone = userInfo.phone;
+            this.email = userInfo.email;
+
         },
+
         cancelChanges() {
             this.editData = false;
         },
+
         updateChanges() {
             this.editData = false;
             this.editProfile();
-        },
-        maxDate() {
-            const date = new Date();
-            date.setFullYear(date.getFullYear() - 13);
-            return date.toISOString().substr(0, 10);
-        }
+         }//,
+        // maxDate() {
+        //     const date = new Date();
+        //     date.setFullYear(date.getFullYear() - 13);
+        //     return date.toISOString().substr(0, 10);
+        // }
     },
 
     created() {
         this.getUserData();
     },
+
 
 }
 </script>

@@ -25,19 +25,4 @@ const RoutineStore = {
     async deleteRoutine(routineId){
         await RoutineApi.deleteRoutine(routineId);
     },
-
-    getFavorites(page, size) {
-        let aux = this.routines.filter(rout => rout.favorite);
-        let first = (page - 1) * size;
-        let toReturn = [];
-        let i
-        for (i = first; i < aux.length && i < first + size; i++) {
-            toReturn.push(aux[i]);
-        }
-        return toReturn;
-    },
-
-    getFavoritesSize() {
-        return this.routines.filter(rout => rout.favorite).length;
-    }
 };
