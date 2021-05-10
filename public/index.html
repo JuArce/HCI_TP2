@@ -13,9 +13,72 @@
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        <div class="noJs" >
+            <div class="row">
+                <div class="column"></div>
+                <div class="column" >
+                    <div class="card">
+                        <div class="container">
+                        <h1 class="title">We are really sorry!</h1>
+                        <h2>But it seems that this browser does not have JavaScript activated!</h2>
+                        </div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoJvrnTYV1jAjBz8UsJkexrtmtVNg-Kkf8znkbz_-095leW1pBu1g3lLXUl6w&s" alt=""/>
+                    </div>
+                    <div class="card">
+                        <div class="container">
+                        <h1 class="title">Unfortunately,</h1>
+                        <p>Our <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.</p>
+                        <p>So please, enable it and try again to start training!</p>
+                          <!--  <p><button  to="../src/views/" class="button">Try Again</button></p>-->
+                        </div>
+                        <img src="" alt="No js activated"/>
+                    </div>
+                </div>
+            </div>
+        </div>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap');
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .card {
+        font-family: 'Roboto', sans-serif;
+        padding: 5px;
+        text-align: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        margin: 8px;
+    }
+    html {
+        box-sizing: border-box;
+    }
+    .title{
+        color: teal;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+    .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: teal;
+        background-color: transparent;
+        border: teal;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
 </html>

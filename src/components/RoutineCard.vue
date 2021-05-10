@@ -45,10 +45,10 @@
 
             </v-card-subtitle>
 
-<!--            <v-btn icon @click="swipeFav()" >-->
-<!--                <v-icon v-if="isFavorite" color="teal">mdi-heart</v-icon>-->
-<!--                <v-icon v-else>mdi-heart</v-icon>-->
-<!--            </v-btn>-->
+            <v-btn icon @click="manageFav()" >
+                <v-icon v-if="favorite" color="teal" >mdi-heart</v-icon>
+                <v-icon v-else>mdi-heart-outline</v-icon>
+            </v-btn>
 
         </v-card-actions>
     </v-card>
@@ -58,6 +58,7 @@
 //import {Routine} from "../store/api/routine";
 import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
+import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
 
 export default {
     name: "RoutineCard",
@@ -71,9 +72,11 @@ export default {
     data: () => ({
         belongsUser: false,
         overlay: false,
+        favorite: false,
     }),
 
     async created() {
+        this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id);
         let currentUser = await UserStore.getCurrentUserData();
         let routineUserId = this.routine.user.id;
         this.belongsUser = currentUser.id === routineUserId;
@@ -88,17 +91,17 @@ export default {
 
         deleteRoutine() {
 
-        }
-        // swipeFav() {
-        //     this.routine.favorite = !this.routine.favorite;
-        // },
+        },
+        async manageFav() {
+            if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
+                this.favorite=true;
+                await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+            }else {
+                this.favorite=false;
+                await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+            }
+        },
     },
-
-    computed: {
-        // isFavorite() {
-        //     return this.routine.favorite;
-        // },
-    }
 
 }
 

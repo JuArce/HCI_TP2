@@ -16,26 +16,22 @@
             <v-spacer></v-spacer>
 
             <v-icon>mdi-shield</v-icon>
-            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
+            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3">
                 {{ routine.difficulty }}
             </v-card-subtitle>
 
             <v-icon>mdi-alarm</v-icon>
-            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
+            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3">
                 {{ routine.time }}
             </v-card-subtitle>
-
-            <v-btn icon @click="swipeFav()" >
-                <v-icon v-if="isFavorite" color="teal">mdi-heart</v-icon>
-                <v-icon v-else>mdi-heart</v-icon>
-            </v-btn>
-
+<!-- aca va el boton  de fav -->
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
 import {Routine} from "../store/RoutineStore";
+import {FavoriteRoutinesStore} from "@/store/favoriteRoutinesStore";
 
 export default {
     name: "FavoriteRoutineCard",
@@ -49,17 +45,24 @@ export default {
 
 
     data: () => ({
+        favorite: false
     }),
 
     methods: {
-        swipeFav() {
-            this.routine.favorite = !this.routine.favorite;
+        async manageFav() {
+            if (!this.favorite) {
+                this.favorite=true;
+                await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+            }else {
+                this.favorite=false;
+                await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+            }
         },
     },
 
     computed: {
         isFavorite() {
-            return this.routine.favorite;
+            return this.favorite;
         },
     }
 

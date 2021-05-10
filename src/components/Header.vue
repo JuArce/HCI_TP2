@@ -92,8 +92,8 @@ export default {
 
         async getUserData() {
             let userInfo = await UserStore.getCurrentUserData();
-            this.user.firstName = userInfo.email;
-            //this.user.photo = 'https://akns-images.eonline.com/eol_images/Entire_Site/2015015/rs_600x600-150115101957-600.Bradley-Cooper-American-Sniper.jl.011515.jpg?fit=around%7C1080:1080&output-quality=90&crop=1080:1080;center,top';
+            this.user.firstName = userInfo.firstName;
+           // this.user.photo = userInfo.avatarUrl;
             this.user.photo = userInfo.avatarUrl;
         }
     },
