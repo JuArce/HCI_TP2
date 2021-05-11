@@ -24,6 +24,7 @@ import EditRoutine from "./views/EditRoutine";
 import EditExercise from "./views/EditExercise";
 import ValidateEmail from "./views/ValidateEmail";
 import CreateCycleExercise from "./components/CreateCycleExercise";
+import Setup from "./views/Setup";
 
 export {router};
 
@@ -48,6 +49,7 @@ const router = new VueRouter({
         {path: '/Register', component: Register},
         {path: '/ValidateEmail', component: ValidateEmail},
         {path: '/CreateCycleExercise', component: CreateCycleExercise}, //Borrar
+        {path: '/Setup', component: Setup},
         {path: '/*', component: Error404},
     ]
 })

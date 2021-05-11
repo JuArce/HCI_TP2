@@ -22,7 +22,14 @@
 
             <v-select v-model="routine.difficulty" :items="items" class="my-6 ml-4 text-capitalize" style="width: 90%;"
                       label="Difficulty"
-                      data-vv-name="select" required></v-select>
+                      data-vv-name="select" required>
+            </v-select>
+
+            <v-select v-model="routine.category" :items="categories" :item-text="id" class="my-6 ml-4 text-capitalize" style="width: 90%;"
+                      label="Category"
+                      data-vv-name="select" required>
+            </v-select>
+
         </v-card>
 
         <h1 class="ma-5">Cycle Creator</h1>
@@ -103,6 +110,7 @@ import {RoutineStore} from "../store/RoutineStore";
 import {StoreCycle} from "../store/routineCyclesStore";
 import {RoutineCyclesStore} from "../store/routineCyclesStore";
 import {CyclesExercisesStore} from "../store/cyclesExercisesStore";
+import {CategoriesStore} from "../store/categoriesStore"
 
 export default {
     name: "CreateRoutine",
@@ -123,6 +131,8 @@ export default {
         },
 
         items: ['rookie', 'beginner', 'intermediate', 'advanced', 'expert'],
+        categories: [],
+        categoriesName: [],
 
         warmup: new StoreCycle('Warmup'),
         exerciseStage: [new StoreCycle('Exercise')],
@@ -133,6 +143,7 @@ export default {
 
     created() {
         this.initRoutine();
+        this.getCategories();
     },
 
     methods: {
@@ -143,6 +154,22 @@ export default {
             catch(error){
                 console.log(error.code);
             }
+        },
+
+        async getCategories(){
+            const data = {
+                page: 0,
+                size: 6, //items per page
+                orderBy: 'id',
+                direction: 'asc'
+            };
+            let aux = await CategoriesStore.getCategories(data);
+            this.categories= aux.content;
+            this.categories.forEach(e=>{
+                e.toString = (() => {
+                    return e.name;
+                })
+            })
         },
 
         async initRoutine() {
@@ -193,7 +220,7 @@ export default {
 
         addExerciseStage() {
             this.exerciseStage.push(new StoreCycle('Exercise'));
-        }
+        },
     }
 }
 </script>
