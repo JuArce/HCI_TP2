@@ -2,7 +2,6 @@
     <div>
         <v-row>
             <v-col class="px-8 pb-6" cols="12" v-for="(routine, index) in currentRoutines" :key="index">
-                <!--            la key del for de arriba debe ser routine.id o algo asi :)-->
                 <c-routine-card class="ma-5" :routine="routine"></c-routine-card>
             </v-col>
         </v-row>
@@ -19,9 +18,8 @@
 </template>
 
 <script>
-//import FavoriteRoutineCard from "./FavoriteRoutineCard";
-import {FavoriteRoutinesStore} from "@/store/favoriteRoutinesStore";
-import RoutineCard from "@/components/RoutineCard";
+import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
+import RoutineCard from "./RoutineCard";
 
 export default {
     name: "FavoritesCard",
@@ -56,8 +54,6 @@ export default {
             this.totalPages  = aux.totalCount;
             this.pages = Math.ceil( this.totalPages / this.itemsPerPage); //NO FUNCIONA LA API
             this.isLastPage = aux.isLastPage;
-            //console.log(this.routines);
-            //return aux.content;
         },
     }
 }

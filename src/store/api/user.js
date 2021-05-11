@@ -28,6 +28,7 @@ class UserApi {
         return await Api.post(`${UserApi.url}/verify_email`, false, verification, controller);
     }
 
+    //TODO
     static async resendVerification(credentials, controller) {
         return await Api.post(`${UserApi.url}/resend_verification`, false, credentials, controller);
     }
@@ -51,8 +52,6 @@ class UserApi {
     static async getOtherRoutines(id, data, controller){
         return await Api.get(`${UserApi.url}/${id}/routines/?` + new URLSearchParams({...data}), true, controller);
     }
-
-
 }
 
 class Credentials {

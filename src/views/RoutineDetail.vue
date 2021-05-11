@@ -6,14 +6,9 @@
                 <v-card-subtitle class="mt-n5">by {{ routine.user.username}}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                        <v-rating class="ml-4"
-                                  :value="4.5"
-                                  color="teal lighten-2"
-                                  dense
-                                  half-increments
-                                  readonly
-                                  size="18"
-                        ></v-rating>
+                        <v-rating class="ml-4" :value="4.5" color="teal lighten-2" dense
+                                  half-increments readonly size="18">
+                        </v-rating>
                         <div class="grey--text ml-4">4.5 (413)</div>
                     </v-row>
                 </v-card-text>
@@ -101,10 +96,6 @@ export default {
             }
         },
     },
-
-    computed: {
-
-    }
 }
 </script>
 

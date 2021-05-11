@@ -1,42 +1,36 @@
 <template>
     <div>
         <v-card class="ma-5" outlined width="600">
-            <v-select v-model="exercise" :items="exercises" class="my-6 ml-4 text-capitalize" color="teal"
-                      style="width: 90%;"
+            <v-select v-model="exercise" :items="exercises" class="width my-6 ml-4 text-capitalize" color="teal"
                       label="Exercise" data-vv-name="select" required>
             </v-select>
 
-            <v-slider label="Duration" v-model="duration"
-                      class="my-6 ml-4 align-center" color="teal" track-color="teal lighten-4" thumb-label="true"
-                      :max="maxDuration" :min="minDuration" hide-details style="width: 90%;">
+            <v-slider label="Duration" v-model="duration" class="width my-6 ml-4 align-center" color="teal"
+                      track-color="teal lighten-4" thumb-label="true"
+                      :max="maxDuration" :min="minDuration" hide-details>
                 <template v-slot:append>
                     <v-text-field v-model="duration" class="mt-0 pt-0" suffix="sec" color="teal" hide-details
                                   single-line type="number"
                                   :max="maxDuration" :min="minDuration"
                                   append-icon="mdi-alarm">
                     </v-text-field>
-                    <!--                    <v-icon class="mx-4">mdi-alarm</v-icon>-->
                 </template>
             </v-slider>
 
             <v-slider v-show="exercise.type === 'exercise'" label="Repetitions" v-model="repetitions"
-                      class="my-6 ml-4 align-center" color="teal" track-color="teal lighten-4" thumb-label="true"
-                      :max="maxRepetitions" :min="minRepetitions" hide-details style="width: 90%;">
+                      class="width my-6 ml-4 align-center" color="teal" track-color="teal lighten-4" thumb-label="true"
+                      :max="maxRepetitions" :min="minRepetitions" hide-details>
                 <template v-slot:append>
                     <v-text-field v-model="repetitions" class="mt-0 pt-0" suffix="rep" color="teal" hide-details
-                                  single-line type="number"
-                                  :max="maxRepetitions" :min="minRepetitions"
+                                  single-line type="number" :max="maxRepetitions" :min="minRepetitions"
                                   append-icon="mdi-weight-lifter">
                     </v-text-field>
-                    <!--                    <v-icon class="mx-4">mdi-weight-lifter</v-icon>-->
                 </template>
             </v-slider>
 
-
             <v-row>
                 <v-col cols="1" offset="8" class="my-10">
-                    <v-btn fab color="gray" width="48" height="48"
-                           @click="overlay=true">
+                    <v-btn fab color="gray" width="48" height="48" @click="overlay=true">
                         <v-icon large>mdi-close</v-icon>
                     </v-btn>
                     <v-overlay :value="overlay" :dark="false">
@@ -58,7 +52,6 @@
 <script>
 import {ExerciseStore} from "../store/exerciseStore";
 import ConfirmationCard from "./ConfirmationCard";
-// import {CyclesExercisesStore} from "../store/cyclesExercisesStore";
 
 export default {
     name: "CreateCycleExercise",
@@ -106,12 +99,6 @@ export default {
         },
 
         async createCycleExercise() {
-            //Api bugged
-            // let auxData = this.data;
-            // auxData.orderBy = 'order';
-            // let aux = await CyclesExercisesStore.getAllCyclesExercises(this.cycleId, auxData);
-            // await CyclesExercisesStore.createCycleExercise(this.cycleId,
-            //     this.exercise.id, aux.totalCount + 1, this.duration, this.repetitions);
             this.cycleExercises.push(
                 {
                     exercise: this.exercise,
@@ -130,5 +117,9 @@ export default {
 </script>
 
 <style scoped>
+
+.width{
+    width: 90%;
+}
 
 </style>

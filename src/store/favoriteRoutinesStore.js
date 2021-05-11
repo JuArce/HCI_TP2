@@ -34,9 +34,6 @@ const FavoriteRoutinesStore = {
         this.favoriteRoutines = aux.content;
         this.favoriteRoutines = this.favoriteRoutines.map(fav => fav.id);
         return this.favoriteRoutines.includes(routineId);
-
-    //   this.favoriteRoutines.push(...aux.content);
-    //   this.favoriteRoutines.forEach(element => console.log(element.id));
     }
 
 }

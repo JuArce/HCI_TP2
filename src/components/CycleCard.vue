@@ -1,18 +1,19 @@
 <template>
     <v-card outlined>
-<!--        <v-card-title class="text-capitalize">{{ cycle.name }}</v-card-title>-->
-        <v-text-field v-model.lazy="cycle.name" class="ma-4" label="Cycle Name" style="width: 90%"></v-text-field>
+        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Cycle Name"></v-text-field>
 
-        <v-textarea placeholder="Type Cycle Description..." label="Cycle Description" rows="2" class="my-6 ml-4"
-                    style="width: 90%;" v-model="cycle.detail" no-resize dense
+        <v-textarea placeholder="Type Cycle Description..." label="Cycle Description" rows="2" class=" width my-6 ml-4"
+                    v-model="cycle.detail" no-resize dense
         ></v-textarea>
 
         <v-slider label="Repetitions" v-model="cycle.repetitions"
-                  class="my-6 ml-4 align-center" color="teal" track-color="teal  lighten-4" thumb-label="true"
-                  :max="maxRepetitions" :min="minRepetitions" hide-details style="width: 90%;">
+                  class="width my-6 ml-4 align-center" color="teal" track-color="teal  lighten-4" thumb-label="true"
+                  :max="maxRepetitions" :min="minRepetitions" hide-details>
             <template v-slot:append>
-                <v-text-field v-model="cycle.repetitions" class="mt-0 pt-0" suffix="rep" color="teal" hide-details single-line type="number" :max="maxRepetitions" :min="minRepetitions"></v-text-field>
-<!--                <v-icon class="mx-4">mdi-weight-lifter</v-icon>-->
+                <v-text-field v-model="cycle.repetitions" class="mt-0 pt-0" suffix="rep" color="teal"
+                              hide-details single-line type="number"
+                              :max="maxRepetitions" :min="minRepetitions">
+                </v-text-field>
             </template>
         </v-slider>
 
@@ -23,15 +24,15 @@
             </v-card-text>
         </v-card>
 
-
-
         <v-btn @click="overlay=true" color="teal" class="ma-5" large width="90%" dark>
             <v-icon>mdi-plus-thick</v-icon>
             Add exercise
         </v-btn>
 
         <v-overlay :value="overlay" :dark="false">
-            <c-create-cycle-exercise :cycle-exercises="this.cycle.cycleExercises" @discardExercise="overlay=false" @exerciseCreated="overlay=false"></c-create-cycle-exercise>
+            <c-create-cycle-exercise :cycle-exercises="this.cycle.cycleExercises"
+                                     @discardExercise="overlay=false" @exerciseCreated="overlay=false">
+            </c-create-cycle-exercise>
         </v-overlay>
     </v-card>
 
@@ -39,7 +40,6 @@
 
 <script>
 
-import {CyclesExercisesStore} from "../store/cyclesExercisesStore";
 import CreateCycleExercise from "./CreateCycleExercise";
 
 export default {
@@ -67,28 +67,13 @@ export default {
 
         overlay: false,
     }),
-
-    mounted(){
-        // this.initCycle();
-    },
-
-    methods: {
-        async insertExercise(){
-            if(this.exercise.trim().length > 0) {
-                this.cycle.push(this.exercise);
-            }
-            this.exercise = '';
-        },
-
-        async initCycle() {
-            const aux = await CyclesExercisesStore.getAllCyclesExercises(this.cycle.id, this.data);
-            this.exercises = aux.content;
-            this.isLastPage = aux.isLastPage;
-        }
-    }
 }
 </script>
 
 <style scoped>
+
+.width{
+    width: 90%;
+}
 
 </style>

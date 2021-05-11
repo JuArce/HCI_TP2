@@ -13,15 +13,6 @@ const CategoriesStore = {
         return await CategoriesApi.getAllCategories(data);
     },
 
-    async getCategory(categoryId) {
-        return await CategoriesApi.getCategory(categoryId);
-    },
-
-    async modifyCategory(categoryId, name, detail) {
-        let categoryData = new Category(name, detail);
-        await CategoriesApi.modifyCategory(categoryId, categoryData);
-    },
-
     async deleteCategory(categoryId){
         await CategoriesApi.deleteCategory(categoryId);
     },

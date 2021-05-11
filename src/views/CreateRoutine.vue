@@ -2,15 +2,12 @@
     <div>
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Routine Name..." label="Routine Name" class="my-6 ml-4" style="width: 90%;"
+            <v-text-field placeholder="Type Routine Name..." label="Routine Name" class="width my-6 ml-4"
                           v-model="routine.name" @blur="$v.phone.$touch()" no-resize dense
             ></v-text-field>
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="my-6 ml-4"
-                        style="width: 90%;" v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense
+            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="width my-6 ml-4"
+                        v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense
             ></v-textarea>
-            <!--            <v-text-field placeholder="Type Image URL..." label="Image URL" class="my-6 ml-4" style="width: 90%;"-->
-            <!--                          v-model="routine.image" @blur="$v.phone.$touch()" no-resize dense-->
-            <!--            ></v-text-field>-->
 
             <v-checkbox class="ma-5" v-model="routine.isPublic">
                 <template v-slot:label>
@@ -20,13 +17,11 @@
                 </template>
             </v-checkbox>
 
-            <v-select v-model="routine.difficulty" :items="items" class="my-6 ml-4 text-capitalize" style="width: 90%;"
-                      label="Difficulty"
+            <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize" label="Difficulty"
                       data-vv-name="select" required>
             </v-select>
 
-            <v-select v-model="routine.category" :items="categories" :item-text="id" class="my-6 ml-4 text-capitalize" style="width: 90%;"
-                      label="Category"
+            <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize" label="Category"
                       data-vv-name="select" required>
             </v-select>
 
@@ -39,7 +34,7 @@
                 <c-cycle-card class="ma-5" :cycle="warmup" title="Warm-Up"></c-cycle-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4" v-for="(ex, index) in exerciseStage" :key="index">
-                <c-cycle-card class="ma-5" :cycle="exerciseStage[index]" v-show="exerciseStage.length !== 0"
+                <c-cycle-card class="ma-5" :cycle="ex" v-show="exerciseStage.length !== 0"
                               :title="'Exercise ' + (index+1)">
                 </c-cycle-card>
             </v-col>
@@ -49,25 +44,12 @@
                         <v-icon large>mdi-shape-circle-plus</v-icon>
                         Add cycle
                     </v-btn>
-
-<!--                    <v-btn @click="exercises.pop()" color="teal" class="mx-2" width="64" height="64" icon>-->
-<!--                        <v-icon large>mdi-minus-thick</v-icon>-->
-<!--                    </v-btn>-->
                 </v-card>
-
             </v-col>
             <v-col class="px-4 pb-6" cols="4">
                 <c-cycle-card class="ma-5" :cycle="cooldown" title="Cool-down"></c-cycle-card>
             </v-col>
         </v-row>
-
-        <!--        <v-btn @click="routine.exercise.push([])" color="teal" class="mx-2" width="64" height="64" icon>-->
-        <!--            <v-icon large>mdi-plus-thick</v-icon>-->
-        <!--        </v-btn>-->
-
-        <!--        <v-btn @click="routine.exercise.pop()" color="teal" class="mx-2" width="64" height="64" icon>-->
-        <!--            <v-icon large>mdi-minus-thick</v-icon>-->
-        <!--        </v-btn>-->
 
         <v-row>
             <v-col cols="2" offset="10">
@@ -147,15 +129,6 @@ export default {
     },
 
     methods: {
-        async createRoutine() {
-            try{
-                this.routine = await RoutineStore.createNewRoutine(this.name, this.detail, this.isPublic, this.difficulty);
-            }
-            catch(error){
-                console.log(error.code);
-            }
-        },
-
         async getCategories(){
             const data = {
                 page: 0,
@@ -170,27 +143,6 @@ export default {
                     return e.name;
                 })
             })
-        },
-
-        async initRoutine() {
-            // console.log('antes de iniciar todo');
-            // let aux = await RoutineStore.createNewRoutine('', '', false, 'rookie');
-            // this.routine = aux;
-            // console.log(aux);
-            //
-            //
-            // aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Warmup', 'detalle', 'warmup', 1, 1);
-            // this.warmup = aux;
-            // console.log(aux);
-            //
-            // aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Exercise', '', 'exercise', 2, 1)
-            // this.exercises.push(aux);
-            // console.log(aux);
-            //
-            // aux = await RoutineCyclesStore.createCycle(this.routine.id, 'Cooldown', '', 'cooldown', 3, 1)
-            // this.cooldown = aux;
-            // console.log(aux);
-
         },
 
         async routineConfirmed(){
@@ -226,5 +178,9 @@ export default {
 </script>
 
 <style scoped>
+
+.width{
+    width: 90%;
+}
 
 </style>

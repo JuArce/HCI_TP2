@@ -4,7 +4,6 @@ import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate'
 
-// import { Plugin } from 'vue-responsive-video-background-player';
 Vue.use(Vuelidate);
 
 import Home from "./views/Home";
@@ -14,7 +13,6 @@ import Routines from "./views/Routines";
 import LogIn from "./views/LogIn";
 import Register from "./views/Register";
 
-// import {Routine} from "./store/RoutineStore";
 import RoutineDetail from "./views/RoutineDetail";
 import CreateRoutine from "./views/CreateRoutine";
 import Error404 from "./views/Error404";
@@ -29,7 +27,6 @@ import Setup from "./views/Setup";
 export {router};
 
 Vue.use(VueRouter);
-// Vue.use(Plugin);
 
 Vue.config.productionTip = false
 

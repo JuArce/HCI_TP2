@@ -1,8 +1,5 @@
 <template>
     <v-card outlined class="mx-auto" max-width="600">
-        <!--        <v-img class="white&#45;&#45;text align-end" height="200px" :src="routine.image">-->
-        <!--        </v-img>-->
-
         <v-card-title>
             {{ exercise.name }}
             <v-spacer></v-spacer>
@@ -65,6 +62,7 @@ export default {
 </script>
 
 <style scoped>
+
 div a {
     text-decoration: none;
 }

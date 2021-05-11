@@ -14,7 +14,7 @@ const ExerciseStore = {
 *   search
 *   page
 *   size
-*   ordeBy
+*   orderBy
 *   direction
 * */
     async getAllExercises(data) {

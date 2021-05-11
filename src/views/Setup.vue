@@ -72,7 +72,7 @@ export default {
         async updateDatabase() {
             try {
                 this.loading = true;
-                //await CategoriesStore.deleteCategory(1);
+                await CategoriesStore.deleteCategory(1);
                 await CategoriesStore.createNewCategory("High Intensity","Workouts alternating short but high intensity work intervals.");
                 await CategoriesStore.createNewCategory("Cardio","All kinds of routines to elevate your heart rate and burn more calories.");
                 await CategoriesStore.createNewCategory("Quality Training","Routines to do at your own pace, ideal to concentrate on your performance.");

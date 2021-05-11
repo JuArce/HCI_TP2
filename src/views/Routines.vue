@@ -2,12 +2,8 @@
     <div>
         <h1 class="ma-5">My Routines</h1>
         <v-row>
-            <v-col class="px-8 pb-6" cols="4"
-                   v-for="(routine, index) in routines" :key="index">
-                <!--            la key del for de arriba debe ser routine.id o algo asi :)-->
-                <!--            <div v-for="(routine) in store.routines" :key="routine">-->
+            <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
                 <c-routine-card :routine="routine" :path="'/Routines'"></c-routine-card>
-                <!--            </div>-->
             </v-col>
         </v-row>
         <div v-if="!isLastPage" class="text-center ma-5" >
@@ -52,7 +48,7 @@ export default {
         async getRoutines() {
             let aux = await UserStore.getCurrentUserRoutines(this.data);
             // this.routines.push(...aux.content);
-            // this.data.page = this.data.page + 1;
+            // this.data.page = this.data.page + 1; TODO
             this.routines = aux.content;
             this.data.size += 10;
             this.isLastPage = aux.isLastPage;
@@ -60,7 +56,6 @@ export default {
             this.routines.forEach(rout => {
                 rout.user = userData;
             })
-            // console.log(this.routines);
         }
     }
 

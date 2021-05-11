@@ -13,7 +13,7 @@ const CyclesExercisesStore = {
 * Data: {
 *   page
 *   size
-*   ordeBy
+*   orderBy
 *   direction
 * */
     async getAllCyclesExercises(cycleId, data) {

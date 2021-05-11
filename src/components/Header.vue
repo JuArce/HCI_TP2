@@ -1,17 +1,11 @@
 <template>
     <div>
         <v-app-bar dense light>
-
             <v-toolbar-title>
                 <v-img src="../assets/ProFit-Logo-text-v1.1.png" max-height="110" max-width="110"></v-img>
             </v-toolbar-title>
 
             <v-toolbar-items>
-                <!--                <v-btn-toggle class="teal">-->
-                <!--                    <v-btn text v-for="view in views" :key="view">-->
-                <!--                        <router-link class="white&#45;&#45;text" :to="view.route">{{ view.view }}</router-link>-->
-                <!--                    </v-btn>-->
-                <!--                </v-btn-toggle>-->
                 <v-tabs optional fixed-tabs background-color="transparent" class="ml-16">
                     <v-tabs-slider color="teal"></v-tabs-slider>
                     <v-tab text v-for="view in views" :key="view.view">
@@ -42,13 +36,11 @@
                         <v-list-item @click="overlay=true">
                             <v-list-item-title>Log Out</v-list-item-title>
                         </v-list-item>
-
                     </v-list>
-
                 </v-menu>
-
             </v-toolbar-items>
         </v-app-bar>
+
         <v-overlay :value="overlay" :dark="false">
             <c-confirmation-card message="log out" toPath="/" @confirmationClosed="overlay=false"
                                  @confirmationAccepted="logOut"></c-confirmation-card>
@@ -57,8 +49,7 @@
 </template>
 
 <script>
-//import {UserData} from "../store/api/user";
-import {UserStore} from "@/store/userStore";
+import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
 
 export default {
@@ -80,10 +71,13 @@ export default {
             {route: '/Profile', name: 'My Profile'},
             {route: '/Routines', name: 'My Routines'},
             {route: '/Exercises', name: 'My Exercises'}
-            // {route: '/', name: 'Log Out'}
         ],
         overlay: false
     }),
+
+    created() {
+        this.getUserData();
+    },
 
     methods: {
         async logOut() {
@@ -95,19 +89,14 @@ export default {
         async getUserData() {
             let userInfo = await UserStore.getCurrentUserData();
             this.user.firstName = userInfo.firstName;
-           // this.user.photo = userInfo.avatarUrl;
             this.user.photo = userInfo.avatarUrl;
         }
-    },
-
-    created() {
-        this.getUserData();
     },
 }
 </script>
 
 <style scoped>
-    div[role=tab] a {
-        text-decoration: none;
-    }
+div[role=tab] a {
+    text-decoration: none;
+}
 </style>

@@ -32,7 +32,6 @@ const RoutineCyclesStore = {
     async deleteCycle(routineId, cycleId) {
         await RoutineCyclesApi.deleteCycle(routineId, cycleId);
     }
-
 }
 
 class StoreCycle {

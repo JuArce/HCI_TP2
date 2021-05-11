@@ -2,18 +2,17 @@
     <div>
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="my-6 ml-4"
-                          style="width: 90%;"
-                          v-model="name" @blur="$v.phone.$touch()" no-resize dense
-            ></v-text-field>
+            <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="width my-6 ml-4"
+                          v-model="name" @blur="$v.phone.$touch()" no-resize dense>
+            </v-text-field>
 
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="my-6 ml-4"
-                        style="width: 90%;" v-model="detail" @blur="$v.phone.$touch()" no-resize dense
-            ></v-textarea>
+            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="width my-6 ml-4"
+                        v-model="detail" @blur="$v.phone.$touch()" no-resize dense>
+            </v-textarea>
 
-            <v-select v-model="type" :items="items" class="my-6 ml-4 text-capitalize" style="width: 90%;"
-                      label="Type"
-                      data-vv-name="select" required></v-select>
+            <v-select v-model="type" :items="items" class="width my-6 ml-4 text-capitalize" label="Type"
+                      data-vv-name="select" required>
+            </v-select>
         </v-card>
 
         <v-btn elevation="2" fab bottom right absolute color="gray" class="mb-10 mr-16 " width="64" height="64"
@@ -22,7 +21,8 @@
         </v-btn>
         <v-overlay :value="overlay" :dark="false">
             <c-confirmation-card message="exit" toPath="/Exercises" @confirmationClosed="overlay=false"
-                                 @confirmationAccepted="overlay=false"></c-confirmation-card>
+                                 @confirmationAccepted="overlay=false">
+            </c-confirmation-card>
         </v-overlay>
 
         <v-btn @click="editExercise(); loading=true" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"
@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import ConfirmationCard from "../components/ConfirmationCard";
 import { ExerciseStore} from "../store/exerciseStore";
 import {router} from "../main";
+import ConfirmationCard from "../components/ConfirmationCard";
 
 export default {
     name: "EditExercise",
@@ -97,5 +97,8 @@ export default {
 </script>
 
 <style scoped>
+.width{
+    width: 90%;
+}
 
 </style>

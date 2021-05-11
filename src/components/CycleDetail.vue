@@ -16,7 +16,6 @@
         <v-timeline dense>
             <v-timeline-item color="teal lighten-3" small v-for="(cycleEx, index) in cycleExercises" :key="index">
                 <v-card flat class="ma-5">
-                    <v-img src="https://www.xtrafondos.com/wallpapers/resized/caballos-corriendo-en-la-nieve-5785.jpg?s=large" alt=""></v-img>
                     <v-row>
                         <v-col cols="6">
                             <v-card-title>{{cycleEx.exercise.name}}</v-card-title>
@@ -58,7 +57,6 @@ export default {
     },
 
     methods: {
-
         async getCycleExercisesData() {
             let data = {
                 page: 0,

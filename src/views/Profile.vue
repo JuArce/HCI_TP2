@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!--    <h1>profile</h1>-->
         <v-row class="pa-4">
             <v-col class="ml-8" cols="1">
                 <v-avatar color="teal" class="profile" size="164">
@@ -14,7 +13,6 @@
 
         <v-row>
             <v-col cols="6" class="pa-8">
-                <!--                <c-accData></c-accData>-->
                 <v-card outlined>
                     <v-row align="center" justify="space-between">
                         <v-col cols="10">
@@ -26,75 +24,29 @@
                             </v-btn>
                         </v-col>
                     </v-row>
-<!--                    <v-menu>-->
-<!--                        v-model="menu"-->
-<!--                        :close-on-content-click="false"-->
-<!--                        transition="scale-transition"-->
-<!--                        offset-y-->
-<!--                        :disabled="!editData"-->
-<!--                    >-->
-<!--                        <template v-slot:activator="{ on, attrs }">-->
-<!--                            <v-text-field-->
-<!--                                placeholder="Pick Date of Birth..."-->
-<!--                                label="Date of Birth"-->
-<!--                                :value="birthdate"-->
-<!--                                readonly-->
-<!--                                v-bind="attrs"-->
-<!--                                v-on="on"-->
-<!--                                class="ma-4" style="width: 90%"-->
-<!--                            ></v-text-field>-->
-<!--                        </template>-->
-<!--                        <v-date-picker v-if="editData"-->
-<!--                                       v-model="birthdate"-->
-<!--                                       :max="maxDate()"-->
-<!--                                       min="1930-01-01"-->
-<!--                                       width="500px"-->
-<!--                        ></v-date-picker>-->
-<!--                    </v-menu>-->
-                    <v-text-field
-                        placeholder="Type your First Name..."
-                        label="First Name"
-                        class="mt-6 mb-2 ml-4" style="width: 90%;"
-                        v-model="firstName"
-                        :readonly="!editData"
-                        no-resize
-                        dense
-                    ></v-text-field>
-                    <v-text-field
-                        placeholder="Type your Last Name..."
-                        label="Last Name"
-                        class="mt-6 mb-2 ml-4" style="width: 90%;"
-                        v-model="lastName"
-                        :readonly="!editData"
-                        no-resize
-                        dense
-                    ></v-text-field>
-                    <v-text-field
-                        placeholder="Type Phone Number..."
-                        label="Phone"
-                        class="my-6 ml-4" style="width: 90%;"
-                        v-model="phone"
-                        :readonly="!editData"
-                        no-resize
-                        dense
-                    ></v-text-field>
+                    <v-text-field placeholder="Type your First Name..." label="First Name"
+                        class="width mt-6 mb-2 ml-4" v-model="firstName" :readonly="!editData"
+                        no-resize dense>
+                    </v-text-field>
+                    <v-text-field placeholder="Type your Last Name..." label="Last Name"
+                        class="width mt-6 mb-2 ml-4" v-model="lastName" :readonly="!editData"
+                        no-resize dense>
+                    </v-text-field>
+                    <v-text-field placeholder="Type Phone Number..." label="Phone"
+                        class="width my-6 ml-4" v-model="phone" :readonly="!editData"
+                        no-resize dense>
+                    </v-text-field>
 
-                    <v-text-field
-                        placeholder="Enter An Image URL To Use As An Avatar..."
-                        label="Profle Picture URL"
-                        class="mt-6 mb-2 ml-4" style=" width: 90%;"
-                        v-model="avatarUrl"
-                        :readonly="!editData"
-                        no-resize
-                        dense
-                    ></v-text-field>
+                    <v-text-field placeholder="Enter An Image URL To Use As An Avatar..."
+                        label="Profle Picture URL" class="width mt-6 mb-2 ml-4" v-model="avatarUrl"
+                        :readonly="!editData" no-resize dense>
+                    </v-text-field>
                     <v-row class="align-center justify-center pt-4">
                         <v-col cols="10" class="d-flex justify-space-around">
                             <v-btn @click="cancelChanges" min-height="52px" v-if="editData" outlined width="45%">
                                 CANCEL
                             </v-btn>
-                            <v-btn @click="updateChanges" min-height="52px" v-if="editData" color="teal" width="45%"
-                                   dark>
+                            <v-btn @click="updateChanges" min-height="52px" v-if="editData" color="teal" width="45%" dark>
                                 CONFIRM
                             </v-btn>
                         </v-col>
@@ -109,28 +61,19 @@
                 </v-card>
             </v-col>
         </v-row>
-
-        <!--                    <img :src="user.photo">-->
-
-
-        <!--        <v-btn v-for="option in buttonsInfo" :key="option.name" :to="option.route" class="teal text-center" rounded dark>-->
-        <!--            {{ option.name }}-->
-        <!--        </v-btn>-->
     </div>
 </template>
 
 <script>
 import Favorites from "../components/Favorites";
-// import AccountData from "../components/AccountData";
 import {UserStore} from "../store/userStore";
-import {router} from "@/main";
+import {router} from "../main";
 
 export default {
     name: "Profile",
 
     components: {
          CFavorites: Favorites,
-        // CAccData: AccountData,
     },
 
     data: () => ({
@@ -157,6 +100,7 @@ export default {
             }
             console.log(this.phone);
         },
+
         async getUserData() {
             let userInfo = await this.store.getCurrentUserData();
             console.log(userInfo.username);
@@ -166,7 +110,6 @@ export default {
             this.avatarUrl = userInfo.avatarUrl;
             this.phone = userInfo.phone;
             this.email = userInfo.email;
-
         },
 
         cancelChanges() {
@@ -176,22 +119,18 @@ export default {
         updateChanges() {
             this.editData = false;
             this.editProfile();
-         }//,
-        // maxDate() {
-        //     const date = new Date();
-        //     date.setFullYear(date.getFullYear() - 13);
-        //     return date.toISOString().substr(0, 10);
-        // }
+         }
     },
 
     created() {
         this.getUserData();
     },
-
-
 }
 </script>
 
 <style scoped>
+.width{
+    width: 90%;
+}
 
 </style>
