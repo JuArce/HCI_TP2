@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <!--        Preguntar como esconderlo en la pagina de login :)-->
-        <c-header class="header" v-show="isLogged" app></c-header>
+        <c-header class="header" v-if="isLogged" app></c-header>
         <v-main>
             <router-view></router-view>
         </v-main>
