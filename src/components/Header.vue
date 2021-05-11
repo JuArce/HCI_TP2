@@ -84,10 +84,12 @@ export default {
         ],
         overlay: false
     }),
+
     methods: {
         async logOut() {
             this.overlay = false;
             await UserStore.logOutUser();
+            this.$root.$emit('UserStatusChanged');
         },
 
         async getUserData() {

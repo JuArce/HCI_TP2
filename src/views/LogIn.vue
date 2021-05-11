@@ -82,6 +82,7 @@ export default {
                 try {
                     await UserStore.loginUser(this.username, this.password);
                     await router.replace('/Home');
+                    this.$root.$emit('UserStatusChanged');
                 } catch (error) {
                     this.errorAlert = true;
                     setTimeout(() => {

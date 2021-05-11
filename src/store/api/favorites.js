@@ -9,7 +9,7 @@ class FavoriteApi{
 
     static async add(routineId, controller){
         console.log(`${FavoriteApi.url}/${routineId}`);
-        return await Api.post(`${FavoriteApi.url}/${routineId}/`, true, {},controller);
+        return await Api.post(`${FavoriteApi.url}/${routineId}/`, true, {}, controller);
     }
 
     static async get(data, controller){
@@ -20,4 +20,3 @@ class FavoriteApi{
         return await Api.delete(`${FavoriteApi.url}/${routineId}/`, true, controller);
     }
 }
-
