@@ -2,16 +2,16 @@
     <div>
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="width my-6 ml-4"
+            <v-text-field placeholder="Type Exercise Name..." label="Name" class="width my-6 ml-4"
                           v-model="name" color="teal" no-resize dense>
             </v-text-field>
 
             <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2"
-                        class="width my-6 ml-4"
-                        v-model="detail" @blur="$v.phone.$touch()" no-resize dense>
+                        class="width my-6 ml-4" color="teal"
+                        v-model="detail" no-resize dense>
             </v-textarea>
 
-            <v-select v-model="type" :items="items" class="width my-6 ml-4 text-capitalize" label="Type"
+            <v-select v-model="type" :items="items" class="width my-6 ml-4 text-capitalize" label="Type" color="teal"
                       data-vv-name="select" required>
             </v-select>
         </v-card>

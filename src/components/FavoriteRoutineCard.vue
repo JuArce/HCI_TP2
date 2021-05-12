@@ -30,7 +30,7 @@
 
 <script>
 import {Routine} from "../store/RoutineStore";
-import {FavoriteRoutinesStore} from "@/store/favoriteRoutinesStore";
+import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
 
 export default {
     name: "FavoriteRoutineCard",

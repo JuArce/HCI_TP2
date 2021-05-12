@@ -36,6 +36,7 @@ const RoutineCyclesStore = {
 
 class StoreCycle {
     constructor(name) {
+        this.id = null;
         this.name = name;
         this.detail = '';
         this.repetitions = 1;

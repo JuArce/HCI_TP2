@@ -7,11 +7,11 @@
             </v-text-field>
 
             <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2"
-                        class=" width my-6 ml-4"
+                        class=" width my-6 ml-4" color="teal"
                         v-model="detail" @blur="$v.phone.$touch()" no-resize dense>
             </v-textarea>
 
-            <v-select v-model="type" :items="items" class="width my-6 ml-4 text-capitalize" label="Type"
+            <v-select v-model="type" :items="items" class="width my-6 ml-4 text-capitalize" label="Type" color="teal"
                       data-vv-name="select" required>
             </v-select>
         </v-card>

@@ -33,10 +33,10 @@
                   </div>
                 </v-btn>
 
-                <v-alert :value="alert" type="success">
+                <v-alert :value="alert" type="success" class="mt-3 mb-1" large width="100%"  dense outlined>
                   Successfully Validated your Email, Now Log In!
                 </v-alert>
-                <v-alert :value="errorAlert" type="error" height="70%" width="100%">
+                <v-alert :value="errorAlert" type="error" height="70%" width="100%" class="mt-3 mb-1" large dense outlined>
                   Validation error, try again.
                 </v-alert>
 
@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import {UserStore} from "@/store/userStore";
+import {UserStore} from "../store/userStore";
 import VideoBackground from "../components/VideoBackground";
-import {router} from "@/main";
+import {router} from "../main";
 import {required, email, alphaNum, maxLength, minLength} from 'vuelidate/lib/validators';
 
 export default {

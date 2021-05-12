@@ -8,7 +8,7 @@
 
         <v-row>
             <v-col>
-                <v-pagination v-model="page" :length="pages" circle @input="changePage">
+                <v-pagination v-model="page" :length="pages" circle color="teal" @input="changePage">
 
                 </v-pagination>
             </v-col>
@@ -19,7 +19,7 @@
 
 <script>
 import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
-import FavoriteRoutineCard from "@/components/FavoriteRoutineCard";
+import FavoriteRoutineCard from "./FavoriteRoutineCard";
 
 export default {
     name: "FavoritesCard",

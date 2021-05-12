@@ -40,7 +40,7 @@
                 <v-progress-circular indeterminate color="white" size="32"></v-progress-circular>
               </div>
             </v-btn>
-            <v-alert :value="errorAlert" type="error">
+            <v-alert :value="errorAlert" type="error" class="mt-3 mb-1" large width="100%"  dense outlined>
               Incorrect user or password.
             </v-alert>
           </v-form>
@@ -54,8 +54,8 @@
 
 <script>
 import {required, maxLength, minLength} from 'vuelidate/lib/validators';
-import {router} from "@/main";
-import {UserStore} from "@/store/userStore";
+import {router} from "../main";
+import {UserStore} from "../store/userStore";
 import VideoBackground from "../components/VideoBackground";
 
 export default {
@@ -84,6 +84,7 @@ export default {
           this.$root.$emit('UserStatusChanged');
         } catch (error) {
           this.errorAlert = true;
+          this.loading = false;
           setTimeout(() => {
             this.errorAlert = false;
           }, 2000);

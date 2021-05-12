@@ -25,29 +25,30 @@
                         </v-col>
                     </v-row>
                     <v-text-field placeholder="Type your First Name..." label="First Name"
-                        class="width mt-6 mb-2 ml-4" v-model="firstName" :readonly="!editData"
-                        no-resize dense>
+                                  class="width mt-6 mb-2 ml-4" v-model="firstName" :readonly="!editData"
+                                  color="teal" no-resize dense>
                     </v-text-field>
                     <v-text-field placeholder="Type your Last Name..." label="Last Name"
-                        class="width mt-6 mb-2 ml-4" v-model="lastName" :readonly="!editData"
-                        no-resize dense>
+                                  class="width mt-6 mb-2 ml-4" v-model="lastName" :readonly="!editData"
+                                  color="teal" no-resize dense>
                     </v-text-field>
                     <v-text-field placeholder="Type Phone Number..." label="Phone"
-                        class="width my-6 ml-4" v-model="phone" :readonly="!editData"
-                        no-resize dense>
+                                  class="width my-6 ml-4" v-model="phone" :readonly="!editData"
+                                  color="teal" no-resize dense>
                     </v-text-field>
 
                     <v-text-field placeholder="Enter An Image URL To Use As An Avatar..."
-                        label="Profle Picture URL" class="width mt-6 mb-2 ml-4" v-model="avatarUrl"
-                        :readonly="!editData" no-resize dense>
+                                  label="Profle Picture URL" class="width mt-6 mb-2 ml-4" v-model="avatarUrl"
+                                  color="teal" :readonly="!editData" no-resize dense>
                     </v-text-field>
                     <v-row class="align-center justify-center pt-4">
                         <v-col cols="10" class="d-flex justify-space-around">
                             <v-btn @click="cancelChanges" min-height="52px" v-if="editData" outlined width="45%">
-                                CANCEL
+                                Cancel
                             </v-btn>
-                            <v-btn @click="updateChanges" min-height="52px" v-if="editData" color="teal" width="45%" dark>
-                                CONFIRM
+                            <v-btn @click="updateChanges" min-height="52px" v-if="editData" color="teal" width="45%"
+                                   dark>
+                                Confirm
                             </v-btn>
                         </v-col>
                     </v-row>
@@ -73,7 +74,7 @@ export default {
     name: "Profile",
 
     components: {
-         CFavorites: Favorites,
+        CFavorites: Favorites,
     },
 
     data: () => ({
@@ -93,7 +94,7 @@ export default {
     methods: {
         async editProfile() {
             try {
-                await this.store.modifyUser(this.username, this.firstName, this.lastName ,this.email , this.phone, this.avatarUrl);
+                await this.store.modifyUser(this.username, this.firstName, this.lastName, this.email, this.phone, this.avatarUrl);
                 await router.replace('/Profile');
             } catch (error) {
                 console.log(error.code);
@@ -112,14 +113,15 @@ export default {
             this.email = userInfo.email;
         },
 
-        cancelChanges() {
+        async cancelChanges() {
+            await this.getUserData();
             this.editData = false;
         },
 
         updateChanges() {
             this.editData = false;
             this.editProfile();
-         }
+        }
     },
 
     created() {
@@ -129,7 +131,7 @@ export default {
 </script>
 
 <style scoped>
-.width{
+.width {
     width: 90%;
 }
 

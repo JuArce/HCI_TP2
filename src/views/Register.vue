@@ -83,7 +83,7 @@
               </div>
             </v-btn>
           </v-form>
-          <v-alert :value="alert" type="success">
+          <v-alert :value="alert" type="success" class="mt-3 mb-1" large width="100%"  dense outlined>
             Successfully Signed Up! You will be redirected.
           </v-alert>
         </v-card>
@@ -95,8 +95,8 @@
 
 <script>
 import {required, maxLength, minLength, email, sameAs} from 'vuelidate/lib/validators';
-import {router} from "@/main";
-import {UserStore} from "@/store/userStore";
+import {router} from "../main";
+import {UserStore} from "../store/userStore";
 import VideoBackground from "../components/VideoBackground";
 
 export default {

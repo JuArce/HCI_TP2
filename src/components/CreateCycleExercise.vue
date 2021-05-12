@@ -18,7 +18,7 @@
             </v-text-field>
 
             <v-row>
-                <v-col cols="1" offset="8" class="my-10">
+                <v-col cols="1" offset="9" class="my-10">
                     <v-btn fab color="gray" width="48" height="48" @click="overlay=true">
                         <v-icon large>mdi-close</v-icon>
                     </v-btn>
@@ -27,7 +27,7 @@
                                              @confirmationAccepted="overlay=false; discard()"></c-confirmation-card>
                     </v-overlay>
                 </v-col>
-                <v-col cols="1" class="my-10 ml-10">
+                <v-col cols="1" class="my-10 ml-4">
                     <v-btn @click="createCycleExercise()" fab color="teal" dark width="48" height="48">
                         <v-icon large>mdi-send</v-icon>
                     </v-btn>

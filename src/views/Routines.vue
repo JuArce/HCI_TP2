@@ -1,6 +1,10 @@
 <template>
     <div>
         <h1 class="ma-5">My Routines</h1>
+        <div class="centered" v-if="routines.length===0" >
+            <h2>It seems you have not created a routine yet,</h2>
+            <h2>Press the bottom right button to create a new one!</h2>
+        </div>
         <v-row>
             <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
                 <c-routine-card :routine="routine" :path="'/Routines'"></c-routine-card>
@@ -37,11 +41,11 @@ export default {
         routines: [],
         data: {
             page: 0,
-            size: 10,
+            size: 9,
             orderBy: 'id',
             direction: 'asc'
         },
-        isLastPage: false
+        isLastPage: true
     }),
 
     created() {
@@ -51,10 +55,8 @@ export default {
     methods: {
         async getRoutines() {
             let aux = await UserStore.getCurrentUserRoutines(this.data);
-            // this.routines.push(...aux.content);
-            // this.data.page = this.data.page + 1; TODO
-            this.routines = aux.content;
-            this.data.size += 10;
+            this.routines.push(...aux.content);
+            this.data.page = this.data.page + 1;
             this.isLastPage = aux.isLastPage;
             let userData = await UserStore.getCurrentUserData();
             this.routines.forEach(rout => {
@@ -78,5 +80,10 @@ export default {
     bottom: 20px;
     right: 20px;
     z-index: 99;
+}
+
+.centered{
+    margin: 0 auto;
+    text-align: center;
 }
 </style>

@@ -3,8 +3,8 @@ import {RoutineApi, Routine} from './api/routine'
 export {RoutineStore, Routine};
 
 const RoutineStore = {
-    async createNewRoutine(name, detail, isPublic, difficulty) {
-        let routineData = new Routine(name, detail, isPublic, difficulty);
+    async createNewRoutine(name, detail, isPublic, difficulty, category) {
+        let routineData = new Routine(name, detail, isPublic, difficulty, category);
         await RoutineApi.createRoutine(routineData);
         return routineData;
     },
@@ -17,8 +17,8 @@ const RoutineStore = {
         return await RoutineApi.getRoutine(routineId);
     },
 
-    async modifyRoutine(routineId, name, detail, isPublic, difficulty) {
-        let routineData = new Routine(name, detail, isPublic, difficulty);
+    async modifyRoutine(routineId, name, detail, isPublic, difficulty, category) {
+        let routineData = new Routine(name, detail, isPublic, difficulty, category);
         await RoutineApi.modifyRoutine(routineId, routineData);
     },
 

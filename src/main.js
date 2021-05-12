@@ -39,7 +39,7 @@ const router = new VueRouter({
         {path: '/Routines', component: Routines},
         {path: '/Exercises', component:Exercises},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutinePath', props: true},
-        {path: '/CreateRoutine', component: CreateRoutine},
+        {path: '/CreateRoutine', component: CreateRoutine, name: 'CreateRoutinePath', props: true},
         {path: '/CreateExercise', component: CreateExercise},
         {path: '/EditRoutine', component: EditRoutine, name: 'EditRoutinePath', props: true},
         {path: '/EditExercise', component: EditExercise, name: 'EditExercisePath', props: true},

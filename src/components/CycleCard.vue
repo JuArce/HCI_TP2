@@ -3,7 +3,7 @@
         <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name" color="teal"
         ></v-text-field>
 
-        <v-textarea placeholder="Type Description..." label="Description" rows="2" class=" width my-6 ml-4"
+        <v-textarea placeholder="Type Description..." label="Description" color="teal" rows="2" class=" width my-6 ml-4"
                     v-model="cycle.detail" no-resize dense
         ></v-textarea>
 

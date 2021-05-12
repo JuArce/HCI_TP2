@@ -24,15 +24,15 @@
                                     </div>
                                 </v-btn>
 
-                                <v-alert :value="alert" type="success">
+                                <v-alert :value="alert" type="success" class="mt-3 mb-1" large width="100%"  dense outlined>
                                     Database successfully updated!
                                 </v-alert>
 
-                                <v-alert :value="errorAlert" type="error">
+                                <v-alert :value="errorAlert" type="error" class="mt-3 mb-1" large width="100%"  dense outlined>
                                     There seems to be a problem with the database. Some options may not be available.
                                 </v-alert>
 
-                                <v-alert :value="warningAlert" type="warning">
+                                <v-alert :value="warningAlert" type="warning" class="mt-3 mb-1" large width="100%"  dense outlined>
                                     You only need to Setup once!
                                 </v-alert>
 
@@ -53,7 +53,7 @@
 <script>
 import VideoBackground from "../components/VideoBackground";
 import {CategoriesStore} from "../store/categoriesStore"
-import {router} from "@/main";
+import {router} from "../main";
 
 export default {
     name: "Setup",

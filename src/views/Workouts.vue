@@ -1,5 +1,9 @@
 <template>
     <div class="ma-3">
+        <div class="centered" v-if="routines.length===0" >
+            <h2>It seems you have not created a workout yet,</h2>
+            <h2>Press the bottom right button to create a new one!</h2>
+        </div>
 <!--        <h1 class="ma-5">Workouts!</h1>-->
         <v-row>
             <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
@@ -31,11 +35,11 @@ export default {
         routines: [],
         data: {
             page: 0,
-            size: 10,
+            size: 9,
             orderBy: 'id',
             direction: 'asc'
         },
-        isLastPage: false,
+        isLastPage: true,
 
     }),
 
@@ -47,15 +51,16 @@ export default {
         async getRoutines() {
             let aux = await this.store.getRoutines(this.data);
             this.routines.push(...aux.content);
-            // this.data.page = this.data.page + 1;
+            this.data.page = this.data.page + 1;
             this.isLastPage = aux.isLastPage;
-            console.log(this.routines);
-            return aux.content;
         }
     }
 }
 </script>
 
 <style scoped>
-
+.centered{
+    margin: 0 auto;
+    text-align: center;
+}
 </style>

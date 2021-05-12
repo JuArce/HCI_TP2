@@ -2,14 +2,14 @@
     <div>
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4"
+            <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4" color="teal"
                           v-model="routine.name" no-resize dense>
             </v-text-field>
             <v-textarea placeholder="Type Description..." label="Description" rows="2" class="width my-6 ml-4"
-                        v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense>
+                        v-model="routine.detail" color="teal" no-resize dense>
             </v-textarea>
 
-            <v-checkbox class="ma-5" v-model="routine.isPublic">
+            <v-checkbox class="ma-5" v-model="routine.isPublic" color="teal">
                 <template v-slot:label>
                     <div>
                         I want to make this routine public.
@@ -18,12 +18,12 @@
             </v-checkbox>
 
             <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize"
-                      label="Difficulty"
+                      label="Difficulty" color="teal"
                       data-vv-name="select" required>
             </v-select>
 
             <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize"
-                      label="Category"
+                      label="Category" color="teal"
                       data-vv-name="select" required>
             </v-select>
 
@@ -33,7 +33,7 @@
             <v-col cols="3">
                 <h1 class="ma-5">Cycle Creator</h1>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="2" offset="2">
                 <v-btn @click="addExerciseStage()" color="teal" class="ma-5" large width="85%" dark>
                     <v-icon large>mdi-shape-circle-plus</v-icon>
                     Add cycle
@@ -88,10 +88,13 @@ import {RoutineStore} from "../store/RoutineStore";
 import {StoreCycle} from "../store/routineCyclesStore";
 import {RoutineCyclesStore} from "../store/routineCyclesStore";
 import {CyclesExercisesStore} from "../store/cyclesExercisesStore";
-import {CategoriesStore} from "../store/categoriesStore"
+import {CategoriesStore} from "../store/categoriesStore";
+import {router} from "../main";
 
 export default {
     name: "CreateRoutine",
+
+    props: ['createdRoutine'],
 
     components: {
         CCycleCard: CycleCard,
@@ -119,8 +122,11 @@ export default {
         overlay: false,
     }),
 
-    created() {
-        this.getCategories();
+    async created() {
+        await this.getCategories();
+        if (this.createdRoutine !== undefined) {
+            await this.fillInfo();
+        }
     },
 
     methods: {
@@ -140,28 +146,124 @@ export default {
             })
         },
 
-        async routineConfirmed() {
-            let cycleIndex = 1;
-            let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty);
+        async fillInfo() {
+            this.routine.name = this.createdRoutine.name;
+            this.routine.detail = this.createdRoutine.detail;
+            this.routine.isPublic = this.createdRoutine.isPublic;
+            this.routine.difficulty = this.createdRoutine.difficulty;
+            this.routine.category = this.createdRoutine.category;
+            this.routine.category.toString = () => {
+                return this.routine.category.name
+            }
 
-            let warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, this.warmup.repetitions);
+            let routineId = this.createdRoutine.id;
+
+            let aux = await RoutineCyclesStore.getAllCycles(routineId);
+            let cycles = aux.content;
+
+            this.warmup.id = cycles[0].id;
+            this.warmup.name = cycles[0].name;
+            this.warmup.detail = cycles[0].detail;
+            this.warmup.repetitions = cycles[0].repetitions;
+            aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[0].id, {
+                page: 0,
+                size: 10,
+                orderBy: 'order',
+                direction: 'asc'
+            });
+            this.warmup.cycleExercises = aux.content;
+
+
+            this.exerciseStage.splice(0, 1);
+            for (let i = 1; i < cycles.length - 1; i++) {
+                this.exerciseStage.push(new StoreCycle(cycles[i].name));
+                this.exerciseStage[i - 1].id = cycles[i].id;
+                this.exerciseStage[i - 1].detail = cycles[i].detail;
+                this.exerciseStage[i - 1].repetitions = cycles[i].repetitions;
+                aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[i].id, {
+                    page: 0,
+                    size: 10,
+                    orderBy: 'order',
+                    direction: 'asc'
+                });
+                this.exerciseStage[i - 1].cycleExercises = aux.content;
+            }
+
+            this.cooldown.id = cycles[cycles.length - 1].id;
+            this.cooldown.name = cycles[cycles.length - 1].name;
+            this.cooldown.repetitions = cycles[cycles.length - 1].repetitions;
+            this.cooldown.detail = cycles[cycles.length - 1].detail
+            aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[cycles.length - 1].id, {
+                page: 0,
+                size: 10,
+                orderBy: 'order',
+                direction: 'asc'
+            });
+            this.cooldown.cycleExercises = aux.content;
+        },
+
+        async routineConfirmed() {
+            if (this.createdRoutine !== undefined) {
+                await this.modifyRoutine();
+            } else {
+                await this.createRoutine();
+            }
+            router.go(-1);
+        },
+
+        async modifyRoutine() {
+            await RoutineStore.modifyRoutine(this.createdRoutine.id, this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
+
+            let cycleIndex = 0;
+
+            await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.warmup.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
             let warmupIndex = 1;
+            // let aux = await CyclesExercisesStore.getAllCyclesExercises(this.warmup.id, {page:0, size:10, orderBy:'order', direction:'asc'});
+            
             for (const cycleEx of this.warmup.cycleExercises) {
-                await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, cycleEx.duration, cycleEx.repetitions);
+                await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+            }
+            for (const cycleEx of this.warmup.cycleExercises) {
+                await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
             }
 
             for (const exStage of this.exerciseStage) {
                 let exIndex = 1;
-                let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, exStage.repetitions);
+                let stageCreated = await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, exStage.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
                 for (const ex of exStage.cycleExercises) {
-                    await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, ex.duration, ex.repetitions);
+                    await CyclesExercisesStore.modifyCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
                 }
             }
 
-            let cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, this.cooldown.repetitions);
+            await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.cooldown.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
             let cooldownIndex = 1;
             for (const cycleEx of this.cooldown.cycleExercises) {
-                await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, cycleEx.duration, cycleEx.repetitions);
+                await CyclesExercisesStore.modifyCycleExercise(this.cooldown.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+            }
+        },
+
+        async createRoutine() {
+            let cycleIndex = 1;
+            let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
+
+            let warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
+            let warmupIndex = 1;
+            for (const cycleEx of this.warmup.cycleExercises) {
+                await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+            }
+
+            for (const exStage of this.exerciseStage) {
+                let exIndex = 1;
+                let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
+                for (const ex of exStage.cycleExercises) {
+                    await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
+                }
+            }
+
+            let cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
+            let cooldownIndex = 1;
+            for (const cycleEx of this.cooldown.cycleExercises) {
+                await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
             }
         },
 

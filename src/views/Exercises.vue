@@ -1,6 +1,10 @@
 <template>
     <div>
         <h1 class="ma-5">Exercises!</h1>
+        <div class="centered" v-if="exercises.length===0" >
+            <h2>It seems you have not created an exercise yet,</h2>
+            <h2>Press the bottom right button to create a new one!</h2>
+        </div>
         <v-row>
             <v-col class="px-8 pb-6" cols="3" v-for="(exercise) in exercises" :key="exercise.id">
                 <c-exercise-card :exercise="exercise" @exerciseDeleted="refreshExercises()"></c-exercise-card>
@@ -37,7 +41,7 @@ export default {
         initialSize: 1,
         data: {
             page: 0,
-            size: 1,
+            size: 12,
             orderBy: 'id',
             direction: 'asc'
         },
@@ -55,9 +59,8 @@ export default {
     methods: {
         async getExercises() {
             let aux = await this.store.getAllExercises(this.data);
-            // this.data.page = this.data.page + 1; TODO
-            this.exercises = aux.content;
-            this.data.size += this.initialSize;
+            this.exercises.push(...aux.content);
+            this.data.page = this.data.page + 1;
             this.isLastPage = aux.isLastPage;
         },
 
@@ -71,5 +74,8 @@ export default {
 </script>
 
 <style scoped>
-
+.centered{
+    margin: 0 auto;
+    text-align: center;
+}
 </style>

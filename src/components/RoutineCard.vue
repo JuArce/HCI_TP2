@@ -4,12 +4,28 @@
             <v-spacer></v-spacer>
 
             <div v-if="belongsUser">
-                <v-btn  color="gray" icon :to="{name: 'EditRoutinePath', params: {id: routine.id}}">
-                <v-icon medium>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn color="gray" icon @click="overlay=true">
-                    <v-icon medium>mdi-delete</v-icon>
-                </v-btn>
+                <v-menu>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn color="gray" icon v-bind="attrs" v-on="on">
+                            <v-icon>mdi-dots-vertical</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item>
+                            <v-btn color="gray" icon :to="{name: 'EditRoutinePath', params: {id: routine.id}}">
+                                <v-icon medium>mdi-pencil</v-icon>
+                            </v-btn>
+                            <v-list-item-subtitle>Edit</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-btn color="gray" icon @click="overlay=true">
+                                <v-icon medium>mdi-delete</v-icon>
+                            </v-btn>
+                            <v-list-item-subtitle>Delete</v-list-item-subtitle>
+
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
                 <v-overlay :value="overlay" :dark="false">
                     <c-confirmation-card message="delete" :toPath="path" @confirmationClosed="overlay=false"
                                          @confirmationAccepted="deleteRoutine()"></c-confirmation-card>
@@ -17,9 +33,9 @@
             </div>
         </v-card-title>
 
-        <v-card-subtitle class="pb-0">by
-            {{ routine.user.username }}
-        </v-card-subtitle>
+<!--        <v-card-subtitle class="pb-0">by-->
+<!--            {{ routine.user.username }}-->
+<!--        </v-card-subtitle>-->
 
         <v-card-text class="text--primary">
             <br>
@@ -27,7 +43,7 @@
         </v-card-text>
 
         <v-card-actions>
-            <router-link class="teal--text" :to="{name: 'RoutinePath', params: {routine: routine}, query:{id: routine.id}}">
+            <router-link class="teal--text" :to="{name: 'RoutinePath', params: {routine: this.routine}, query:{id: routine.id}}">
                 VIEW
             </router-link>
 
