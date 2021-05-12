@@ -6,15 +6,19 @@
                 <c-routine-card :routine="routine" :path="'/Routines'"></c-routine-card>
             </v-col>
         </v-row>
-        <div v-if="!isLastPage" class="text-center ma-5" >
+        <div v-if="!isLastPage" class="text-center ma-5">
             <v-btn rounded @click="getRoutines">
                 See More
                 <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
         </div>
-        <v-btn to="/CreateRoutine" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64" height="64">
-            <v-icon large>mdi-plus-thick</v-icon>
-        </v-btn>
+        <div class="fab-container">
+            <!-- TODO arreglar posición -->
+            <v-btn to="/CreateRoutine" elevation="2" fab color="teal" width="64"
+                   height="64">
+                <v-icon large>mdi-plus-thick</v-icon>
+            </v-btn>
+        </div>
     </div>
 </template>
 
@@ -40,7 +44,7 @@ export default {
         isLastPage: false
     }),
 
-    created(){
+    created() {
         this.getRoutines();
     },
 
@@ -63,6 +67,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.fab-container button {
+    margin-left: 20px;
+    margin-bottom: 55px;
+}
 
+.fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99;
+}
 </style>

@@ -15,7 +15,8 @@
                             <v-list-item>We're updating your database in order to have everything ready.
                             </v-list-item>
                             <v-list-item>
-                                <v-btn v-show="!errorAlert && !alert && !warningAlert" class="mt-3" large width="100%" @click="updateDatabase()" dark>
+                                <v-btn v-show="!errorAlert && !alert && !warningAlert" class="mt-3" large width="100%"
+                                       @click="updateDatabase()" dark>
                                     Take me to Home
                                     <div v-show="loading" class="align-center text-center loading">
                                         <v-progress-circular indeterminate color="white"
@@ -72,21 +73,21 @@ export default {
         async updateDatabase() {
             try {
                 this.loading = true;
-                await CategoriesStore.createNewCategory("High Intensity","Workouts alternating short but high intensity work intervals.");
-                await CategoriesStore.createNewCategory("Cardio","All kinds of routines to elevate your heart rate and burn more calories.");
-                await CategoriesStore.createNewCategory("Quality Training","Routines to do at your own pace, ideal to concentrate on your performance.");
-                await CategoriesStore.createNewCategory("Time Lapses","Routines especially designed to be completed in a specified amount of time.");
-                await CategoriesStore.createNewCategory("With Friends","All kinds of routines designed to be done in groups.");
-                await CategoriesStore.createNewCategory("At Home","Those routines that you will be able to do everywhere. Without equipment.");
+                await CategoriesStore.createNewCategory("High Intensity", "Workouts alternating short but high intensity work intervals.");
+                await CategoriesStore.createNewCategory("Cardio", "All kinds of routines to elevate your heart rate and burn more calories.");
+                await CategoriesStore.createNewCategory("Quality Training", "Routines to do at your own pace, ideal to concentrate on your performance.");
+                await CategoriesStore.createNewCategory("Time Lapses", "Routines especially designed to be completed in a specified amount of time.");
+                await CategoriesStore.createNewCategory("With Friends", "All kinds of routines designed to be done in groups.");
+                await CategoriesStore.createNewCategory("At Home", "Those routines that you will be able to do everywhere. Without equipment.");
                 await CategoriesStore.deleteCategory(1);
                 this.alert = true;
             } catch (error) {
-                if (error.code === 2 || error.code === 3){
-                    this.warningAlert=true;
+                if (error.code === 2 || error.code === 3) {
+                    this.warningAlert = true;
                     setTimeout(() => {
                         this.warningAlert = false;
                     }, 4000)
-                }else{
+                } else {
                     this.errorAlert = true;
                     setTimeout(() => {
                         this.errorAlert = false;
@@ -99,8 +100,6 @@ export default {
                 await router.replace('/Home');
                 this.alert = false;
             }, 2300)
-
-
         }
     }
 }

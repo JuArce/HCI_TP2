@@ -45,7 +45,7 @@ import ConfirmationCard from "./ConfirmationCard";
 export default {
     name: "CreateCycleExercise",
 
-    props: ['cycleExercises'],
+    props: ['cycleExercises', 'cycleExercise'],
 
     components: {
         CConfirmationCard: ConfirmationCard
@@ -74,6 +74,11 @@ export default {
 
     async created() {
         await this.initExercises();
+        if (this.cycleExercise !== undefined) {
+            this.exercise = this.cycleExercise.exercise;
+            this.duration = this.cycleExercise.duration;
+            this.repetitions = this.cycleExercise.repetitions;
+        }
     },
 
     methods: {
@@ -88,13 +93,18 @@ export default {
         },
 
         async createCycleExercise() {
-            this.cycleExercises.push(
-                {
-                    exercise: this.exercise,
-                    duration: this.duration,
-                    repetitions: this.repetitions
-                });
-
+            if (this.cycleExercise !== undefined) {
+                this.cycleExercise.exercise = this.exercise;
+                this.cycleExercise.duration = this.duration;
+                this.cycleExercise.repetitions = this.repetitions;
+            } else {
+                this.cycleExercises.push(
+                    {
+                        exercise: this.exercise,
+                        duration: this.duration,
+                        repetitions: this.repetitions
+                    });
+            }
             this.$emit('exerciseCreated');
         },
 
@@ -107,7 +117,7 @@ export default {
 
 <style scoped>
 
-.width{
+.width {
     width: 90%;
 }
 

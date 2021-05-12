@@ -1,10 +1,10 @@
 <template>
-    <v-footer dark padless>
+    <v-footer dark padless class="index">
         <v-card class="flex #232931" flat tile>
             <v-card-title class="#232931">
                 <v-row>
                     <v-col cols="8" class="text-center" offset="2">
-                        <strong class="subheading ">© 2021 HCI Fitness Project - All rights reserved.</strong>
+                        <strong class="subheading ">© 2021 ProFit - All rights reserved.</strong>
                     </v-col>
                     <v-col cols="2">
                         <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>

@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <h1 class="ma-5">Workouts!</h1>
+    <div class="ma-3">
+<!--        <h1 class="ma-5">Workouts!</h1>-->
         <v-row>
             <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
-                    <c-routine-card :routine="routine" :path="'/Workouts'"></c-routine-card>
+                <c-routine-card :routine="routine" :path="'/Workouts'"></c-routine-card>
             </v-col>
         </v-row>
-        <div v-if="!isLastPage" class="text-center" >
+        <div v-if="!isLastPage" class="text-center">
             <v-btn rounded @click="getRoutines">
                 See More
                 <v-icon>mdi-chevron-down</v-icon>

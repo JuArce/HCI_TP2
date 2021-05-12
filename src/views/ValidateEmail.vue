@@ -78,7 +78,7 @@ export default {
     async processInput() {
       try {
         this.loading = true;
-        await UserStore.verifyUser(this.email, this.code);
+        await UserStore.verifyUser(this.email, this.token);
         this.alert = true;
         setTimeout(async () => {
           await router.replace('/');

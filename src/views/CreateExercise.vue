@@ -3,10 +3,11 @@
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="width my-6 ml-4"
-                          v-model="name" @blur="$v.phone.$touch()" no-resize dense>
+                          v-model="name" color="teal" no-resize dense>
             </v-text-field>
 
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class=" width my-6 ml-4"
+            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2"
+                        class=" width my-6 ml-4"
                         v-model="detail" @blur="$v.phone.$touch()" no-resize dense>
             </v-textarea>
 
@@ -15,19 +16,23 @@
             </v-select>
         </v-card>
 
-        <v-btn elevation="2" fab bottom right absolute color="gray" class="mb-10 mr-16 " width="64" height="64"
-               @click="overlay=true">
-            <v-icon large>mdi-close</v-icon>
-        </v-btn>
+        <div class="fab-container">
+            <v-btn elevation="2" fab color="gray" width="64" height="64"
+                   @click="overlay=true">
+                <v-icon large>mdi-close</v-icon>
+            </v-btn>
+            <v-btn @click="createExercise(); loading=true" elevation="2" fab color="teal"
+                   width="64" height="64">
+                <v-icon large>mdi-send</v-icon>
+            </v-btn>
+        </div>
+
         <v-overlay :value="overlay" :dark="false">
             <c-confirmation-card message="exit" toPath="/Exercises" @confirmationClosed="overlay=false"
                                  @confirmationAccepted="overlay=false"></c-confirmation-card>
         </v-overlay>
 
-        <v-btn @click="createExercise(); loading=true" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"
-               height="64">
-            <v-icon large>mdi-send</v-icon>
-        </v-btn>
+
         <div v-show="loading" class="text-center">
             <v-progress-circular indeterminate color="teal" size="128"></v-progress-circular>
         </div>
@@ -72,7 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.width{
+.width {
     width: 90%;
 }
 </style>

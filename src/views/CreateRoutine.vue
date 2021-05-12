@@ -3,7 +3,7 @@
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4"
-                          v-model="routine.name" @blur="$v.phone.$touch()" no-resize dense>
+                          v-model="routine.name" no-resize dense>
             </v-text-field>
             <v-textarea placeholder="Type Description..." label="Description" rows="2" class="width my-6 ml-4"
                         v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense>
@@ -57,34 +57,26 @@
 
         <v-row>
             <v-col cols="2" offset="10">
-                <v-btn @click="overlay=true" fab color="gray" class="ma-5" width="64" height="64">
-                    <v-icon large>mdi-close</v-icon>
-                </v-btn>
+                <div class="fab-container">
+                    <v-btn elevation="2" fab color="gray" width="64"
+                           height="64"
+                           @click="overlay=true">
+                        <v-icon large>mdi-close</v-icon>
+                    </v-btn>
+                    <v-btn @click="routineConfirmed()" elevation="2" fab color="teal"
+                           width="64"
+                           height="64">
+                        <v-icon large>mdi-send</v-icon>
+                    </v-btn>
+                </div>
                 <v-overlay :value="overlay" :dark="false">
                     <c-confirmation-card message="exit" toPath="/Routines"
                                          @confirmationClosed="overlay=false" @confirmationAccepted="overlay=false">
                     </c-confirmation-card>
                 </v-overlay>
-
-                <v-btn @click="routineConfirmed()" fab color="teal" dark class="ma-5" width="64"
-                       height="64">
-                    <v-icon large>mdi-send</v-icon>
-                </v-btn>
             </v-col>
         </v-row>
-        <!--        <v-btn elevation="2" fab bottom right absolute color="gray" class="mb-10 mr-16 " width="64" height="64"-->
-        <!--               @click="overlay=true">-->
-        <!--            <v-icon large>mdi-close</v-icon>-->
-        <!--        </v-btn>-->
-        <!--        <v-overlay :value="overlay" :dark="false">-->
-        <!--            <c-confirmation-card message="exit" toPath="/Routines" @confirmationClosed="overlay=false"-->
-        <!--                                 @confirmationAccepted="overlay=false"></c-confirmation-card>-->
-        <!--        </v-overlay>-->
 
-        <!--        <v-btn @click="createRoutine()" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"-->
-        <!--               height="64">-->
-        <!--            <v-icon large>mdi-send</v-icon>-->
-        <!--        </v-btn>-->
     </div>
 
 </template>

@@ -1,6 +1,7 @@
 <template>
     <v-card outlined>
-        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name"></v-text-field>
+        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name" color="teal"
+        ></v-text-field>
 
         <v-textarea placeholder="Type Description..." label="Description" rows="2" class=" width my-6 ml-4"
                     v-model="cycle.detail" no-resize dense
@@ -12,43 +13,73 @@
 
         <v-card outlined class="ma-5">
             <v-row>
-                <v-col cols="4">
+                <v-col cols="10">
                     <v-card-title>Exercises</v-card-title>
                 </v-col>
-                <v-col cols="1" offset="6">
-                    <v-btn @click="overlay=true" class="ma-3" large icon>
+                <v-col cols="1" class="ml-xl-0 ml-lg-n4">
+                    <v-btn @click="overlay=true" class="mt-3" large icon>
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
+
             <v-divider class="mx-4 mb-4"></v-divider>
+
             <v-virtual-scroll :items="cycle.cycleExercises" :item-height="50" height="200">
                 <template v-slot:default="{ item }">
-                    <v-list-item two-line>
-                        <v-list-item-content>
-                            <v-list-item-title class="text--primary">{{ item.exercise.name }}</v-list-item-title>
-<!--                            <v-spacer></v-spacer>-->
-<!--                            <v-btn icon>-->
-<!--                                <v-icon>mdi-dots-horizontal</v-icon>-->
-<!--                            </v-btn>-->
-<!--                            TODO-->
-                            <v-list-item-subtitle>{{ item.duration + ' sec' + ' - ' + item.repetitions + ' times' }}</v-list-item-subtitle>
-                            <v-list-item-subtitle>{{ item.duration + ' sec' + ' - ' + item.repetitions + ' times' }}</v-list-item-subtitle>
+                    <v-row>
+                        <v-col cols="10">
+                            <v-list-item two-line>
+                                <v-list-item-content>
+                                    <v-list-item-title class="text--primary">{{
+                                            item.exercise.name
+                                        }}
+                                    </v-list-item-title>
 
-                        </v-list-item-content>
-                    </v-list-item>
+                                    <v-list-item-subtitle v-if="item.duration > 0 && item.repetitions > 0">
+                                        {{ item.duration + ' seconds' + ' · ' + item.repetitions + ' times' }}
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle v-else-if="item.duration > 0">
+                                        {{ item.duration + ' seconds' }}
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle v-else-if="item.repetitions > 0">
+                                        {{ item.repetitions + ' times' }}
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-col>
+                        <v-col class="ml-xl-4 mt-xl-4 ml-lg-n4 mt-lg-2">
+                            <v-menu>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon v-bind="attrs" v-on="on">
+                                        <v-icon>mdi-dots-horizontal</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item @click="editOverlay=true; editExercise=item">
+                                        <v-list-item-title>Edit</v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item>
+                                        <v-list-item-title @click="deleteExercise(item)">Delete</v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-col>
+                    </v-row>
                 </template>
             </v-virtual-scroll>
-<!--            <v-card-text class="text&#45;&#45;primary" v-for="(cycleExercise, index) in cycle.cycleExercises" :key="index">-->
-<!--                <div>{{ cycleExercise.exercise.name }}</div>-->
-<!--            </v-card-text>-->
         </v-card>
 
 
-
         <v-overlay :value="overlay" :dark="false">
-            <c-create-cycle-exercise :cycle-exercises="this.cycle.cycleExercises"
+            <c-create-cycle-exercise :cycle-exercises="cycle.cycleExercises"
                                      @discardExercise="overlay=false" @exerciseCreated="overlay=false">
+            </c-create-cycle-exercise>
+        </v-overlay>
+
+        <v-overlay :value="editOverlay" :dark="false">
+            <c-create-cycle-exercise :cycle-exercises="cycle.cycleExercises" :cycle-exercise="editExercise"
+                                     @discardExercise="editOverlay=false" @exerciseCreated="editOverlay=false">
             </c-create-cycle-exercise>
         </v-overlay>
     </v-card>
@@ -72,6 +103,7 @@ export default {
     data: () => ({
         exercises: [],
         exercise: '',
+        editExercise: null,
         minRepetitions: 1,
         maxRepetitions: 10,
         data: {
@@ -83,7 +115,17 @@ export default {
         isLastPage: false,
 
         overlay: false,
+        editOverlay:false
     }),
+
+    methods: {
+        deleteExercise(ex){
+            let aux = this.cycle.cycleExercises.indexOf(ex);
+            if(aux !== -1){
+                this.cycle.cycleExercises.splice(aux ,1);
+            }
+        }
+    }
 }
 </script>
 

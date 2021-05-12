@@ -7,16 +7,20 @@
             </v-col>
         </v-row>
 
-        <div v-if="!isLastPage" class="text-center" >
+        <div v-if="!isLastPage" class="text-center">
             <v-btn rounded @click="getExercises()">
                 See More
                 <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
         </div>
 
-        <v-btn to="/CreateExercise" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64" height="64">
-            <v-icon large>mdi-plus-thick</v-icon>
-        </v-btn>
+        <!-- TODO arreglar posicion -->
+        <div class="fab-container">
+            <v-btn to="/CreateExercise" elevation="2" fab color="teal" width="64"
+                   height="64">
+                <v-icon large>mdi-plus-thick</v-icon>
+            </v-btn>
+        </div>
     </div>
 </template>
 
@@ -53,7 +57,7 @@ export default {
             let aux = await this.store.getAllExercises(this.data);
             // this.data.page = this.data.page + 1; TODO
             this.exercises = aux.content;
-            this.data.size += this.initialSize ;
+            this.data.size += this.initialSize;
             this.isLastPage = aux.isLastPage;
         },
 

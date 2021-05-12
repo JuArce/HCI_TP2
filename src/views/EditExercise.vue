@@ -3,10 +3,11 @@
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="width my-6 ml-4"
-                          v-model="name" @blur="$v.phone.$touch()" no-resize dense>
+                          v-model="name" color="teal" no-resize dense>
             </v-text-field>
 
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="width my-6 ml-4"
+            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2"
+                        class="width my-6 ml-4"
                         v-model="detail" @blur="$v.phone.$touch()" no-resize dense>
             </v-textarea>
 
@@ -25,7 +26,8 @@
             </c-confirmation-card>
         </v-overlay>
 
-        <v-btn @click="editExercise(); loading=true" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"
+        <v-btn @click="editExercise(); loading=true" elevation="2" fab bottom right absolute color="teal" class="mb-10"
+               width="64"
                height="64">
             <v-icon large>mdi-send</v-icon>
         </v-btn>
@@ -38,7 +40,7 @@
 </template>
 
 <script>
-import { ExerciseStore} from "../store/exerciseStore";
+import {ExerciseStore} from "../store/exerciseStore";
 import {router} from "../main";
 import ConfirmationCard from "../components/ConfirmationCard";
 
@@ -87,7 +89,7 @@ export default {
                 this.name = exercise.name;
                 this.type = exercise.type;
                 this.detail = exercise.detail;
-            } catch(error) {
+            } catch (error) {
                 console.log(error.code);
 
             }
@@ -97,7 +99,7 @@ export default {
 </script>
 
 <style scoped>
-.width{
+.width {
     width: 90%;
 }
 

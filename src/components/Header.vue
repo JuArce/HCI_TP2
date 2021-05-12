@@ -1,12 +1,13 @@
 <template>
-    <div>
+    <div >
         <v-app-bar dense light>
             <v-toolbar-title>
                 <v-img src="../assets/ProFit-Logo-text-v1.1.png" max-height="110" max-width="110"></v-img>
             </v-toolbar-title>
 
             <v-toolbar-items>
-                <v-tabs optional fixed-tabs background-color="transparent" class="ml-16">
+                <!-- optional no funciona -->
+                <v-tabs fixed-tabs background-color="transparent" class="ml-16">
                     <v-tabs-slider color="teal"></v-tabs-slider>
                     <v-tab text v-for="view in views" :key="view.view">
                         <router-link class="black--text" :to="view.route">{{ view.view }}</router-link>
