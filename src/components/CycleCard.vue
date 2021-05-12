@@ -31,10 +31,7 @@
                         <v-col cols="10">
                             <v-list-item two-line>
                                 <v-list-item-content>
-                                    <v-list-item-title class="text--primary">{{
-                                            item.exercise.name
-                                        }}
-                                    </v-list-item-title>
+                                    <v-list-item-title class="text--primary">{{ item.exercise.name }}</v-list-item-title>
 
                                     <v-list-item-subtitle v-if="item.duration > 0 && item.repetitions > 0">
                                         {{ item.duration + ' seconds' + ' · ' + item.repetitions + ' times' }}
@@ -57,10 +54,12 @@
                                 </template>
                                 <v-list>
                                     <v-list-item @click="editOverlay=true; editExercise=item">
+                                        <v-icon medium>mdi-pencil</v-icon>
                                         <v-list-item-title>Edit</v-list-item-title>
                                     </v-list-item>
-                                    <v-list-item>
-                                        <v-list-item-title @click="deleteExercise(item)">Delete</v-list-item-title>
+                                    <v-list-item @click="deleteExercise(item)">
+                                        <v-icon medium>mdi-close</v-icon>
+                                        <v-list-item-title >Delete</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>

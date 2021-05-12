@@ -7,7 +7,7 @@
 <!--        <h1 class="ma-5">Workouts!</h1>-->
         <v-row>
             <v-col class="px-8 pb-6" cols="4" v-for="(routine) in routines" :key="routine.id">
-                <c-routine-card :routine="routine" :path="'/Workouts'"></c-routine-card>
+                <c-routine-card :routine="routine" :path="'/Workouts'" @copiedLinkToClipboard="showCopiedLink()"></c-routine-card>
             </v-col>
         </v-row>
         <div v-if="!isLastPage" class="text-center">
@@ -16,6 +16,14 @@
                 <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
         </div>
+
+        <v-snackbar class="top" :value="copiedLinkToClipboard" fixed bottom color="teal" outlined>
+            <v-row>
+                <v-col cols="8" offset="3">
+                    Link copied to clipboard.
+                </v-col>
+            </v-row>
+        </v-snackbar>
     </div>
 </template>
 
@@ -40,11 +48,12 @@ export default {
             direction: 'asc'
         },
         isLastPage: true,
+        copiedLinkToClipboard: false
 
     }),
 
-    created() {
-        this.getRoutines();
+    async created() {
+        await this.getRoutines();
     },
 
     methods: {
@@ -53,6 +62,13 @@ export default {
             this.routines.push(...aux.content);
             this.data.page = this.data.page + 1;
             this.isLastPage = aux.isLastPage;
+        },
+
+        showCopiedLink() {
+            this.copiedLinkToClipboard = true;
+            setTimeout(() => {
+                this.copiedLinkToClipboard = false;
+            }, 4000);
         }
     }
 }
@@ -62,5 +78,9 @@ export default {
 .centered{
     margin: 0 auto;
     text-align: center;
+}
+.top{
+    z-index: 69;
+    margin-bottom: 69px;
 }
 </style>

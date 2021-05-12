@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="8">
                 <h1 class="ml-4 teal--text">{{ routine.name }}</h1>
-                <v-card-subtitle class="mt-n5">by {{ routine.user.username }}</v-card-subtitle>
+                <v-card-subtitle class="mt-n5">by {{user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
                         <v-rating class="ml-4" :value="4.5" color="teal lighten-2" dense
@@ -47,6 +47,7 @@
 import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
 import {RoutineCyclesStore} from "../store/routineCyclesStore";
 import CycleDetail from "../components/CycleDetail";
+import {RoutineStore} from "../store/RoutineStore";
 
 
 export default {
@@ -56,19 +57,16 @@ export default {
         CCycleDetail: CycleDetail,
     },
 
-    props: {
-        routine: {
-            required: true
-        },
-    },
-
     data: () => ({
+        routine: {},
+        user: {},
         cycles: [],
-
         favorite: false
     }),
 
     async created() {
+        this.routine = await RoutineStore.getRoutine(this.$route.query.id);
+        this.user = this.routine.user;
         this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id);
         await this.getCyclesData();
     },

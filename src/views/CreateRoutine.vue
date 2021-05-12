@@ -200,49 +200,51 @@ export default {
                 direction: 'asc'
             });
             this.cooldown.cycleExercises = aux.content;
+
         },
 
         async routineConfirmed() {
-            if (this.createdRoutine !== undefined) {
-                await this.modifyRoutine();
-            } else {
-                await this.createRoutine();
-            }
+            await this.createRoutine();
             router.go(-1);
         },
 
-        async modifyRoutine() {
-            await RoutineStore.modifyRoutine(this.createdRoutine.id, this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
-
-            let cycleIndex = 0;
-
-            await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.warmup.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
-            let warmupIndex = 1;
-            // let aux = await CyclesExercisesStore.getAllCyclesExercises(this.warmup.id, {page:0, size:10, orderBy:'order', direction:'asc'});
-            
-            for (const cycleEx of this.warmup.cycleExercises) {
-                await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-            }
-            for (const cycleEx of this.warmup.cycleExercises) {
-                await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-            }
-
-            for (const exStage of this.exerciseStage) {
-                let exIndex = 1;
-                let stageCreated = await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, exStage.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
-                for (const ex of exStage.cycleExercises) {
-                    await CyclesExercisesStore.modifyCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
-                }
-            }
-
-            await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.cooldown.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
-            let cooldownIndex = 1;
-            for (const cycleEx of this.cooldown.cycleExercises) {
-                await CyclesExercisesStore.modifyCycleExercise(this.cooldown.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-            }
-        },
+        // async modifyRoutine() {
+        //     await RoutineStore.modifyRoutine(this.createdRoutine.id, this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
+        //
+        //     let cycleIndex = 0;
+        //
+        //     await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.warmup.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
+        //     let warmupIndex = 1;
+        //
+        //     let aux = await CyclesExercisesStore.getAllCyclesExercises(this.warmup.id, {page:0, size:10, orderBy:'order', direction:'asc'});
+        //
+        //     for (const cycleEx of this.warmup.cycleExercises) {
+        //         await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+        //     }
+        //     for (const cycleEx of this.warmup.cycleExercises) {
+        //         await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+        //     }
+        //
+        //     for (const exStage of this.exerciseStage) {
+        //         let exIndex = 1;
+        //         let stageCreated = await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, exStage.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
+        //         for (const ex of exStage.cycleExercises) {
+        //             await CyclesExercisesStore.modifyCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
+        //         }
+        //     }
+        //
+        //     await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.cooldown.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
+        //     let cooldownIndex = 1;
+        //     for (const cycleEx of this.cooldown.cycleExercises) {
+        //         await CyclesExercisesStore.modifyCycleExercise(this.cooldown.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+        //     }
+        // },
 
         async createRoutine() {
+            if(this.createdRoutine !== undefined){
+                await RoutineStore.deleteRoutine(this.createdRoutine.id);
+            }
+
             let cycleIndex = 1;
             let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
 
