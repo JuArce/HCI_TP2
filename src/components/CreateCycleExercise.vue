@@ -5,28 +5,17 @@
                       label="Exercise" data-vv-name="select" required>
             </v-select>
 
-            <v-slider label="Duration" v-model="duration" class="width my-6 ml-4 align-center" color="teal"
-                      track-color="teal lighten-4" thumb-label="true"
-                      :max="maxDuration" :min="minDuration" hide-details>
-                <template v-slot:append>
-                    <v-text-field v-model="duration" class="mt-0 pt-0" suffix="sec" color="teal" hide-details
-                                  single-line type="number"
-                                  :max="maxDuration" :min="minDuration"
-                                  append-icon="mdi-alarm">
-                    </v-text-field>
-                </template>
-            </v-slider>
+            <v-text-field v-model="duration" class="width ml-4" label="Duration" suffix="seconds" color="teal"
+                          type="number" :max="maxDuration" :min="minDuration"
+                          prepend-icon="mdi-alarm"
+                          v-show="exercise != null">
+            </v-text-field>
 
-            <v-slider v-show="exercise.type === 'exercise'" label="Repetitions" v-model="repetitions"
-                      class="width my-6 ml-4 align-center" color="teal" track-color="teal lighten-4" thumb-label="true"
-                      :max="maxRepetitions" :min="minRepetitions" hide-details>
-                <template v-slot:append>
-                    <v-text-field v-model="repetitions" class="mt-0 pt-0" suffix="rep" color="teal" hide-details
-                                  single-line type="number" :max="maxRepetitions" :min="minRepetitions"
-                                  append-icon="mdi-weight-lifter">
-                    </v-text-field>
-                </template>
-            </v-slider>
+            <v-text-field v-model="repetitions" class="width ml-4" label="Repetitions" suffix="times" color="teal"
+                          type="number" :max="maxRepetitions" :min="minRepetitions"
+                          prepend-icon="mdi-weight-lifter"
+                          v-show="exercise != null && exercise.type === 'exercise'">
+            </v-text-field>
 
             <v-row>
                 <v-col cols="1" offset="8" class="my-10">
@@ -70,15 +59,15 @@ export default {
             orderBy: 'id',
             direction: 'asc'
         },
-        exercise: '',
+        exercise: null,
 
-        minDuration: 1,
+        minDuration: 0,
         maxDuration: 60,
-        duration: 1,
+        duration: 0,
 
-        minRepetitions: 1,
+        minRepetitions: 0,
         maxRepetitions: 50,
-        repetitions: 1,
+        repetitions: 0,
 
         overlay: false
     }),

@@ -2,12 +2,12 @@
     <div>
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Routine Name..." label="Routine Name" class="width my-6 ml-4"
-                          v-model="routine.name" @blur="$v.phone.$touch()" no-resize dense
-            ></v-text-field>
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2" class="width my-6 ml-4"
-                        v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense
-            ></v-textarea>
+            <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4"
+                          v-model="routine.name" @blur="$v.phone.$touch()" no-resize dense>
+            </v-text-field>
+            <v-textarea placeholder="Type Description..." label="Description" rows="2" class="width my-6 ml-4"
+                        v-model="routine.detail" @blur="$v.phone.$touch()" no-resize dense>
+            </v-textarea>
 
             <v-checkbox class="ma-5" v-model="routine.isPublic">
                 <template v-slot:label>
@@ -17,17 +17,29 @@
                 </template>
             </v-checkbox>
 
-            <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize" label="Difficulty"
+            <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize"
+                      label="Difficulty"
                       data-vv-name="select" required>
             </v-select>
 
-            <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize" label="Category"
+            <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize"
+                      label="Category"
                       data-vv-name="select" required>
             </v-select>
 
         </v-card>
 
-        <h1 class="ma-5">Cycle Creator</h1>
+        <v-row>
+            <v-col cols="3">
+                <h1 class="ma-5">Cycle Creator</h1>
+            </v-col>
+            <v-col cols="2">
+                <v-btn @click="addExerciseStage()" color="teal" class="ma-5" large width="85%" dark>
+                    <v-icon large>mdi-shape-circle-plus</v-icon>
+                    Add cycle
+                </v-btn>
+            </v-col>
+        </v-row>
 
         <v-row>
             <v-col class="px-4 pb-6" cols="4">
@@ -37,14 +49,6 @@
                 <c-cycle-card class="ma-5" :cycle="ex" v-show="exerciseStage.length !== 0"
                               :title="'Exercise ' + (index+1)">
                 </c-cycle-card>
-            </v-col>
-            <v-col class="px-4 pb-6" cols="2" offset="1">
-                <v-card class="ma-5" outlined>
-                    <v-btn @click="addExerciseStage()" color="teal" class="ma-5" large width="85%" dark>
-                        <v-icon large>mdi-shape-circle-plus</v-icon>
-                        Add cycle
-                    </v-btn>
-                </v-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4">
                 <c-cycle-card class="ma-5" :cycle="cooldown" title="Cool-down"></c-cycle-card>
@@ -68,19 +72,19 @@
                 </v-btn>
             </v-col>
         </v-row>
-<!--        <v-btn elevation="2" fab bottom right absolute color="gray" class="mb-10 mr-16 " width="64" height="64"-->
-<!--               @click="overlay=true">-->
-<!--            <v-icon large>mdi-close</v-icon>-->
-<!--        </v-btn>-->
-<!--        <v-overlay :value="overlay" :dark="false">-->
-<!--            <c-confirmation-card message="exit" toPath="/Routines" @confirmationClosed="overlay=false"-->
-<!--                                 @confirmationAccepted="overlay=false"></c-confirmation-card>-->
-<!--        </v-overlay>-->
+        <!--        <v-btn elevation="2" fab bottom right absolute color="gray" class="mb-10 mr-16 " width="64" height="64"-->
+        <!--               @click="overlay=true">-->
+        <!--            <v-icon large>mdi-close</v-icon>-->
+        <!--        </v-btn>-->
+        <!--        <v-overlay :value="overlay" :dark="false">-->
+        <!--            <c-confirmation-card message="exit" toPath="/Routines" @confirmationClosed="overlay=false"-->
+        <!--                                 @confirmationAccepted="overlay=false"></c-confirmation-card>-->
+        <!--        </v-overlay>-->
 
-<!--        <v-btn @click="createRoutine()" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"-->
-<!--               height="64">-->
-<!--            <v-icon large>mdi-send</v-icon>-->
-<!--        </v-btn>-->
+        <!--        <v-btn @click="createRoutine()" elevation="2" fab bottom right absolute color="teal" class="mb-10" width="64"-->
+        <!--               height="64">-->
+        <!--            <v-icon large>mdi-send</v-icon>-->
+        <!--        </v-btn>-->
     </div>
 
 </template>
@@ -129,7 +133,7 @@ export default {
     },
 
     methods: {
-        async getCategories(){
+        async getCategories() {
             const data = {
                 page: 0,
                 size: 6, //items per page
@@ -137,15 +141,15 @@ export default {
                 direction: 'asc'
             };
             let aux = await CategoriesStore.getCategories(data);
-            this.categories= aux.content;
-            this.categories.forEach(e=>{
+            this.categories = aux.content;
+            this.categories.forEach(e => {
                 e.toString = (() => {
                     return e.name;
                 })
             })
         },
 
-        async routineConfirmed(){
+        async routineConfirmed() {
             let cycleIndex = 1;
             let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty);
 
@@ -155,10 +159,10 @@ export default {
                 await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, cycleEx.duration, cycleEx.repetitions);
             }
 
-            for(const exStage of this.exerciseStage){
+            for (const exStage of this.exerciseStage) {
                 let exIndex = 1;
-                let stageCreated =  await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, exStage.repetitions);
-                for(const ex of exStage.cycleExercises){
+                let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, exStage.repetitions);
+                for (const ex of exStage.cycleExercises) {
                     await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, ex.duration, ex.repetitions);
                 }
             }
@@ -179,7 +183,7 @@ export default {
 
 <style scoped>
 
-.width{
+.width {
     width: 90%;
 }
 

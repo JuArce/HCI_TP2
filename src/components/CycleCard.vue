@@ -1,33 +1,50 @@
 <template>
     <v-card outlined>
-        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Cycle Name"></v-text-field>
+        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name"></v-text-field>
 
-        <v-textarea placeholder="Type Cycle Description..." label="Cycle Description" rows="2" class=" width my-6 ml-4"
+        <v-textarea placeholder="Type Description..." label="Description" rows="2" class=" width my-6 ml-4"
                     v-model="cycle.detail" no-resize dense
         ></v-textarea>
 
-        <v-slider label="Repetitions" v-model="cycle.repetitions"
-                  class="width my-6 ml-4 align-center" color="teal" track-color="teal  lighten-4" thumb-label="true"
-                  :max="maxRepetitions" :min="minRepetitions" hide-details>
-            <template v-slot:append>
-                <v-text-field v-model="cycle.repetitions" class="mt-0 pt-0" suffix="rep" color="teal"
-                              hide-details single-line type="number"
-                              :max="maxRepetitions" :min="minRepetitions">
-                </v-text-field>
-            </template>
-        </v-slider>
+        <v-text-field v-model="cycle.repetitions" class="width ml-4" label="Repetitions" suffix="times" color="teal"
+                      type="number" :max="maxRepetitions" :min="minRepetitions">
+        </v-text-field>
 
         <v-card outlined class="ma-5">
-            <v-card-title>Exercises</v-card-title>
-            <v-card-text class="text--primary" v-for="(cycleExercise, index) in cycle.cycleExercises" :key="index">
-                <div>{{ cycleExercise.exercise.name }}</div>
-            </v-card-text>
+            <v-row>
+                <v-col cols="4">
+                    <v-card-title>Exercises</v-card-title>
+                </v-col>
+                <v-col cols="1" offset="6">
+                    <v-btn @click="overlay=true" class="ma-3" large icon>
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <v-divider class="mx-4 mb-4"></v-divider>
+            <v-virtual-scroll :items="cycle.cycleExercises" :item-height="50" height="200">
+                <template v-slot:default="{ item }">
+                    <v-list-item two-line>
+                        <v-list-item-content>
+                            <v-list-item-title class="text--primary">{{ item.exercise.name }}</v-list-item-title>
+<!--                            <v-spacer></v-spacer>-->
+<!--                            <v-btn icon>-->
+<!--                                <v-icon>mdi-dots-horizontal</v-icon>-->
+<!--                            </v-btn>-->
+<!--                            TODO-->
+                            <v-list-item-subtitle>{{ item.duration + ' sec' + ' - ' + item.repetitions + ' times' }}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{ item.duration + ' sec' + ' - ' + item.repetitions + ' times' }}</v-list-item-subtitle>
+
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
+            </v-virtual-scroll>
+<!--            <v-card-text class="text&#45;&#45;primary" v-for="(cycleExercise, index) in cycle.cycleExercises" :key="index">-->
+<!--                <div>{{ cycleExercise.exercise.name }}</div>-->
+<!--            </v-card-text>-->
         </v-card>
 
-        <v-btn @click="overlay=true" color="teal" class="ma-5" large width="90%" dark>
-            <v-icon>mdi-plus-thick</v-icon>
-            Add exercise
-        </v-btn>
+
 
         <v-overlay :value="overlay" :dark="false">
             <c-create-cycle-exercise :cycle-exercises="this.cycle.cycleExercises"
@@ -72,7 +89,7 @@ export default {
 
 <style scoped>
 
-.width{
+.width {
     width: 90%;
 }
 
