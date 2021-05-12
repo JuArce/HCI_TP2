@@ -128,7 +128,6 @@ export default {
     }),
 
     created() {
-        this.initRoutine();
         this.getCategories();
     },
 

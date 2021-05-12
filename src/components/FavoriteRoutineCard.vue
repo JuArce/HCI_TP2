@@ -2,10 +2,6 @@
     <v-card class="mx-auto" outlined>
         <v-card-title>{{ routine.name }}</v-card-title>
 
-        <v-card-subtitle class="pb-0">by
-            {{ routine.author }}
-        </v-card-subtitle>
-
         <v-card-text class="text--primary">
             <br>
             <div>{{ routine.info }}</div>
@@ -24,7 +20,10 @@
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3">
                 {{ routine.time }}
             </v-card-subtitle>
-<!-- aca va el boton  de fav -->
+            <v-btn icon @click="manageFav()" >
+                <v-icon v-if="favorite" color="teal" >mdi-heart</v-icon>
+                <v-icon v-else>mdi-heart-outline</v-icon>
+            </v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -45,16 +44,16 @@ export default {
 
 
     data: () => ({
-        favorite: false
+        favorite: true
     }),
 
     methods: {
         async manageFav() {
-            if (!this.favorite) {
-                this.favorite=true;
+            if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
+                this.favorite = true;
                 await FavoriteRoutinesStore.addToFavorites(this.routine.id);
-            }else {
-                this.favorite=false;
+            } else {
+                this.favorite = false;
                 await FavoriteRoutinesStore.removeFavorite(this.routine.id);
             }
         },

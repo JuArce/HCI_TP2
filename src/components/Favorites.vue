@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col class="px-8 pb-6" cols="12" v-for="(routine, index) in currentRoutines" :key="index">
-                <c-routine-card class="ma-5" :routine="routine"></c-routine-card>
+                <c-favorite-routine-card class="ma-5" :routine="routine"></c-favorite-routine-card>
             </v-col>
         </v-row>
 
@@ -19,22 +19,21 @@
 
 <script>
 import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
-import RoutineCard from "./RoutineCard";
+import FavoriteRoutineCard from "@/components/FavoriteRoutineCard";
 
 export default {
     name: "FavoritesCard",
 
     components: {
-        CRoutineCard: RoutineCard,
+        CFavoriteRoutineCard: FavoriteRoutineCard,
     },
 
     data: () => ({
         store: FavoriteRoutinesStore,
         currentRoutines: [],
         page: 1,
-        size: 1,
-        itemsPerPages: 2,
         pages: 0,
+        totalPages:0,
     }),
 
     created() {
@@ -49,11 +48,15 @@ export default {
                 orderBy: 'id',
                 direction: 'asc'
             };
-            let aux = await this.store.getAllFavoriteRoutines(data, this.itemsPerPage);
+            let aux = await this.store.getAllFavoriteRoutines(data);
             this.currentRoutines = aux.content;
             this.totalPages  = aux.totalCount;
-            this.pages = Math.ceil( this.totalPages / this.itemsPerPage); //NO FUNCIONA LA API
+            console.log("total pages "+this.totalPages);
+            console.log("size "+aux.size);
+            this.pages = Math.ceil( this.totalPages / aux.size);
+            console.log("pages "+this.pages);
             this.isLastPage = aux.isLastPage;
+            console.log("last page "+this.isLastPage);
         },
     }
 }
