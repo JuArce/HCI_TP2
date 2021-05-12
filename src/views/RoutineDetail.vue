@@ -2,30 +2,33 @@
     <v-card flat class="ma-5">
         <v-row>
             <v-col cols="8">
-                <h1 class="ml-4 teal--text">{{ routine.name }}</h1>
-                <v-card-subtitle class="mt-n5">by {{user.username }}</v-card-subtitle>
+                <v-list>
+                    <v-list-item>
+                        <h1 class="teal--text">{{ routine.name }}</h1>
+                        <div class="ml-16">
+                        <v-card-actions>
+                            <v-icon>mdi-shield</v-icon>
+                            <v-card-subtitle class="text-capitalize">
+                                {{ routine.difficulty }}
+                            </v-card-subtitle>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click="manageFav()">
+                                <v-icon v-if="favorite" color="teal">mdi-heart</v-icon>
+                                <v-icon v-else>mdi-heart-outline</v-icon>
+                            </v-btn>
+                        </v-card-actions>
+                        </div>
+                    </v-list-item>
+                </v-list>
+                <v-card-subtitle class="mt-n5">by {{ user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                        <v-rating class="ml-4" :value="4.5" color="teal lighten-2" dense
+                        <v-rating class="ml-3" :value="4.5" color="teal lighten-2" dense
                                   half-increments readonly size="18">
                         </v-rating>
                         <div class="grey--text ml-4">4.5 (413)</div>
                     </v-row>
                 </v-card-text>
-            </v-col>
-
-            <v-col cols="2" offset="2">
-                <v-card-actions>
-                    <v-icon>mdi-shield</v-icon>
-                    <v-card-subtitle class="text-capitalize">
-                        {{ routine.difficulty }}
-                    </v-card-subtitle>
-                    <v-spacer></v-spacer>
-                    <v-btn icon @click="manageFav()">
-                        <v-icon v-if="favorite" color="teal">mdi-heart</v-icon>
-                        <v-icon v-else>mdi-heart-outline</v-icon>
-                    </v-btn>
-                </v-card-actions>
             </v-col>
         </v-row>
 
@@ -36,7 +39,6 @@
         <v-row>
             <v-col cols="4" v-for="(cycle, index) in cycles" :key="index">
                 <c-cycle-detail :cycle="cycle"></c-cycle-detail>
-
             </v-col>
         </v-row>
     </v-card>
@@ -57,10 +59,17 @@ export default {
         CCycleDetail: CycleDetail,
     },
 
+    props: {
+        routine: {
+            required: true
+        },
+    },
+
     data: () => ({
         routine: {},
         user: {},
         cycles: [],
+
         favorite: false
     }),
 

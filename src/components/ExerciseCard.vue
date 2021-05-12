@@ -10,18 +10,13 @@
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item>
-                        <v-btn color="gray" icon :to="{name: 'EditExercisePath', params: {id: exercise.id}}">
+                    <v-list-item :to="{name: 'EditExercisePath', params: {id: exercise.id}}">
                             <v-icon medium>mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-list-item-subtitle>Edit</v-list-item-subtitle>
-
+                             Edit
                     </v-list-item>
-                    <v-list-item>
-                        <v-btn color="gray" icon @click="overlay=true">
-                            <v-icon medium>mdi-delete</v-icon>
-                        </v-btn>
-                        <v-list-item-subtitle>Delete</v-list-item-subtitle>
+                    <v-list-item @click="overlay=true">
+                            <v-icon medium>mdi-close</v-icon>
+                             Delete
                     </v-list-item>
                 </v-list>
             </v-menu>
