@@ -2,7 +2,12 @@
     <div>
         <v-card class="ma-5" outlined width="600">
             <v-card-title>Filter by</v-card-title>
-            <v-select v-model="selected" :items="info" class="width my-6 ml-4" color="teal"
+            <v-select v-if="toPath==='/Routines'" v-model="selected" :items="infoRout" class="width my-6 ml-4"
+                      color="teal"
+                      label="Choose category from which to filter by"
+                      data-vv-name="select" @input="setVariable()" required>
+            </v-select>
+            <v-select v-else v-model="selected" :items="info" class="width my-6 ml-4" color="teal"
                       label="Choose category from which to filter by"
                       data-vv-name="select" @input="setVariable()" required>
             </v-select>
@@ -51,6 +56,7 @@ export default {
     data: () => ({
         selected: null,
         selectedFilter: null,
+        infoRout: ['Difficulty', 'Category', 'Routine Name'],
         info: ['Difficulty', 'Category', 'Routine Name', 'Owner Name'],
         difficulty: false,
         category: false,
