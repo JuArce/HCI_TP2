@@ -1,6 +1,16 @@
 <template>
     <v-card outlined>
-        <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name" color="teal"
+        <v-row v-if="cycle.type==='exercise' && stageAmount>1">
+            <v-col xl="10" lg="9">
+                <v-text-field v-model.lazy="cycle.name" class="width ma-4" label="Name" color="teal"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="1">
+                <v-btn class="mt-4 ml-xl-4 ml-lg-8" large icon @click="$emit('cycleDeleted')"><v-icon>mdi-close</v-icon></v-btn>
+            </v-col>
+        </v-row>
+
+        <v-text-field v-else v-model.lazy="cycle.name" class="width ma-4" label="Name" color="teal"
         ></v-text-field>
 
         <v-textarea placeholder="Type Description..." label="Description" color="teal" rows="2" class=" width my-6 ml-4"
@@ -97,7 +107,7 @@ export default {
         CCreateCycleExercise: CreateCycleExercise,
     },
 
-    props: ['cycle'],
+    props: ['cycle', 'stageAmount'],
 
     data: () => ({
         exercises: [],

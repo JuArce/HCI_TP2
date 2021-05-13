@@ -46,8 +46,8 @@
                 <c-cycle-card class="ma-5" :cycle="warmup" title="Warm-Up"></c-cycle-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4" v-for="(ex, index) in exerciseStage" :key="index">
-                <c-cycle-card class="ma-5" :cycle="ex" v-show="exerciseStage.length !== 0"
-                              :title="'Exercise ' + (index+1)">
+                <c-cycle-card class="ma-5" :cycle="ex" :stage-amount="exerciseStage.length" v-show="exerciseStage.length !== 0"
+                              :title="'Exercise ' + (index+1)" @cycleDeleted="deleteExerciseStage(index)">
                 </c-cycle-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4">
@@ -125,9 +125,9 @@ export default {
         categories: [],
         categoriesName: [],
 
-        warmup: new StoreCycle('Warmup'),
-        exerciseStage: [new StoreCycle('Exercise')],
-        cooldown: new StoreCycle('Cooldown'),
+        warmup: new StoreCycle('Warmup', 'warmup'),
+        exerciseStage: [new StoreCycle('Exercise', 'exercise')],
+        cooldown: new StoreCycle('Cooldown', 'cooldown'),
 
         overlay: false,
         invalidParams: false,
@@ -189,7 +189,7 @@ export default {
 
             this.exerciseStage.splice(0, 1);
             for (let i = 1; i < cycles.length - 1; i++) {
-                this.exerciseStage.push(new StoreCycle(cycles[i].name));
+                this.exerciseStage.push(new StoreCycle(cycles[i].name, 'exercise'));
                 this.exerciseStage[i - 1].id = cycles[i].id;
                 this.exerciseStage[i - 1].detail = cycles[i].detail;
                 this.exerciseStage[i - 1].repetitions = cycles[i].repetitions;
@@ -305,8 +305,12 @@ export default {
         },
 
         addExerciseStage() {
-            this.exerciseStage.push(new StoreCycle('Exercise'));
+            this.exerciseStage.push(new StoreCycle('Exercise', 'exercise'));
         },
+
+        deleteExerciseStage(index) {
+            this.exerciseStage.splice(index, 1);
+        }
     },
     validations: {
         routine: {

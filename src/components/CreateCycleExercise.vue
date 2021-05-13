@@ -85,9 +85,15 @@ export default {
         async initExercises() {
             const aux = await ExerciseStore.getAllExercises(this.data);
             this.exercises = aux.content;
+            let exNames = this.cycleExercises.map(cycleEx => {return cycleEx.exercise.id});
+            console.log(exNames);
+
+            this.exercises = this.exercises.filter((e) => {
+                return !exNames.includes(e.id);
+            });
             this.exercises.forEach(e => {
                 e.toString = (() => {
-                    return e.name
+                    return e.name;
                 });
             })
         },

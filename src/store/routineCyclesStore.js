@@ -35,11 +35,12 @@ const RoutineCyclesStore = {
 }
 
 class StoreCycle {
-    constructor(name) {
+    constructor(name, type) {
         this.id = null;
         this.name = name;
         this.detail = '';
         this.repetitions = 1;
         this.cycleExercises = [];
+        this.type = type;
     }
 }
