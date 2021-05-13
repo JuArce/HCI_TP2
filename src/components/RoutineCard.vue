@@ -98,6 +98,7 @@ export default {
         async deleteRoutine() {
             await RoutineStore.deleteRoutine(this.routine.id);
             this.overlay = false;
+            this.$emit('deletedRoutine');
         },
 
         async manageFav() {
