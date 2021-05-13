@@ -55,6 +55,7 @@ import {ExerciseStore} from "../store/exerciseStore";
 import {router} from "../main";
 import ConfirmationCard from "../components/ConfirmationCard";
 import {maxLength, minLength, required, url} from "vuelidate/lib/validators";
+import {ExercisesImagesStore} from "../store/exercisesImagesStore";
 
 export default {
     name: "EditExercise",
@@ -75,6 +76,7 @@ export default {
         type: '',
         detail: '',
         image:'',
+        imageId:'',
         video:'',
         overlay: false,
         loading: false,
@@ -93,7 +95,9 @@ export default {
             this.loading = true;
             if (!this.$v.$invalid) {
                 try {
-                    await ExerciseStore.editExercise(this.id, this.name, this.detail, this.type);
+                    let exercise = await ExerciseStore.editExercise(this.id, this.name, this.detail, this.type);
+                    await ExercisesImagesStore.deleteExerciseImage(exercise.id, this.imageId);
+                    await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
@@ -119,7 +123,17 @@ export default {
         async getExercise(id) {
             console.log(id);
             try {
-                const exercise = await ExerciseStore.getExercise(id)
+                const data = {
+                    page: 0,
+                    size: 1,
+                    orderBy: 'id',
+                    direction: 'asc'
+                };
+                const exercise = await ExerciseStore.getExercise(id);
+                let aux = await ExercisesImagesStore.getExerciseImages(exercise.id, data);
+                console.log(aux.content);
+                this.image= aux.content[0].url;
+                this.imageId = aux.content[0].id;
                 this.name = exercise.name;
                 this.type = exercise.type;
                 this.detail = exercise.detail;

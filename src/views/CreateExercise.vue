@@ -63,6 +63,7 @@ import {ExerciseStore} from "../store/exerciseStore";
 import {router} from "../main";
 import ConfirmationCard from "../components/ConfirmationCard";
 import {required, maxLength, minLength, url} from 'vuelidate/lib/validators';
+import {ExercisesImagesStore} from "../store/exercisesImagesStore";
 
 export default {
     name: "CreateExercise",
@@ -92,7 +93,8 @@ export default {
             this.loading = true;
             if (!this.$v.$invalid) {
                 try {
-                    await ExerciseStore.createExercise(this.name, this.detail, this.type);
+                    let exercise = await ExerciseStore.createExercise(this.name, this.detail, this.type);
+                    await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
