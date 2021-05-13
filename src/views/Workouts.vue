@@ -123,7 +123,7 @@
                     <v-btn @click="searchOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="searchUpdate(); searchOverlay = false; updateFilterLabel()" class="teal" outlined rounded text dark>
+                    <v-btn @click="searchUpdate(); searchOverlay = false" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -255,12 +255,11 @@ export default {
             this.selectedFilter = this.selectedSearch;
             this.filterTerm = this.searchTerm;
             await this.update();
+            this.updateFilterLabel();
         },
 
         updateFilterLabel() {
             let aux;
-            console.log(this.selectedFilter);
-            console.log(this.selectedSearch);
             switch(this.selectedFilter) {
                 case 'categoryId':
                     aux = this.categories[this.filterTerm - 1].text;
