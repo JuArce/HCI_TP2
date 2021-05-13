@@ -12,19 +12,19 @@
                       data-vv-name="select" @input="setVariable()" required>
             </v-select>
             <!--            DIFFICULTY -->
-            <v-select v-if=this.difficulty v-model="selectedFilter" :items="catItems"
+            <v-select v-if="difficulty" v-model="selectedFilter" :items="catItems"
                       class="width my-6 ml-4 text-capitalize"
                       label="Difficulty" color="teal"
                       data-vv-name="select" required>
             </v-select>
             <!--            CATEGORY-->
-            <v-select v-if=this.category v-model="selectedFilter" :items="categories"
+            <v-select v-if="category" v-model="selectedFilter" :items="categories"
                       class="width my-6 ml-4 text-capitalize"
                       label="Category" color="teal"
                       data-vv-name="select" required>
             </v-select>
             <!--            ROUTINE AND OWNER-->
-            <v-text-field v-if=this.routine||this.owner class="width my-6 ml-4" color="teal"
+            <v-text-field v-if="routine||owner" class="width my-6 ml-4" color="teal"
                           label="Filter by" v-model="selectedFilter"></v-text-field>
             <v-card-actions>
                 <!--                -->
