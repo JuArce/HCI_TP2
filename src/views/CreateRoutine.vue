@@ -313,7 +313,7 @@ export default {
             name: {
                 required: required,
                 minLength: minLength(3),
-                maxLength: maxLength(100)
+                maxLength: maxLength(264)
             },
 
             category: {

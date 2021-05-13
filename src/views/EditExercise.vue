@@ -19,7 +19,7 @@
                           @blur="$v.image.$touch()" :error-messages=imageErrors>
             </v-text-field>
             <v-text-field placeholder="Enter a video URL" label="Video URL" class="width my-6 ml-4"
-                          v-model="video" color="teal" no-resize dense>
+                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()" :error-messages=videoErrors>
             </v-text-field>
         </v-card>
 
@@ -56,6 +56,7 @@ import {router} from "../main";
 import ConfirmationCard from "../components/ConfirmationCard";
 import {maxLength, minLength, required, url} from "vuelidate/lib/validators";
 import {ExercisesImagesStore} from "../store/exercisesImagesStore";
+import {ExercisesVideosStore} from "@/store/exercisesVideosStore";
 
 export default {
     name: "EditExercise",
@@ -75,9 +76,12 @@ export default {
         name: '',
         type: '',
         detail: '',
+        prevImg:'',
         image:'',
         imageId:'',
+        prevVid:'',
         video:'',
+        videoId:'',
         overlay: false,
         loading: false,
         items: ['exercise', 'rest'],
@@ -96,8 +100,13 @@ export default {
             if (!this.$v.$invalid) {
                 try {
                     let exercise = await ExerciseStore.editExercise(this.id, this.name, this.detail, this.type);
-                    await ExercisesImagesStore.deleteExerciseImage(exercise.id, this.imageId);
-                    await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
+                    if (this.prevImg !== this.image) {
+                        await ExercisesImagesStore.deleteExerciseImage(exercise.id, this.imageId);
+                        await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
+                    }if (this.prevVid !== this.video){
+                        if (this.videoId !== '') await ExercisesVideosStore.deleteExerciseVideo(exercise.id, this.videoId);
+                        if (this.video !== '') await ExercisesVideosStore.addExerciseVideo(exercise.id, this.video);
+                    }
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
@@ -130,10 +139,17 @@ export default {
                     direction: 'asc'
                 };
                 const exercise = await ExerciseStore.getExercise(id);
-                let aux = await ExercisesImagesStore.getExerciseImages(exercise.id, data);
-                console.log(aux.content);
-                this.image= aux.content[0].url;
-                this.imageId = aux.content[0].id;
+                let auxImg = await ExercisesImagesStore.getExerciseImages(exercise.id, data);
+                let auxVid = await ExercisesVideosStore.getExerciseVideos(exercise.id, data);
+                if (auxVid.totalCount !== 0) {
+                    this.video = auxVid.content[0].url;
+                    this.videoId = auxVid.content[0].id;
+                    this.prevVid = this.video;
+                }
+                console.log(auxVid.content);
+                this.image= auxImg.content[0].url;
+                this.imageId = auxImg.content[0].id;
+                this.prevImg = this.image;
                 this.name = exercise.name;
                 this.type = exercise.type;
                 this.detail = exercise.detail;
@@ -153,13 +169,16 @@ export default {
         name: {
             required: required,
             minLength: minLength(3),
-            maxLength: maxLength(15)
+            maxLength: maxLength(264)
         },
         type: {
             required: required,
         },
         image: {
             required: required,
+            url: url,
+        },
+        video: {
             url: url,
         }
     },
@@ -181,6 +200,11 @@ export default {
             this.invalidParams && this.$v.image.$invalid && errors.push("Please enter an image URL.");
             !this.$v.image.url && errors.push("Please enter a valid image URL.");
             return errors
+        },
+        videoErrors(){
+            const errors = [];
+            !this.$v.image.url && errors.push("Please enter a valid video URL.");
+            return errors;
         }
 
     }

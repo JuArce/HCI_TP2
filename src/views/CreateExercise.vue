@@ -20,7 +20,7 @@
                           @blur="$v.image.$touch()" :error-messages=imageErrors>
             </v-text-field>
             <v-text-field placeholder="Enter a video URL" label="Video URL" class="width my-6 ml-4"
-                          v-model="video" color="teal" no-resize dense>
+                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()" :error-messages=videoErrors>
             </v-text-field>
         </v-card>
 
@@ -64,6 +64,7 @@ import {router} from "../main";
 import ConfirmationCard from "../components/ConfirmationCard";
 import {required, maxLength, minLength, url} from 'vuelidate/lib/validators';
 import {ExercisesImagesStore} from "../store/exercisesImagesStore";
+import {ExercisesVideosStore} from "../store/exercisesVideosStore";
 
 export default {
     name: "CreateExercise",
@@ -95,6 +96,7 @@ export default {
                 try {
                     let exercise = await ExerciseStore.createExercise(this.name, this.detail, this.type);
                     await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
+                    if (this.video!=='') await ExercisesVideosStore.addExerciseVideo(exercise.id, this.video);
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
@@ -121,7 +123,7 @@ export default {
         name: {
             required: required,
             minLength: minLength(3),
-            maxLength: maxLength(15)
+            maxLength: maxLength(264)
         },
         type: {
             required: required,
@@ -129,26 +131,34 @@ export default {
         image: {
             required: required,
             url: url,
+        },
+        video:{
+            url:url,
         }
     },
     computed: {
         nameErrors() {
-            const errors = []
-            this.invalidParams && !this.$v.name.$dirty && errors.push("Insert a name for the exercise.")
-            !this.$v.name.minLength && errors.push("Enter a longer exercise name.")
-            !this.$v.name.maxLength && errors.push("Enter a shorter exercise name.")
-            return errors
+            const errors = [];
+            this.invalidParams && !this.$v.name.$dirty && errors.push("Insert a name for the exercise.");
+            !this.$v.name.minLength && errors.push("Enter a longer exercise name.");
+            !this.$v.name.maxLength && errors.push("Enter a shorter exercise name.");
+            return errors;
         },
         typeErrors() {
-            const errors = []
+            const errors = [];
             this.invalidParams && this.$v.type.$invalid && errors.push("Please choose a category.");
-            return errors
+            return errors;
         },
         imageErrors() {
-            const errors = []
+            const errors = [];
             this.invalidParams && this.$v.image.$invalid && errors.push("Please enter an image URL.");
             !this.$v.image.url && errors.push("Please enter a valid image URL.");
-            return errors
+            return errors;
+        },
+        videoErrors(){
+            const errors = [];
+            !this.$v.image.url && errors.push("Please enter a valid video URL.");
+            return errors;
         }
 
     }
