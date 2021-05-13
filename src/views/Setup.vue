@@ -82,7 +82,7 @@ export default {
                 await CategoriesStore.createNewCategory("Quality Training", "Routines to do at your own pace, ideal to concentrate on your performance.");
                 await CategoriesStore.createNewCategory("Time Lapses", "Routines especially designed to be completed in a specified amount of time.");
                 await CategoriesStore.createNewCategory("With Friends", "All kinds of routines designed to be done in groups.");
-                // await CategoriesStore.deleteCategory(1);
+                await CategoriesStore.deleteCategory(1);
                 this.alert = true;
             } catch (error) {
                 if (error.code === 2 || error.code === 3) {

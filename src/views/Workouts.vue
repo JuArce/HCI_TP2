@@ -4,8 +4,14 @@
 <!--            <div v-if="this.filterBy.length!==0">-->
 <!--                <h4>Filtering by: {{ this.filterBy[0] }}-{{ this.filterBy[1] }} </h4>-->
 <!--            </div>-->
-            <p v-if="filterLabel !== 'None'">{{ filterLabel }}</p>
-            <p v-if="orderLabel !== 'None'" class="ml-4">{{ orderLabel }}</p>
+            <p class="ma-2">Filtering by:</p>
+            <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel}}</v-chip>
+            <p class="ma-2">Ordering by:</p>
+            <v-chip v-if="orderLabel !== 'None'" @click="changeDirection()" class="ma-2" color="teal" outlined>
+                {{ orderLabel }}
+                <v-icon v-if="direction==='asc'">mdi-chevron-up</v-icon>
+                <v-icon v-if="direction==='desc'">mdi-chevron-down</v-icon>
+            </v-chip>
 
             <v-list-item-content>
                 <div class="centered" v-if="routines.length===0">
@@ -92,7 +98,7 @@
                     <v-btn @click="orderOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); orderOverlay = false; updateOrderLabel()" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); orderOverlay = false; updateOrderLabel(); direction='asc'" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -117,7 +123,7 @@
                     <v-btn @click="searchOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="searchUpdate(); searchOverlay = false" class="teal" outlined rounded text dark>
+                    <v-btn @click="searchUpdate(); searchOverlay = false; updateFilterLabel()" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -182,6 +188,7 @@ export default {
         ],
         selectedSearch: '',
         searchTerm: '',
+        userQuery: '',
 
         isLastPage: true,
         copiedLinkToClipboard: false,
@@ -242,6 +249,7 @@ export default {
                     return //hacer algo mas?
                 }
                 let userId = users.content[0].id;
+                this.userQuery = this.searchTerm;
                 this.searchTerm = userId;
             }
             this.selectedFilter = this.selectedSearch;
@@ -251,6 +259,8 @@ export default {
 
         updateFilterLabel() {
             let aux;
+            console.log(this.selectedFilter);
+            console.log(this.selectedSearch);
             switch(this.selectedFilter) {
                 case 'categoryId':
                     aux = this.categories[this.filterTerm - 1].text;
@@ -258,6 +268,16 @@ export default {
                     break;
                 case 'difficulty':
                     this.filterLabel = 'Difficulty: ' + this.filterTerm;
+                    break;
+                case 'search':
+                    this.filterLabel = 'Routine: ' + this.filterTerm;
+                    break;
+                case 'userId':
+                    console.log("entre");
+                    this.filterLabel = 'Username: ' + this.userQuery;
+                    break;
+                default:
+                    this.filterLabel = 'None';
             }
         },
 
@@ -265,7 +285,16 @@ export default {
             let aux = this.orderBy.find((e) => {
                 return e.value === this.orderTerm;
             })
-            this.orderLabel = 'Order by: ' + aux.text;
+            this.orderLabel = aux.text;
+        },
+
+        async changeDirection() {
+            if(this.direction === 'asc') {
+                this.direction = 'desc';
+            } else {
+                this.direction = 'asc';
+            }
+            await this.update();
         }
     }
 }

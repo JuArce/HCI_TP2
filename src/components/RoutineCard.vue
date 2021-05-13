@@ -1,7 +1,9 @@
 <template>
     <v-card outlined class="mx-auto" max-width="600">
         <v-card-title>{{ routine.name }}
-
+            <router-link class="ml-2" :to="{name: 'RoutineDetailPath', query:{id: routine.id}}">
+                <v-icon class="teal--text">mdi-information-outline</v-icon>
+            </router-link>
             <v-spacer></v-spacer>
 
             <div v-if="belongsUser">
@@ -40,30 +42,22 @@
         </v-card-text>
 
         <v-card-actions>
-            <router-link class="ml-2" :to="{name: 'RoutineDetailPath', query:{id: routine.id}}">
-                <v-icon class="teal--text">mdi-information-outline</v-icon>
-            </router-link>
-
-            <v-spacer></v-spacer>
-
             <v-icon>mdi-alarm</v-icon>
-            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3" >
+            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3">
                 {{ routine.category.name }}
             </v-card-subtitle>
 
             <v-icon>mdi-shield-outline</v-icon>
-            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3 text-capitalize" >
+            <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3 text-capitalize">
                 {{ routine.difficulty }}
             </v-card-subtitle>
-
-
-
-            <v-btn icon @click="manageFav()" >
-                <v-icon v-if="favorite" color="teal" >mdi-heart</v-icon>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="manageFav()">
+                <v-icon v-if="favorite" color="teal">mdi-heart</v-icon>
                 <v-icon v-else>mdi-heart-outline</v-icon>
             </v-btn>
-            <v-btn icon @click="generateUrl()" >
-                <v-icon >mdi-share-variant-outline</v-icon>
+            <v-btn icon @click="generateUrl()">
+                <v-icon>mdi-share-variant-outline</v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>
@@ -124,7 +118,7 @@ export default {
             this.date = day + '/' + month + '/' + year;
         },
 
-        generateUrl(){
+        generateUrl() {
             let url = location.host + '/#/RoutineDetail?id=' + this.routine.id;
             let urlText = document.createElement("input");
             urlText.value = url;
@@ -140,8 +134,8 @@ export default {
 </script>
 
 <style scoped>
-    div a {
-        text-decoration: none;
-    }
+div a {
+    text-decoration: none;
+}
 </style>
 

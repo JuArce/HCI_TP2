@@ -3,7 +3,7 @@
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4" color="teal"
-                          v-model="routine.name" no-resize dense>
+                          v-model="routine.name" no-resize dense @blur="$v.routine.name.$touch()" :error-messages=nameErrors>
             </v-text-field>
             <v-textarea placeholder="Type Description..." label="Description" rows="2" class="width my-6 ml-4"
                         v-model="routine.detail" color="teal" no-resize dense>
@@ -19,12 +19,12 @@
 
             <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize"
                       label="Difficulty" color="teal"
-                      data-vv-name="select" required>
+                      data-vv-name="select" required @blur="$v.routine.difficulty.$touch()" :error-messages=difficultyErrors>
             </v-select>
 
             <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize"
                       label="Category" color="teal"
-                      data-vv-name="select" required>
+                      data-vv-name="select" required @blur="$v.routine.category.$touch()" :error-messages="categoryErrors">
             </v-select>
 
         </v-card>
@@ -80,7 +80,11 @@
                 </v-overlay>
             </v-col>
         </v-row>
-
+        <div>
+            <v-snackbar :value="alert" color="error" outlined>
+                {{ this.alertMessage }}
+            </v-snackbar>
+        </div>
     </div>
 
 </template>
@@ -94,6 +98,8 @@ import {RoutineCyclesStore} from "../store/routineCyclesStore";
 import {CyclesExercisesStore} from "../store/cyclesExercisesStore";
 import {CategoriesStore} from "../store/categoriesStore";
 import {router} from "../main";
+import {maxLength, minLength, required} from "vuelidate/lib/validators";
+
 
 export default {
     name: "CreateRoutine",
@@ -124,6 +130,9 @@ export default {
         cooldown: new StoreCycle('Cooldown'),
 
         overlay: false,
+        invalidParams: false,
+        alert: false,
+        alertMessage: '',
     }),
 
     async created() {
@@ -208,9 +217,10 @@ export default {
         },
 
         async routineConfirmed() {
-            await this.createRoutine();
-            router.go(-1);
+            if (await this.createRoutine())
+                router.go(-1);
         },
+
 
         // async modifyRoutine() {
         //     await RoutineStore.modifyRoutine(this.createdRoutine.id, this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
@@ -245,39 +255,97 @@ export default {
         // },
 
         async createRoutine() {
-            if (this.createdRoutine !== undefined) {
-                await RoutineStore.deleteRoutine(this.createdRoutine.id);
-            }
+            this.invalidParams = true;
+            if (!this.$v.$invalid) {
+                try {
+                    if (this.createdRoutine !== undefined) {
+                        await RoutineStore.deleteRoutine(this.createdRoutine.id);
+                    }
 
-            let cycleIndex = 1;
-            let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
+                    let cycleIndex = 1;
+                    let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
 
-            let warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
-            let warmupIndex = 1;
-            for (const cycleEx of this.warmup.cycleExercises) {
-                await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-            }
+                    let warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
+                    let warmupIndex = 1;
+                    for (const cycleEx of this.warmup.cycleExercises) {
+                        await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+                    }
 
-            for (const exStage of this.exerciseStage) {
-                let exIndex = 1;
-                let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
-                for (const ex of exStage.cycleExercises) {
-                    await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
+                    for (const exStage of this.exerciseStage) {
+                        let exIndex = 1;
+                        let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
+                        for (const ex of exStage.cycleExercises) {
+                            await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
+                        }
+                    }
+
+                    let cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
+                    let cooldownIndex = 1;
+                    for (const cycleEx of this.cooldown.cycleExercises) {
+                        await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+                    }
+                    return true;
+                } catch (error) {
+                    this.alert = true;
+                    this.alertMessage = "An error occurred, please try again";
+                    setTimeout(() => {
+                        this.alert = false;
+                    }, 4000)
+                    console.log(error);
+                    return false;
                 }
-            }
-
-            let cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
-            let cooldownIndex = 1;
-            for (const cycleEx of this.cooldown.cycleExercises) {
-                await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+            } else {
+                this.alert = true;
+                this.alertMessage = "Make sure all the required* fields have been filled";
+                setTimeout(() => {
+                    this.alert = false;
+                }, 4000)
+                return false; //necesito el valor de retorno para que si es exitoso se ejecute router.go
             }
         },
 
         addExerciseStage() {
             this.exerciseStage.push(new StoreCycle('Exercise'));
         },
+    },
+    validations: {
+        routine: {
+            name: {
+                required: required,
+                minLength: minLength(3),
+                maxLength: maxLength(15)
+            },
+
+            category: {
+                required: required,
+            },
+
+            difficulty: {
+                required: required,
+            }
+        }
+    },
+    computed: {
+        nameErrors() {
+            const errors = []
+            this.invalidParams && !this.$v.routine.name.$dirty && errors.push("Insert a name for the routine.")
+            !this.$v.routine.name.minLength && errors.push("Enter a longer routine name.")
+            !this.$v.routine.name.maxLength && errors.push("Enter a shorter routine name.")
+            return errors
+        },
+        categoryErrors() {
+            const errors = []
+            this.invalidParams && this.$v.routine.category.$invalid && errors.push("Please choose a category.")
+            return errors
+        },
+        difficultyErrors() {
+            const errors = []
+            this.invalidParams && this.$v.routine.difficulty.$invalid && errors.push("Please choose a difficulty.")
+            return errors
+        }
     }
 }
+
 </script>
 
 <style>
