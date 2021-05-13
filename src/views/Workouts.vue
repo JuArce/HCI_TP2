@@ -4,6 +4,8 @@
 <!--            <div v-if="this.filterBy.length!==0">-->
 <!--                <h4>Filtering by: {{ this.filterBy[0] }}-{{ this.filterBy[1] }} </h4>-->
 <!--            </div>-->
+            <p v-if="filterLabel !== 'None'">{{ filterLabel }}</p>
+            <p v-if="orderLabel !== 'None'" class="ml-4">{{ orderLabel }}</p>
 
             <v-list-item-content>
                 <div class="centered" v-if="routines.length===0">
@@ -12,14 +14,17 @@
                 </div>
             </v-list-item-content>
 
-            <v-btn fab class="my-5 mr-7" @click="searchOverlay=true" right depressed>
+            <v-btn class="my-5 mr-7" @click="searchOverlay=true" right depressed rounded>
                 <v-icon>mdi-magnify</v-icon>
+<!--                {{ selectedSearch }}-->
             </v-btn>
-            <v-btn fab class="my-5 mr-7" @click="orderOverlay=true" right depressed>
+            <v-btn class="my-5 mr-7" @click="orderOverlay=true" right depressed rounded>
                 <v-icon>mdi-filter-variant</v-icon>
+<!--                {{ selectedOrder }}-->
             </v-btn>
-            <v-btn fab class="my-5 mr-7" @click="filterOverlay=true" right depressed>
+            <v-btn class="my-5 mr-7" @click="filterOverlay=true" right depressed rounded>
                 <v-icon>mdi-filter-outline</v-icon>
+<!--                {{ filterLabel}}-->
             </v-btn>
         </v-list-item>
         <!--        <h1 class="ma-5">Workouts!</h1>-->
@@ -67,7 +72,7 @@
                     <v-btn @click="filterOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); filterOverlay = false" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); filterOverlay = false; updateFilterLabel()" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -87,7 +92,7 @@
                     <v-btn @click="orderOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); orderOverlay = false" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); orderOverlay = false; updateOrderLabel()" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -147,11 +152,13 @@ export default {
 
         filters: [
             {text: 'Category', value: 'categoryId'},
-            {text: 'Difficulty', value: 'difficulty'}
+            {text: 'Difficulty', value: 'difficulty'},
+            {text: 'None', value: 'none'}
         ],
         filterBy: [],
         selectedFilter: '',
         filterTerm: '',
+        filterLabel: 'None',
 
         orderBy: [
             {text: 'Category', value: 'categoryId'},
@@ -159,15 +166,19 @@ export default {
             {text: 'Detail', value: 'detail'},
             {text: 'Difficulty', value: 'difficulty'},
             {text: 'Name', value: 'name'},
+            {text: 'None', value: 'id'},
             {text: 'Rating', value: 'averageRating'},
-            {text: 'Username', value: 'userId'}
+            {text: 'Username', value: 'userId'},
         ],
+        selectedOrder: 'None',
         orderTerm: 'id',
+        orderLabel: 'None',
         direction: 'asc',
 
         search: [
             {text: 'Routine', value:'search'},
-            {text: 'Username', value: 'userId'}
+            {text: 'Username', value: 'userId'},
+            {text: 'None', value: 'none'}
         ],
         selectedSearch: '',
         searchTerm: '',
@@ -191,15 +202,6 @@ export default {
             });
         });
         console.log(auxAux);
-
-        /*
-        this.categories = aux.content;
-        this.categories.forEach(e => {
-          e.toString = (() => {
-            return e.name
-          });
-        })
-        */
     },
 
     methods: {
@@ -230,6 +232,7 @@ export default {
             this.routines = [];
             this.page = 0;
             await this.getRoutines();
+            //this.filterLabel = this.filters.find(fil => fil.value === this.selectedFilter).text + ' ' + this.filterTerm;
         },
 
         async searchUpdate(){
@@ -244,6 +247,25 @@ export default {
             this.selectedFilter = this.selectedSearch;
             this.filterTerm = this.searchTerm;
             await this.update();
+        },
+
+        updateFilterLabel() {
+            let aux;
+            switch(this.selectedFilter) {
+                case 'categoryId':
+                    aux = this.categories[this.filterTerm - 1].text;
+                    this.filterLabel = 'Category: ' + aux;
+                    break;
+                case 'difficulty':
+                    this.filterLabel = 'Difficulty: ' + this.filterTerm;
+            }
+        },
+
+        updateOrderLabel() {
+            let aux = this.orderBy.find((e) => {
+                return e.value === this.orderTerm;
+            })
+            this.orderLabel = 'Order by: ' + aux.text;
         }
     }
 }
