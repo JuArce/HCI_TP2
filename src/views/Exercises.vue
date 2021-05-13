@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="ma-5">Exercises!</h1>
-        <div class="centered" v-if="exercises.length===0" >
+        <div class="centered" v-if="exercises.length===0">
             <h2>It seems you have not created an exercise yet,</h2>
             <h2>Press the bottom right button to create a new one!</h2>
         </div>
@@ -18,12 +18,13 @@
             </v-btn>
         </div>
 
-        <!-- TODO arreglar posicion -->
-        <div class="fab-container">
-            <v-btn to="/CreateExercise" elevation="2" fab color="teal" width="64"
-                   height="64">
-                <v-icon large>mdi-plus-thick</v-icon>
-            </v-btn>
+        <div class="fab-container-alone">
+            <v-fab-transition>
+                <v-btn to="/CreateExercise" elevation="2" fab color="teal" width="64"
+                       height="64">
+                    <v-icon large>mdi-plus-thick</v-icon>
+                </v-btn>
+            </v-fab-transition>
         </div>
     </div>
 </template>
@@ -74,7 +75,7 @@ export default {
 </script>
 
 <style scoped>
-.centered{
+.centered {
     margin: 0 auto;
     text-align: center;
 }

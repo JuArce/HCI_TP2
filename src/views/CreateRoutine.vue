@@ -58,16 +58,20 @@
         <v-row>
             <v-col cols="2" offset="10">
                 <div class="fab-container">
-                    <v-btn elevation="2" fab color="gray" width="64"
-                           height="64"
-                           @click="overlay=true">
-                        <v-icon large>mdi-close</v-icon>
-                    </v-btn>
-                    <v-btn @click="routineConfirmed()" elevation="2" fab color="teal"
-                           width="64"
-                           height="64">
-                        <v-icon large>mdi-send</v-icon>
-                    </v-btn>
+                    <v-fab-transition>
+                        <v-btn elevation="2" fab color="gray" width="64"
+                               height="64"
+                               @click="overlay=true">
+                            <v-icon large>mdi-close</v-icon>
+                        </v-btn>
+                    </v-fab-transition>
+                    <v-fab-transition>
+                        <v-btn @click="routineConfirmed()" elevation="2" fab color="teal"
+                               width="64"
+                               height="64">
+                            <v-icon large>mdi-send</v-icon>
+                        </v-btn>
+                    </v-fab-transition>
                 </div>
                 <v-overlay :value="overlay" :dark="false">
                     <c-confirmation-card message="exit" toPath="/Routines"
@@ -241,7 +245,7 @@ export default {
         // },
 
         async createRoutine() {
-            if(this.createdRoutine !== undefined){
+            if (this.createdRoutine !== undefined) {
                 await RoutineStore.deleteRoutine(this.createdRoutine.id);
             }
 
@@ -276,7 +280,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.fab-container button {
+    margin-left: 20px;
+    margin-bottom: 55px;
+}
+
+.fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    z-index: 99;
+}
 
 .width {
     width: 90%;

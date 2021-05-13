@@ -17,14 +17,18 @@
         </v-card>
 
         <div class="fab-container">
-            <v-btn elevation="2" fab color="gray" width="64" height="64"
-                   @click="overlay=true">
-                <v-icon large>mdi-close</v-icon>
-            </v-btn>
-            <v-btn @click="createExercise(); loading=true" elevation="2" fab color="teal"
-                   width="64" height="64">
-                <v-icon large>mdi-send</v-icon>
-            </v-btn>
+            <v-fab-transition>
+                <v-btn elevation="2" fab color="gray" width="64" height="64"
+                       @click="overlay=true">
+                    <v-icon large>mdi-close</v-icon>
+                </v-btn>
+            </v-fab-transition>
+            <v-fab-transition>
+                <v-btn @click="createExercise(); loading=true" elevation="2" fab color="teal"
+                       width="64" height="64">
+                    <v-icon large>mdi-send</v-icon>
+                </v-btn>
+            </v-fab-transition>
         </div>
 
         <v-overlay :value="overlay" :dark="false">

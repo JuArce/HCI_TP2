@@ -27,14 +27,14 @@
                 <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
         </div>
-        <div class="fab-container">
-            <!-- TODO arreglar posición -->
-            <v-btn to="/CreateRoutine" elevation="2" fab color="teal" width="64"
-                   height="64">
-                <v-icon large>mdi-plus-thick</v-icon>
-            </v-btn>
+        <div class="fab-container-alone">
+            <v-fab-transition>
+                <v-btn to="/CreateRoutine" elevation="2" fab color="teal" width="64"
+                       height="64">
+                    <v-icon large>mdi-plus-thick</v-icon>
+                </v-btn>
+            </v-fab-transition>
         </div>
-
 
         <v-snackbar class="top" :value="copiedLinkToClipboard" fixed bottom color="teal" outlined>
             <v-row>
@@ -133,9 +133,9 @@ export default {
     margin-bottom: 55px;
 }
 
-.fab-container {
+.fab-container-alone {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px;
     right: 20px;
     z-index: 99;
 }

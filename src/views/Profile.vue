@@ -42,11 +42,13 @@
                                   color="teal" :readonly="!editData" no-resize dense>
                     </v-text-field>
                     <v-row class="align-center justify-center pt-4">
-                        <v-col cols="10" class="d-flex justify-space-around">
-                            <v-btn @click="cancelChanges" min-height="52px" v-if="editData" outlined width="45%">
+                        <v-col cols="10" class="d-flex justify-space-around mb-3">
+                            <v-btn @click="cancelChanges" rounded min-height="52px" v-if="editData" outlined
+                                   width="45%">
                                 Cancel
                             </v-btn>
-                            <v-btn @click="updateChanges" min-height="52px" v-if="editData" color="teal" width="45%"
+                            <v-btn @click="updateChanges" rounded min-height="52px" v-if="editData" color="teal"
+                                   width="45%"
                                    dark>
                                 Confirm
                             </v-btn>

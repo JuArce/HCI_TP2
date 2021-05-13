@@ -7,9 +7,8 @@
         </v-row>
 
         <v-row>
-            <v-col>
+            <v-col class="mb-3">
                 <v-pagination v-model="page" :length="pages" circle color="teal" @input="changePage">
-
                 </v-pagination>
             </v-col>
         </v-row>
@@ -33,7 +32,7 @@ export default {
         currentRoutines: [],
         page: 1,
         pages: 0,
-        totalPages:0,
+        totalPages: 0,
     }),
 
     created() {
@@ -50,13 +49,13 @@ export default {
             };
             let aux = await this.store.getAllFavoriteRoutines(data);
             this.currentRoutines = aux.content;
-            this.totalPages  = aux.totalCount;
-            console.log("total pages "+this.totalPages);
-            console.log("size "+aux.size);
-            this.pages = Math.ceil( this.totalPages / aux.size);
-            console.log("pages "+this.pages);
+            this.totalPages = aux.totalCount;
+            console.log("total pages " + this.totalPages);
+            console.log("size " + aux.size);
+            this.pages = Math.ceil(this.totalPages / aux.size);
+            console.log("pages " + this.pages);
             this.isLastPage = aux.isLastPage;
-            console.log("last page "+this.isLastPage);
+            console.log("last page " + this.isLastPage);
         },
     }
 }
