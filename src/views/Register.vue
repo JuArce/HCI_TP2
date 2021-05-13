@@ -62,7 +62,8 @@
                             placeholder="Type your First Name..."
                             label="First Name"
                             v-model="firstName"
-                            @blur="$v.fullName.$touch()"
+                            @blur="$v.firstName.$touch()"
+                            :error-messages=nameErrors
                             outlined
                             append-icon="mdi-account"
                             color="teal"
@@ -71,7 +72,8 @@
                             placeholder="Type your Last Name..."
                             label="Last Name"
                             v-model="lastName"
-                            @blur="$v.fullName.$touch()"
+                            @blur="$v.lastName.$touch()"
+                            :error-messages=surnameErrors
                             outlined
                             append-icon="mdi-account"
                             color="teal"
@@ -130,6 +132,7 @@ export default {
             warningMessage: '',
             errorAlert: false,
             errorMessage: '',
+            invalidParams: false,
         }
     },
     components:
@@ -139,6 +142,7 @@ export default {
     methods: {
         // Métodos que acceden a la API
         async processInput() {
+            this.invalidParams= true;
             if (!this.$v.$invalid) {
                 this.loading = true;
                 try {
@@ -198,9 +202,15 @@ export default {
         confirmPassword: {
             sameAs: sameAs('password'),
         },
-        fullName: {
+        firstName: {
+            required: required,
             minLength: minLength(2),
-            maxLength: maxLength(25)
+            maxLength: maxLength(50)
+        },
+        lastName: {
+            required: required,
+            minLength: minLength(2),
+            maxLength: maxLength(100)
         },
         // Largo de telefonos considerando caracteres adicionales.
         phone: {
@@ -215,11 +225,13 @@ export default {
     computed: {
         emailErrors() {
             const errors = []
+            this.invalidParams && this.$v.email.$invalid && errors.push("Please enter your email.");
             !this.$v.email.email && errors.push("Enter a valid email.")
             return errors
         },
         passwordErrors() {
             const errors = []
+            this.invalidParams && this.$v.password.$invalid && errors.push("Please enter a password.");
             !this.$v.password.minLength && errors.push("Enter a stronger password.")
             return errors
         },
@@ -230,8 +242,23 @@ export default {
         },
         usernameErrors() {
             const errors = []
+            this.invalidParams && this.$v.username.$invalid && errors.push("Please enter your desired username.");
             !this.$v.username.minLength && errors.push("Enter a longer username.")
             !this.$v.username.maxLength && errors.push("Enter a shorter username.")
+            return errors
+        },
+        nameErrors(){
+            const errors = []
+            this.invalidParams && this.$v.firstName.$invalid && errors.push("Please enter your name.");
+            !this.$v.firstName.minLength && errors.push("Please enter your name.")
+            !this.$v.firstName.maxLength && errors.push("Is your name really that long..?")
+            return errors
+        },
+        surnameErrors(){
+            const errors = []
+            this.invalidParams && this.$v.lastName.$invalid && errors.push("Please enter your last name.");
+            !this.$v.lastName.minLength && errors.push("Please enter your last name.")
+            !this.$v.lastName.maxLength && errors.push("Is your last name really that long..?")
             return errors
         }
     }
