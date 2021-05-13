@@ -26,6 +26,10 @@ const UserStore = {
     async getCurrentUserData() {
         return await UserApi.getCurrentUserData();
     },
+    
+    async getAllUsers(data){
+        return await UserApi.getUsers(data);
+    },
 
     async modifyUser(username, firstName, lastName, email, phone, avatarUrl) {
         let userData = new UserNoPassword(username, firstName, lastName, 'other', 1602139940660, email, phone, avatarUrl);

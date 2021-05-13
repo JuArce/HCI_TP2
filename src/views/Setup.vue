@@ -73,13 +73,16 @@ export default {
         async updateDatabase() {
             try {
                 this.loading = true;
-                await CategoriesStore.createNewCategory("High Intensity", "Workouts alternating short but high intensity work intervals.");
+                await CategoriesStore.createNewCategory("At Home", "Those routines that you will be able to do everywhere. Without equipment.");
                 await CategoriesStore.createNewCategory("Cardio", "All kinds of routines to elevate your heart rate and burn more calories.");
+                await CategoriesStore.createNewCategory("High Intensity", "Workouts alternating short but high intensity work intervals.");
+                await CategoriesStore.createNewCategory("Muscle Groups-Upper Body", "Routines with specific exercises to train your chest, arms and back.");
+                await CategoriesStore.createNewCategory("Muscle Groups-Core", "All kinds of routines especially designed to help you build a six pack.");
+                await CategoriesStore.createNewCategory("Muscle Groups-Lower Body", "Workouts especially made to train from your hips to your toes.");
                 await CategoriesStore.createNewCategory("Quality Training", "Routines to do at your own pace, ideal to concentrate on your performance.");
                 await CategoriesStore.createNewCategory("Time Lapses", "Routines especially designed to be completed in a specified amount of time.");
                 await CategoriesStore.createNewCategory("With Friends", "All kinds of routines designed to be done in groups.");
-                await CategoriesStore.createNewCategory("At Home", "Those routines that you will be able to do everywhere. Without equipment.");
-                await CategoriesStore.deleteCategory(1);
+                // await CategoriesStore.deleteCategory(1);
                 this.alert = true;
             } catch (error) {
                 if (error.code === 2 || error.code === 3) {

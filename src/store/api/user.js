@@ -49,6 +49,10 @@ class UserApi {
         return await Api.get(`${UserApi.url}/${id}`, true, controller);
     }
 
+    static async getUsers(data, controller){
+        return await Api.get(`${UserApi.url}?` + new URLSearchParams({...data}), true, controller);
+    }
+
     static async getOtherRoutines(id, data, controller){
         return await Api.get(`${UserApi.url}/${id}/routines/?` + new URLSearchParams({...data}), true, controller);
     }

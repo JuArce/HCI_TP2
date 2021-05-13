@@ -51,7 +51,7 @@
                 {{ routine.category.name }}
             </v-card-subtitle>
 
-            <v-icon>mdi-shield</v-icon>
+            <v-icon>mdi-shield-outline</v-icon>
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3 text-capitalize" >
                 {{ routine.difficulty }}
             </v-card-subtitle>
@@ -125,7 +125,7 @@ export default {
         },
 
         generateUrl(){
-            let url = 'http://localhost:8081/#/RoutineDetail?id=' + this.routine.id;
+            let url = location.host + '/#/RoutineDetail?id=' + this.routine.id;
             let urlText = document.createElement("input");
             urlText.value = url;
             document.body.append(urlText);
