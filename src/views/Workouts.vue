@@ -1,9 +1,6 @@
 <template>
     <div class="ma-3">
         <v-list-item>
-<!--            <div v-if="this.filterBy.length!==0">-->
-<!--                <h4>Filtering by: {{ this.filterBy[0] }}-{{ this.filterBy[1] }} </h4>-->
-<!--            </div>-->
             <p class="ma-2">Filtering by:</p>
             <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel}}</v-chip>
             <p class="ma-2">Ordering by:</p>
@@ -22,26 +19,25 @@
 
             <v-btn class="my-5 mr-7" @click="searchOverlay=true" right depressed rounded>
                 <v-icon>mdi-magnify</v-icon>
-<!--                {{ selectedSearch }}-->
             </v-btn>
             <v-btn class="my-5 mr-7" @click="orderOverlay=true" right depressed rounded>
                 <v-icon>mdi-filter-variant</v-icon>
-<!--                {{ selectedOrder }}-->
             </v-btn>
             <v-btn class="my-5 mr-7" @click="filterOverlay=true" right depressed rounded>
                 <v-icon>mdi-filter-outline</v-icon>
-<!--                {{ filterLabel}}-->
             </v-btn>
         </v-list-item>
+
         <!--        <h1 class="ma-5">Workouts!</h1>-->
+
         <v-row>
             <v-col class="px-8 pb-6" xl="4" lg="6" md="12" v-for="(routine) in routines" :key="routine.id">
                 <c-routine-card :routine="routine" :path="'/Workouts'"
-                                @copiedLinkToClipboard="showCopiedLink()"></c-routine-card>
+                                @copiedLinkToClipboard="showCopiedLink()" @deletedRoutine="routineDeleted()"></c-routine-card>
             </v-col>
         </v-row>
 
-        <div v-if="!isLastPage" class="text-center">
+        <div v-if="!isLastPage" class="text-center ma-5">
             <v-btn rounded @click="getRoutines">
                 See More
                 <v-icon>mdi-chevron-down</v-icon>
@@ -78,7 +74,7 @@
                     <v-btn @click="filterOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); filterOverlay = false; updateFilterLabel()" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); filterOverlay = false;" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -98,7 +94,7 @@
                     <v-btn @click="orderOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); orderOverlay = false; updateOrderLabel(); direction='asc'" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); orderOverlay = false; direction='asc'" class="teal" outlined rounded text dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -147,8 +143,6 @@ export default {
     },
 
     data: () => ({
-        store: RoutineStore,
-
         routines: [],
         difficulties: ['rookie', 'beginner', 'intermediate', 'advanced', 'expert'],
         categories: [],
@@ -161,7 +155,6 @@ export default {
             {text: 'Difficulty', value: 'difficulty'},
             {text: 'None', value: 'none'}
         ],
-        filterBy: [],
         selectedFilter: '',
         filterTerm: '',
         filterLabel: 'None',
@@ -208,7 +201,6 @@ export default {
                 value: e.id
             });
         });
-        console.log(auxAux);
     },
 
     methods: {
@@ -217,12 +209,12 @@ export default {
                 page: this.page,
                 size: this.size,
                 orderBy: this.orderTerm,
-                direction: this.direction
+                direction: this.direction,
             }
             if (this.selectedFilter.length > 0) {
                 data[this.selectedFilter] = this.filterTerm;
             }
-            let aux = await this.store.getRoutines(data);
+            let aux = await RoutineStore.getRoutines(data);
             this.routines.push(...aux.content);
             this.page = this.page + 1;
             this.isLastPage = aux.isLastPage;
@@ -239,6 +231,8 @@ export default {
             this.routines = [];
             this.page = 0;
             await this.getRoutines();
+            this.updateFilterLabel();
+            this.updateOrderLabel();
             //this.filterLabel = this.filters.find(fil => fil.value === this.selectedFilter).text + ' ' + this.filterTerm;
         },
 
@@ -294,9 +288,21 @@ export default {
                 this.direction = 'asc';
             }
             await this.update();
+        },
+
+        async routineDeleted(){
+            let auxSize = this.size;
+            let auxPage = this.page;
+            this.size = this.routines.length - 1;
+            this.page = 0;
+            this.routines = [];
+            await this.getRoutines();
+            this.size = auxSize;
+            this.page = auxPage;
         }
     }
 }
+
 </script>
 
 <style scoped>
