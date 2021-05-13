@@ -76,6 +76,8 @@ export default {
         name: '',
         detail: '',
         type: '',
+        image:'',
+        video:'',
         overlay: false,
         loading: false,
         items: ['exercise', 'rest'],

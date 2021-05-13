@@ -33,7 +33,7 @@
             </c-confirmation-card>
         </v-overlay>
 
-        <v-btn @click="editExercise(); loading=true" elevation="2" fab bottom right absolute color="teal" class="mb-10"
+        <v-btn @click="editExercise()" elevation="2" fab bottom right absolute color="teal" class="mb-10"
                width="64"
                height="64">
             <v-icon large>mdi-send</v-icon>
@@ -74,9 +74,12 @@ export default {
         name: '',
         type: '',
         detail: '',
+        image:'',
+        video:'',
         overlay: false,
         loading: false,
         items: ['exercise', 'rest'],
+        invalidParams: false,
         alert: false,
         alertMessage:'',
     }),
