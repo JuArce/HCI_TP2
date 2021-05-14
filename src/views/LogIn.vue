@@ -76,6 +76,13 @@ export default {
         {
             CVideoBackground: VideoBackground,
         },
+
+    created() {
+        if(localStorage.getItem('securityToken') != null) {
+            router.replace("/Home");
+        }
+    },
+
     methods: {
         // Métodos que acceden a la API
         async processInput() {
