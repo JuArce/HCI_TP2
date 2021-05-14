@@ -17,23 +17,19 @@
                           v-show="exercise != null && exercise.type === 'exercise'">
             </v-text-field>
 
-            <v-row>
-                <v-col cols="1" offset="9" class="my-10">
-                    <v-btn fab color="gray" width="48" height="48" @click="overlay=true">
-                        <v-icon large>mdi-close</v-icon>
-                    </v-btn>
-                    <v-overlay :value="overlay" :dark="false">
-                        <c-confirmation-card message="exit" @confirmationClosed="overlay=false"
-                                             @confirmationAccepted="overlay=false; discard()"></c-confirmation-card>
-                    </v-overlay>
-                </v-col>
-                <v-col cols="1" class="my-10 ml-4">
-                    <v-btn @click="createCycleExercise()" fab color="teal" dark width="48" height="48">
-                        <v-icon large>mdi-send</v-icon>
-                    </v-btn>
-                </v-col>
-            </v-row>
-
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="gray" outlined rounded text @click="overlay=true">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-overlay :value="overlay" :dark="false">
+                    <c-confirmation-card message="exit" @confirmationClosed="overlay=false"
+                                         @confirmationAccepted="overlay=false; discard()"></c-confirmation-card>
+                </v-overlay>
+                <v-btn @click="createCycleExercise()" class="teal" outlined rounded text dark>
+                    <v-icon>mdi-send</v-icon>
+                </v-btn>
+            </v-card-actions>
         </v-card>
     </div>
 </template>
@@ -87,7 +83,6 @@ export default {
             const aux = await ExerciseStore.getAllExercises(this.data);
             this.exercises = aux.content;
             let exNames = this.cycleExercises.map(cycleEx => {return cycleEx.exercise.id});
-            console.log(exNames);
 
             this.exercises = this.exercises.filter((e) => {
                 return !exNames.includes(e.id);

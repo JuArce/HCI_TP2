@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col class="px-8 pb-6" cols="12" v-for="(routine, index) in currentRoutines" :key="index">
-                <c-favorite-routine-card class="ma-5" :routine="routine"></c-favorite-routine-card>
+                <c-favorite-routine-card class="ma-5" :routine="routine" @copiedLinkToClipboard="showCopiedLink()"></c-favorite-routine-card>
             </v-col>
         </v-row>
 
@@ -13,6 +13,13 @@
             </v-col>
         </v-row>
 
+        <v-snackbar class="top" :value="copiedLinkToClipboard" fixed bottom color="teal" outlined>
+            <v-row>
+                <v-col cols="8" offset="3">
+                    Link copied to clipboard.
+                </v-col>
+            </v-row>
+        </v-snackbar>
     </div>
 </template>
 
@@ -33,6 +40,7 @@ export default {
         page: 1,
         pages: 0,
         totalPages: 0,
+        copiedLinkToClipboard: false
     }),
 
     created() {
@@ -57,11 +65,26 @@ export default {
                 console.log(error);
             }
         },
+
+        showCopiedLink() {
+            this.copiedLinkToClipboard = true;
+            setTimeout(() => {
+                this.copiedLinkToClipboard = false;
+            }, 4000);
+        },
     }
 }
 
 </script>
 
 <style scoped>
+.centered {
+    margin: 0 auto;
+    text-align: center;
+}
 
+.top {
+    z-index: 69;
+    margin-bottom: 69px;
+}
 </style>

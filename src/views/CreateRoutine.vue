@@ -34,7 +34,7 @@
                 <h1 class="ma-5">Cycle Creator</h1>
             </v-col>
             <v-col cols="2" offset="2">
-                <v-btn @click="addExerciseStage()" color="teal" class="ma-5" large width="85%" dark>
+                <v-btn @click="addExerciseStage()" color="teal" class="ma-5" rounded large width="85%" dark>
                     <v-icon large>mdi-shape-circle-plus</v-icon>
                     Add cycle
                 </v-btn>
@@ -69,7 +69,10 @@
                         <v-btn @click="routineConfirmed()" elevation="2" fab color="teal"
                                width="64"
                                height="64">
-                            <v-icon large>mdi-send</v-icon>
+                            <v-icon v-show="!loading" large>mdi-send</v-icon>
+                            <div v-show="loading" class="text-center">
+                                <v-progress-circular indeterminate size="36"></v-progress-circular>
+                            </div>
                         </v-btn>
                     </v-fab-transition>
                 </div>
@@ -130,6 +133,7 @@ export default {
         cooldown: new StoreCycle('Cooldown', 'cooldown'),
 
         overlay: false,
+        loading: false,
         invalidParams: false,
         alert: false,
         alertMessage: '',
@@ -174,7 +178,6 @@ export default {
             this.routine.category.toString = () => {
                 return this.routine.category.name
             }
-
             let routineId = this.createdRoutine.id;
             try {
                 let aux = await RoutineCyclesStore.getAllCycles(routineId);
@@ -229,42 +232,10 @@ export default {
                 router.go(-1);
         },
 
-
-        // async modifyRoutine() {
-        //     await RoutineStore.modifyRoutine(this.createdRoutine.id, this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
-        //
-        //     let cycleIndex = 0;
-        //
-        //     await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.warmup.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
-        //     let warmupIndex = 1;
-        //
-        //     let aux = await CyclesExercisesStore.getAllCyclesExercises(this.warmup.id, {page:0, size:10, orderBy:'order', direction:'asc'});
-        //
-        //     for (const cycleEx of this.warmup.cycleExercises) {
-        //         await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-        //     }
-        //     for (const cycleEx of this.warmup.cycleExercises) {
-        //         await CyclesExercisesStore.modifyCycleExercise(this.warmup.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-        //     }
-        //
-        //     for (const exStage of this.exerciseStage) {
-        //         let exIndex = 1;
-        //         let stageCreated = await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, exStage.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
-        //         for (const ex of exStage.cycleExercises) {
-        //             await CyclesExercisesStore.modifyCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
-        //         }
-        //     }
-        //
-        //     await RoutineCyclesStore.modifyCycle(this.createdRoutine.id, this.cooldown.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
-        //     let cooldownIndex = 1;
-        //     for (const cycleEx of this.cooldown.cycleExercises) {
-        //         await CyclesExercisesStore.modifyCycleExercise(this.cooldown.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-        //     }
-        // },
-
         async createRoutine() {
             this.invalidParams = true;
             if (!this.$v.$invalid) {
+                this.loading = true;
                 try {
                     if (this.createdRoutine !== undefined) {
                         await RoutineStore.deleteRoutine(this.createdRoutine.id);
@@ -295,6 +266,7 @@ export default {
                     return true;
                 } catch (error) {
                     this.alert = true;
+                    this.loading = false;
                     this.alertMessage = "An error occurred, please try again";
                     setTimeout(() => {
                         this.alert = false;
@@ -340,7 +312,7 @@ export default {
     computed: {
         nameErrors() {
             const errors = []
-            this.invalidParams && !this.$v.routine.name.$dirty && errors.push("Insert a name for the routine.")
+            this.invalidParams && this.$v.routine.name.$invalid && errors.push("Insert a name for the routine.")
             !this.$v.routine.name.minLength && errors.push("Enter a longer routine name.")
             !this.$v.routine.name.maxLength && errors.push("Enter a shorter routine name.")
             return errors
@@ -375,6 +347,10 @@ export default {
 
 .width {
     width: 90%;
+}
+
+.loading {
+    z-index: 99;
 }
 
 </style>

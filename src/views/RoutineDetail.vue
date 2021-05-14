@@ -23,8 +23,8 @@
                 <v-card-subtitle class="mt-n5">by {{ user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" hover dense length="5" size="18" v-model="rating"></v-rating>
-                        <v-btn small class="ml-2" @click="rateRoutine()">
+                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" background-color="teal lighten-3" hover dense length="5" size="18" v-model="rating"></v-rating>
+                        <v-btn x-small rounded outlined class="ml-2 mt-1" @click="rateRoutine()" color="teal">
                             Rate now
                         </v-btn>
                     </v-row>
@@ -58,12 +58,6 @@ export default {
 
     components: {
         CCycleDetail: CycleDetail,
-    },
-
-    props: {
-        routine: {
-            required: true
-        },
     },
 
     data: () => ({

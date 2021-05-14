@@ -2,12 +2,12 @@
     <div>
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
-            <v-text-field placeholder="Type Exercise Name..." label="Exercise Name" class="width my-6 ml-4"
+            <v-text-field placeholder="Type Exercise Name..." label="Name" class="width my-6 ml-4"
                           v-model="name" color="teal" no-resize dense @blur="$v.name.$touch()"
                           :error-messages=nameErrors>
             </v-text-field>
 
-            <v-textarea placeholder="Type Routine Description..." label="Routine Description" rows="2"
+            <v-textarea placeholder="Type Exercise Description..." label="Description" rows="2"
                         class=" width my-6 ml-4" color="teal"
                         v-model="detail" no-resize dense>
             </v-textarea>
@@ -34,7 +34,10 @@
             <v-fab-transition>
                 <v-btn @click="createExercise()" elevation="2" fab color="teal"
                        width="64" height="64">
-                    <v-icon large>mdi-send</v-icon>
+                    <v-icon v-show="!loading" large>mdi-send</v-icon>
+                    <div v-show="loading" class="text-center">
+                        <v-progress-circular indeterminate size="36"></v-progress-circular>
+                    </div>
                 </v-btn>
             </v-fab-transition>
         </div>
@@ -43,11 +46,6 @@
             <c-confirmation-card message="exit" toPath="/Exercises" @confirmationClosed="overlay=false"
                                  @confirmationAccepted="overlay=false"></c-confirmation-card>
         </v-overlay>
-
-
-        <div v-show="loading" class="text-center">
-            <v-progress-circular indeterminate color="teal" size="128"></v-progress-circular>
-        </div>
 
         <div>
             <v-snackbar :value="alert" color="error" outlined>
@@ -91,8 +89,8 @@ export default {
 
     methods: {
         async createExercise() {
-            this.loading = true;
             if (!this.$v.$invalid) {
+                this.loading = true;
                 try {
                     let exercise = await ExerciseStore.createExercise(this.name, this.detail, this.type);
                     await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);

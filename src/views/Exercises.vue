@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="ma-5">Exercises!</h1>
+        <h1 class="ma-5">My Exercises</h1>
         <div class="centered" v-if="exercises.length===0">
             <h2>It seems you have not created an exercise yet,</h2>
             <h2>Press the bottom right button to create a new one!</h2>
@@ -71,7 +71,13 @@ export default {
 
         async refreshExercises() {
             try{
-            let aux = await this.store.getAllExercises(this.data);
+            let data = {
+                page: 0,
+                size: 12,
+                orderBy: 'id',
+                direction: 'asc'
+            }
+            let aux = await this.store.getAllExercises(data);
             this.exercises = aux.content;
             this.isLastPage = aux.isLastPage;
             }catch(error){

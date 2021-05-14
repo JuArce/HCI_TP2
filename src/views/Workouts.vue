@@ -12,8 +12,8 @@
 
             <v-list-item-content>
                 <div class="centered" v-if="routines.length===0">
-                    <h2>It seems you have not created a workout yet,</h2>
-                    <h2>Press the bottom right button to create a new one!</h2>
+                    <h2>It seems there are no workouts created yet,</h2>
+                    <h2>Maybe create one yourself?</h2>
                 </div>
             </v-list-item-content>
 
@@ -56,7 +56,7 @@
             <v-card class="ma-5" outlined width="600">
                 <v-card-title>Filter by</v-card-title>
                 <v-select v-model="selectedFilter" :items="filters" class="width my-6 ml-4" color="teal"
-                          label="Choose category from which to filter by"
+                          label="Choose term to filter by"
                           data-vv-name="select" required>
                 </v-select>
                 <v-select v-if="selectedFilter === 'categoryId'" v-model="filterTerm" :items="categories"

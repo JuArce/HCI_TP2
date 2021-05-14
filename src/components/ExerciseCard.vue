@@ -1,5 +1,6 @@
 <template>
     <v-card outlined class="mx-auto" max-width="600">
+        <v-img :src="image" alt="" height="200"></v-img>
         <v-card-title>
             {{ exercise.name }}
             <v-spacer></v-spacer>
@@ -39,6 +40,7 @@
 <script>
 import {ExerciseStore} from "../store/exerciseStore";
 import ConfirmationCard from "./ConfirmationCard";
+import {ExercisesImagesStore} from "../store/exercisesImagesStore";
 
 export default {
     name: "ExerciseCard",
@@ -51,8 +53,14 @@ export default {
 
 
     data: () => ({
+        image: '',
         overlay: false,
     }),
+
+    async created() {
+        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {page:0, size:1, orderBy:'id', direction:'asc'});
+        this.image = aux.content[0].url;
+    },
 
     methods: {
         async deleteExercise(){

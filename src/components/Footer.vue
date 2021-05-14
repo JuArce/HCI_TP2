@@ -7,7 +7,7 @@
                         <strong class="subheading ">© 2021 ProFit - All rights reserved.</strong>
                     </v-col>
                     <v-col cols="2">
-                        <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>
+                        <v-btn v-for="icon in icons" :key="icon" class="mx-xl-4 mx-lg-2" dark icon>
                             <v-icon size="24px">
                                 {{ icon }}
                             </v-icon>

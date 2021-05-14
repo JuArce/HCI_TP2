@@ -1,14 +1,26 @@
 <template>
     <div>
         <v-row>
-            <v-col cols="6">
-                <v-btn @click="overlay = true">Add achievement</v-btn>
-            </v-col>
-            <v-col cols="6">
-                <v-card class="mt-4 mx-auto" max-width="400">
-                    <v-sheet class="v-sheet--offset mx-auto" color="teal" elevation="12" max-width="calc(100% - 32px)">
-                        <v-sparkline auto-draw :labels="labels" :value="values" color="white" line-width="2"
-                                     padding="16">
+            <v-col cols="12">
+                <v-card outlined>
+                    <v-card-title>
+                        <div class="teal--text">
+                            Weight Progress
+                        </div>
+                        <div class="ml-8 mt-1 text-subtitle-2">
+                            Last weight:
+                            {{ values[values.length - 1] }}
+                            Kg
+                        </div>
+                        <v-spacer></v-spacer>
+                        <v-btn icon @click="overlay = true">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+
+                    </v-card-title>
+                    <v-sheet class="v-sheet--offset mx-auto pa-auto" color="grey lighten-4">
+                        <v-sparkline class="ma-2" auto-draw :labels="labels" :value="values" color="teal" line-width="1"
+                                     padding="8" smooth>
                         </v-sparkline>
                     </v-sheet>
                 </v-card>
@@ -19,6 +31,7 @@
             <v-card class="ma-5" outlined width="600">
                 <v-card-title>Add achievement</v-card-title>
                 <v-text-field v-model="weight"
+                              type="number"
                               class="width my-6 ml-4"
                               label="Weight" color="teal"
                               data-vv-name="select" required>
@@ -62,50 +75,43 @@ export default {
         await this.getAchievements();
     },
 
-    mounted() {
-        //this.myAutoDraw = true;
-    },
-
     methods: {
         async getAchievements() {
             let data = {
                 page: 0,
-                size: 100,
+                size: 5,
                 orderBy: 'date',
-                direction: 'asc',
+                direction: 'desc',
             }
-            try {
-                let aux = await AchievementsStore.getAchievements(data);
-                aux.content.forEach(ach => {
-                    let fullDate = new Date(ach.date);
-                    let day = fullDate.getDay();
-                    let month = fullDate.getMonth();
-                    let year = fullDate.getFullYear();
-                    let auxDate = day + '/' + month + '/' + year;
-                    this.labels.push(auxDate);
-                });
 
-                this.values = aux.content.map(ach => {
-                    return ach.weight;
-                });
+            let aux = await AchievementsStore.getAchievements(data);
 
-                this.page = this.page + 1;
-                this.isLastPage = aux.isLastPage;
-            } catch (error) {
-                console.log(error);
-            }
+            aux.content.forEach(ach => {
+                let fullDate = new Date(ach.date);
+                let day = fullDate.getDate();
+                let month = fullDate.getMonth() + 1;
+                let year = fullDate.getFullYear();
+                let auxDate = day + '/' + month + '/' + year;
+                this.labels.push(auxDate);
+            });
+
+            aux.content.reverse();
+
+            this.values = aux.content.map(ach => {
+                return ach.weight;
+            });
+
+            this.page = this.page + 1;
+            this.isLastPage = aux.isLastPage;
         },
 
         async newAchievement() {
-
             this.labels = [];
             this.values = [];
             this.page = 0;
-            try {
-                await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
-            } catch (error) {
-                console.log(error);
-            }
+
+            await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
+
             await this.getAchievements();
         }
     }

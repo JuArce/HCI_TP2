@@ -13,7 +13,7 @@
 
             <v-list-item-content>
                 <div class="centered" v-if="routines.length===0">
-                    <h2>It seems you have not created a workout yet,</h2>
+                    <h2>It seems you have not created a routine yet,</h2>
                     <h2>Press the bottom right button to create a new one!</h2>
                 </div>
             </v-list-item-content>

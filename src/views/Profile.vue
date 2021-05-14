@@ -6,7 +6,7 @@
                     <img :src="avatarUrl" alt="">
                 </v-avatar>
             </v-col>
-            <v-col>
+            <v-col cols="3">
                 <h1 class="pt-14 pl-15">{{ firstName + ' ' + lastName }}</h1>
             </v-col>
         </v-row>
@@ -32,13 +32,9 @@
                                   class="width mt-6 mb-2 ml-4" v-model="lastName" :readonly="!editData"
                                   color="teal" no-resize dense>
                     </v-text-field>
-                    <v-text-field placeholder="Type Phone Number..." label="Phone"
-                                  class="width my-6 ml-4" v-model="phone" :readonly="!editData"
-                                  color="teal" no-resize dense>
-                    </v-text-field>
 
                     <v-text-field placeholder="Enter An Image URL To Use As An Avatar..."
-                                  label="Profle Picture URL" class="width mt-6 mb-2 ml-4" v-model="avatarUrl"
+                                  label="Profile Picture URL" class="width mt-6 mb-2 ml-4" v-model="avatarUrl"
                                   color="teal" :readonly="!editData" no-resize dense>
                     </v-text-field>
                     <v-row class="align-center justify-center pt-4">
@@ -59,13 +55,17 @@
 
             <v-col cols="6" class="pa-8">
                 <v-card outlined>
-                    <v-card-title>Favorite Routines</v-card-title>
+                    <v-card-title class="title">Favorite Routines</v-card-title>
                     <c-favorites></c-favorites>
                 </v-card>
             </v-col>
         </v-row>
 
-        <c-achievement></c-achievement>
+        <v-row class="my-4">
+            <v-col cols="4" offset="4">
+                <c-achievement></c-achievement>
+            </v-col>
+        </v-row>
     </div>
 </template>
 
@@ -90,11 +90,11 @@ export default {
         firstName: '',
         lastName: '',
         avatarUrl: '',
-        phone: '',
         email: '',
         show: false,
         editData: false,
         menu: false,
+
     }),
 
     methods: {
@@ -114,7 +114,6 @@ export default {
             this.firstName = userInfo.firstName;
             this.lastName = userInfo.lastName;
             this.avatarUrl = userInfo.avatarUrl;
-            this.phone = userInfo.phone;
             this.email = userInfo.email;
             }catch(error){
                 console.log(error);
@@ -142,5 +141,4 @@ export default {
 .width {
     width: 90%;
 }
-
 </style>

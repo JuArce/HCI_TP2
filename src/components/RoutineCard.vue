@@ -1,7 +1,7 @@
 <template>
     <v-card outlined class="mx-auto" max-width="600">
         <v-card-title>{{ routine.name }}
-            <router-link class="ml-2" :to="{name: 'RoutineDetailPath', query:{id: routine.id}}">
+            <router-link class="ml-2 mb-1" :to="{name: 'RoutineDetailPath', query:{id: routine.id}}">
                 <v-icon class="teal--text">mdi-information-outline</v-icon>
             </router-link>
             <v-spacer></v-spacer>
@@ -24,16 +24,17 @@
                         </v-list-item>
                     </v-list>
                 </v-menu>
-                <v-overlay :value="overlay" :dark="false">
-                    <c-confirmation-card message="delete" :toPath="path" @confirmationClosed="overlay=false"
-                                         @confirmationAccepted="deleteRoutine()"></c-confirmation-card>
-                </v-overlay>
             </div>
         </v-card-title>
 
+        <v-overlay :value="overlay" :dark=false>
+            <c-confirmation-card message="delete" :toPath="path" @confirmationClosed="overlay=false"
+                                 @confirmationAccepted="deleteRoutine()"></c-confirmation-card>
+        </v-overlay>
+
         <v-card-subtitle class="pb-0">by
             {{ routine.user.username }} · {{ date }}
-            <v-rating readonly color="teal" half-increments hover length="5" size="16" v-model="rating"></v-rating>
+            <v-rating readonly color="teal lighten-2" background-color="teal lighten-3" half-increments hover length="5" size="16" v-model="rating"></v-rating>
         </v-card-subtitle>
 
         <v-card-text class="text--primary">
@@ -42,7 +43,7 @@
         </v-card-text>
 
         <v-card-actions>
-            <v-icon>mdi-alarm</v-icon>
+            <v-icon>mdi-format-list-checkbox</v-icon>
             <v-card-subtitle class="pb-0 mb-3 ml-n3 mr-3">
                 {{ routine.category.name }}
             </v-card-subtitle>
@@ -128,8 +129,8 @@ export default {
 
         getRoutineDate() {
             let fullDate = new Date(this.routine.date);
-            let day = fullDate.getDay();
-            let month = fullDate.getMonth();
+            let day = fullDate.getDate();
+            let month = fullDate.getMonth() + 1;
             let year = fullDate.getFullYear();
             this.date = day + '/' + month + '/' + year;
         },
