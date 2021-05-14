@@ -99,14 +99,8 @@ export default {
             }
         },
         async getCategories() {
-            const data = {
-                page: 0,
-                size: 6, //items per page
-                orderBy: 'id',
-                direction: 'asc'
-            };
-            let aux = await CategoriesStore.getCategories(data);
-            this.categories = aux.content;
+
+            this.categories = await CategoriesStore.getCategoriesList();
             this.categories.forEach(e => {
                 e.toString = (() => {
                     return e.name;
