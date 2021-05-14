@@ -238,59 +238,75 @@ export default {
 
         async createRoutine() {
             this.invalidParams = true;
+            let warmupIndex = 1;
+            let cooldownIndex = 1;
+            let cycleIndex = 1;
+            let routineCreated;
+            let warmupCreated;
+            let cooldownCreated;
+            let stageCreated;
             if (!this.$v.$invalid) {
                 this.loading = true;
                 try {
                     if (this.createdRoutine !== undefined) {
                         await RoutineStore.deleteRoutine(this.createdRoutine.id);
                     }
-
-                    let cycleIndex = 1;
-                    let routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
-
-                    let warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
-                    let warmupIndex = 1;
-                    for (const cycleEx of this.warmup.cycleExercises) {
-                        await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-                    }
-
-                    for (const exStage of this.exerciseStage) {
-                        let exIndex = 1;
-                        let stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
-                        for (const ex of exStage.cycleExercises) {
-                            await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
-                        }
-                    }
-
-                    let cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
-                    let cooldownIndex = 1;
-                    for (const cycleEx of this.cooldown.cycleExercises) {
-                        await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
-                    }
-                    return true;
                 } catch (error) {
-                    switch (error.code) {
-                        case 1:
-                            this.alertMessage = "It seems that this routine already exists!" //DATA CONSTRAINT
-                            break;
-                        case 2:
-                            this.alertMessage = "There seems to be a problem with the entered data, please try again" // INVALID DATA
-                            break;
-                        case 5:
-                            this.alertMessage = "There seems to be a problem with the database, please try again" //DATABASE ERROR
-                            break;
-                        default:
-                            this.alertMessage = "An error occurred, please try again";
-                            break;
-                    }
-                    this.alert = true;
-                    this.loading = false;
-                    setTimeout(() => {
-                        this.alert = false;
-                    }, 4000)
                     console.log(error);
                     return false;
                 }
+                try {
+                    routineCreated = await RoutineStore.createNewRoutine(this.routine.name, this.routine.detail, this.routine.isPublic, this.routine.difficulty, this.routine.category);
+                } catch (error) {
+                    this.checkError(error, "routine");
+                    return false;
+                }
+                try {
+                    warmupCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.warmup.name, this.warmup.detail, 'warmup', cycleIndex++, parseInt(this.warmup.repetitions));
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+                for (const cycleEx of this.warmup.cycleExercises) {
+                    try {
+                        await CyclesExercisesStore.createCycleExercise(warmupCreated.id, cycleEx.exercise.id, warmupIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+                    } catch (error) {
+                        this.checkError(error, "cycle exercise");
+                        return false;
+                    }
+                }
+                for (const exStage of this.exerciseStage) {
+                    let exIndex = 1;
+                    try {
+                        stageCreated = await RoutineCyclesStore.createCycle(routineCreated.id, exStage.name, exStage.detail, 'exercise', cycleIndex++, parseInt(exStage.repetitions));
+                    } catch (error) {
+                        console.log(error);
+                        return false;
+                    }
+                    for (const ex of exStage.cycleExercises) {
+                        try {
+                            await CyclesExercisesStore.createCycleExercise(stageCreated.id, ex.exercise.id, exIndex++, parseInt(ex.duration), parseInt(ex.repetitions));
+                        } catch (error) {
+                            this.checkError(error, "cycle exercise");
+                            return false;
+                        }
+                    }
+                }
+                try {
+                    cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
+                } catch (error) {
+                    console.log(error);
+                    return false;
+                }
+                for (const cycleEx of this.cooldown.cycleExercises) {
+                    try {
+                        await CyclesExercisesStore.createCycleExercise(cooldownCreated.id, cycleEx.exercise.id, cooldownIndex++, parseInt(cycleEx.duration), parseInt(cycleEx.repetitions));
+                    } catch (error) {
+                        this.checkError(error, "cycle exercise");
+                        return false;
+                    }
+                }
+                return true;
             } else {
                 this.alert = true;
                 this.alertMessage = "Make sure all the required* fields have been filled";
@@ -299,6 +315,29 @@ export default {
                 }, 4000)
                 return false; //necesito el valor de retorno para que si es exitoso se ejecute router.go
             }
+        },
+        checkError(error, message) {
+            switch (error.code) {
+                case 1:
+                    this.alertMessage = "It seems that this "+ {message} +" already exists!" //DATA CONSTRAINT
+                    break;
+                case 2:
+                    this.alertMessage = "There seems to be a problem with the entered data, please try again" // INVALID DATA
+                    break;
+                case 5:
+                    this.alertMessage = "There seems to be a problem with the database, please try again" //DATABASE ERROR
+                    break;
+                default:
+                    this.alertMessage = "An error occurred, please try again";
+                    break;
+            }
+            this.alert = true;
+            this.loading = false;
+            setTimeout(() => {
+                this.alert = false;
+            }, 4000)
+            console.log(error);
+            return false;
         },
 
         addExerciseStage() {
