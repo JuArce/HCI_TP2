@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row>
-            <v-col cols="12">
+            <v-col cols="8" offset="2">
                 <v-card outlined>
                     <v-card-title>
                         <div class="teal--text">

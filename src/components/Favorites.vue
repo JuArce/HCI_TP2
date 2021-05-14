@@ -52,7 +52,7 @@ export default {
         async changePage() {
             const data = {
                 page: this.page - 1,
-                size: 1,
+                size: 2,
                 orderBy: 'id',
                 direction: 'asc'
             };

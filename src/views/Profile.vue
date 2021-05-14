@@ -51,6 +51,8 @@
                         </v-col>
                     </v-row>
                 </v-card>
+
+                <c-achievement class="mt-5"></c-achievement>
             </v-col>
 
             <v-col cols="6" class="pa-8">
@@ -58,12 +60,6 @@
                     <v-card-title class="title">Favorite Routines</v-card-title>
                     <c-favorites></c-favorites>
                 </v-card>
-            </v-col>
-        </v-row>
-
-        <v-row class="my-4">
-            <v-col cols="4" offset="4">
-                <c-achievement></c-achievement>
             </v-col>
         </v-row>
     </div>
