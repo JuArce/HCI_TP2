@@ -99,7 +99,20 @@ export default {
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
-                    this.alertMessage = "An error occurred, please try again."
+                    switch (error.code) {
+                        case 1:
+                            this.alertMessage = "It seems that this exercise already exists!" //DATA CONSTRAINT
+                            break;
+                        case 2:
+                            this.alertMessage = "There seems to be a problem with the entered data, please try again" // INVALID DATA
+                            break;
+                        case 5:
+                            this.alertMessage = "There seems to be a problem with the database, please try again" //DATABASE ERROR
+                            break;
+                        default:
+                            this.alertMessage = "An error occurred, please try again";
+                            break;
+                    }
                     this.invalidParams = true;
                     this.alert = true
                     setTimeout(() => {

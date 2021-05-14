@@ -269,9 +269,22 @@ export default {
                     }
                     return true;
                 } catch (error) {
+                    switch (error.code) {
+                        case 1:
+                            this.alertMessage = "It seems that this routine already exists!" //DATA CONSTRAINT
+                            break;
+                        case 2:
+                            this.alertMessage = "There seems to be a problem with the entered data, please try again" // INVALID DATA
+                            break;
+                        case 5:
+                            this.alertMessage = "There seems to be a problem with the database, please try again" //DATABASE ERROR
+                            break;
+                        default:
+                            this.alertMessage = "An error occurred, please try again";
+                            break;
+                    }
                     this.alert = true;
                     this.loading = false;
-                    this.alertMessage = "An error occurred, please try again";
                     setTimeout(() => {
                         this.alert = false;
                     }, 4000)
