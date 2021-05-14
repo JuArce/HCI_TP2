@@ -28,6 +28,7 @@ const ReviewsStore = {
             aux.content.forEach(e => rating += e.score);
             totalReviews=aux.totalCount;
         }
+        if (totalReviews===0) return totalReviews;
         return rating/totalReviews;
     }
 }
