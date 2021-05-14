@@ -1,5 +1,5 @@
 <template>
-    <v-card class="ma-5" outlined width="500">
+    <v-card class="ma-5" outlined width="400">
         <v-app-bar flat dense color="rgba(0, 0, 0, 0)">
             <v-card-title class="ml-n4">{{ exercise.name }}</v-card-title>
             <v-btn icon fixed right @click="$emit('close')">
@@ -7,7 +7,7 @@
             </v-btn>
         </v-app-bar>
 
-        <v-img :src="image" alt="" contain position="left" class="ml-4 multimedia" width="450">
+        <v-img :src="image" alt="" contain position="left" class="ml-4 multimedia" width="350">
             <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
                     <v-progress-circular indeterminate color="teal lighten-3"></v-progress-circular>
@@ -17,7 +17,7 @@
 
         <v-card-text>{{ exercise.detail }}</v-card-text>
 
-        <video v-if="video!==''" width="450" controls :src="video" class="ml-4 mb-2 multimedia"></video>
+        <video v-if="video!==''" width="350" controls :src="video" class="ml-4 mb-2 multimedia"></video>
     </v-card>
 </template>
 
