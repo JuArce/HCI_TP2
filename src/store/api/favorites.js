@@ -8,7 +8,6 @@ class FavoriteApi{
     }
 
     static async add(routineId, controller){
-        console.log(`${FavoriteApi.url}/${routineId}`);
         return await Api.post(`${FavoriteApi.url}/${routineId}/`, true, {}, controller);
     }
 

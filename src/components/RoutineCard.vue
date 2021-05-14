@@ -5,7 +5,6 @@
                 <v-icon class="teal--text">mdi-information-outline</v-icon>
             </router-link>
             <v-spacer></v-spacer>
-
             <div v-if="belongsUser">
                 <v-menu>
                     <template v-slot:activator="{ on, attrs }">
@@ -34,6 +33,7 @@
 
         <v-card-subtitle class="pb-0">by
             {{ routine.user.username }} · {{ date }}
+            <v-rating readonly color="teal" half-increments hover length="5" size="16" v-model="rating"></v-rating>
         </v-card-subtitle>
 
         <v-card-text class="text--primary">
@@ -68,6 +68,7 @@ import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
 import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
 import {RoutineStore} from "../store/RoutineStore";
+import {ReviewsStore} from "../store/reviewsStore";
 
 export default {
     name: "RoutineCard",
@@ -83,7 +84,8 @@ export default {
         belongsUser: false,
         overlay: false,
         favorite: false,
-        copiedLink: false
+        copiedLink: false,
+        rating: 0,
     }),
 
     async created() {
@@ -92,6 +94,7 @@ export default {
         let routineUserId = this.routine.user.id;
         this.belongsUser = currentUser.id === routineUserId;
         this.getRoutineDate();
+        await this.getRating();
     },
 
     methods: {
@@ -128,8 +131,28 @@ export default {
             document.execCommand("copy");
             document.body.removeChild(urlText);
             this.$emit("copiedLinkToClipboard");
-        }
-    }
+        },
+
+        async getRating(){ 
+            let isLastPage= false;
+            let totalReviews = 0;
+            this.rating=0;
+            const data = {
+                page: 0,
+                size: 10,
+                orderBy: 'id',
+                direction: 'asc'
+            };
+            while(!isLastPage) {
+                let aux = await ReviewsStore.getRoutineReviews(this.routine.id, data);
+                isLastPage = aux.isLastPage;
+                aux.content.forEach(e=> this.rating+=e.score);
+                totalReviews++;
+            }
+            this.rating/=totalReviews;
+        },
+    },
+
 }
 
 </script>
