@@ -89,28 +89,40 @@ export default {
     }),
 
     async created() {
-        this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id);
-        let currentUser = await UserStore.getCurrentUserData();
-        let routineUserId = this.routine.user.id;
-        this.belongsUser = currentUser.id === routineUserId;
-        this.getRoutineDate();
-        await this.getRating();
+        try {
+            this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id);
+            let currentUser = await UserStore.getCurrentUserData();
+            let routineUserId = this.routine.user.id;
+            this.belongsUser = currentUser.id === routineUserId;
+            this.getRoutineDate();
+            await this.getRating();
+        }catch(error){
+            console.log(error);
+        }
     },
 
     methods: {
         async deleteRoutine() {
+            try{
             await RoutineStore.deleteRoutine(this.routine.id);
+            }catch(error){
+                console.log(error);
+            }
             this.overlay = false;
             this.$emit('deletedRoutine');
         },
 
         async manageFav() {
-            if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
-                this.favorite = true;
-                await FavoriteRoutinesStore.addToFavorites(this.routine.id);
-            } else {
-                this.favorite = false;
-                await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+            try {
+                if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
+                    this.favorite = true;
+                    await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+                } else {
+                    this.favorite = false;
+                    await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+                }
+            }catch(error){
+                console.log(error);
             }
         },
 

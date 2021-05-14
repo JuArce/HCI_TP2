@@ -47,15 +47,15 @@ export default {
                 orderBy: 'id',
                 direction: 'asc'
             };
-            let aux = await this.store.getAllFavoriteRoutines(data);
-            this.currentRoutines = aux.content;
-            this.totalPages = aux.totalCount;
-            console.log("total pages " + this.totalPages);
-            console.log("size " + aux.size);
-            this.pages = Math.ceil(this.totalPages / aux.size);
-            console.log("pages " + this.pages);
-            this.isLastPage = aux.isLastPage;
-            console.log("last page " + this.isLastPage);
+            try {
+                let aux = await this.store.getAllFavoriteRoutines(data);
+                this.currentRoutines = aux.content;
+                this.totalPages = aux.totalCount;
+                this.pages = Math.ceil(this.totalPages / aux.size);
+                this.isLastPage = aux.isLastPage;
+            }catch(error){
+                console.log(error);
+            }
         },
     }
 }

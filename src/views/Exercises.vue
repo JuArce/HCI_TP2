@@ -59,16 +59,24 @@ export default {
 
     methods: {
         async getExercises() {
-            let aux = await this.store.getAllExercises(this.data);
-            this.exercises.push(...aux.content);
-            this.data.page = this.data.page + 1;
-            this.isLastPage = aux.isLastPage;
+            try {
+                let aux = await this.store.getAllExercises(this.data);
+                this.exercises.push(...aux.content);
+                this.data.page = this.data.page + 1;
+                this.isLastPage = aux.isLastPage;
+            }catch(error){
+                console.log(error);
+            }
         },
 
         async refreshExercises() {
+            try{
             let aux = await this.store.getAllExercises(this.data);
             this.exercises = aux.content;
             this.isLastPage = aux.isLastPage;
+            }catch(error){
+                console.log(error);
+            }
         }
     }
 }

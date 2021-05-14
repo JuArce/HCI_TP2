@@ -201,18 +201,25 @@ export default {
     }),
 
     async created() {
-        let userData = await UserStore.getCurrentUserData();
-        this.userId = userData.id;
+        try {
+            let userData = await UserStore.getCurrentUserData();
+            this.userId = userData.id;
+        }catch(error){
+           console.log(error);
+        }
         await this.getRoutines();
-        let aux = await CategoriesStore.getCategories({page:0, size:10, orderBy:'id', direction:'asc'});
-        let auxAux = aux.content;
-        auxAux.forEach(e => {
-            this.categories.push({
-                text: e.name,
-                value: e.id
+        try {
+            let aux = await CategoriesStore.getCategories({page: 0, size: 10, orderBy: 'id', direction: 'asc'});
+            let auxAux = aux.content;
+            auxAux.forEach(e => {
+                this.categories.push({
+                    text: e.name,
+                    value: e.id
+                });
             });
-        });
-
+        }catch(error){
+            console.log(error);
+        }
 
     },
 
@@ -229,17 +236,23 @@ export default {
             if (this.selectedFilter.length > 0) {
                 data[this.selectedFilter] = this.filterTerm;
             }
+            try {
+                let aux = await RoutineStore.getRoutines(data);
 
-            let aux = await RoutineStore.getRoutines(data);
-
-            this.routines.push(...aux.content);
-            this.page = this.page + 1;
-            this.isLastPage = aux.isLastPage;
-
-            let userData = await UserStore.getCurrentUserData();
-            this.routines.forEach(rout => {
-                rout.user = userData;
-            })
+                this.routines.push(...aux.content);
+                this.page = this.page + 1;
+                this.isLastPage = aux.isLastPage;
+            } catch (error) {
+                console.log(error);
+            }
+            try {
+                let userData = await UserStore.getCurrentUserData();
+                this.routines.forEach(rout => {
+                    rout.user = userData;
+                })
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         showCopiedLink() {

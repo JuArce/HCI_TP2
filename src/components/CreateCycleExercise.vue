@@ -83,6 +83,7 @@ export default {
 
     methods: {
         async initExercises() {
+            try{
             const aux = await ExerciseStore.getAllExercises(this.data);
             this.exercises = aux.content;
             let exNames = this.cycleExercises.map(cycleEx => {return cycleEx.exercise.id});
@@ -96,6 +97,9 @@ export default {
                     return e.name;
                 });
             })
+            }catch(error){
+                console.log(error);
+            }
         },
 
         async createCycleExercise() {

@@ -99,13 +99,16 @@ export default {
             }
         },
         async getCategories() {
-
+            try{
             this.categories = await CategoriesStore.getCategoriesList();
             this.categories.forEach(e => {
                 e.toString = (() => {
                     return e.name;
                 })
-            })
+            })}
+            catch(error){
+                console.log(error);
+            }
         },
     },
 }

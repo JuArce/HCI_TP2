@@ -49,16 +49,19 @@ export default {
 
     methods: {
         async manageFav() {
-            if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
-                this.favorite = true;
-                await FavoriteRoutinesStore.addToFavorites(this.routine.id);
-            } else {
-                this.favorite = false;
-                await FavoriteRoutinesStore.removeFavorite(this.routine.id);
-            }
-        },
+            try {
+                if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
+                    this.favorite = true;
+                    await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+                } else {
+                    this.favorite = false;
+                    await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+                }
+            }catch(error){
+                console.log(error);
+        }
     },
-
+},
     computed: {
         isFavorite() {
             return this.favorite;

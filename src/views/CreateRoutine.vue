@@ -136,20 +136,33 @@ export default {
     }),
 
     async created() {
+        try{
         await this.getCategories();
         if (this.createdRoutine !== undefined) {
             await this.fillInfo();
+        }
+        }catch(error){
+            console.log(error);
+            this.alert = true;
+            this.alertMessage = "Failed to bring the routine info";
+            setTimeout(() => {
+                this.alert = false;
+            }, 4000)
         }
     },
 
     methods: {
         async getCategories() {
-            this.categories = await CategoriesStore.getCategoriesList();
-            this.categories.forEach(e => {
-                e.toString = (() => {
-                    return e.name;
+            try {
+                this.categories = await CategoriesStore.getCategoriesList();
+                this.categories.forEach(e => {
+                    e.toString = (() => {
+                        return e.name;
+                    })
                 })
-            })
+            }catch(error){
+                console.log(error+" Failed to fetch the categories.");
+            }
         },
 
         async fillInfo() {
@@ -163,50 +176,52 @@ export default {
             }
 
             let routineId = this.createdRoutine.id;
+            try {
+                let aux = await RoutineCyclesStore.getAllCycles(routineId);
+                let cycles = aux.content;
 
-            let aux = await RoutineCyclesStore.getAllCycles(routineId);
-            let cycles = aux.content;
-
-            this.warmup.id = cycles[0].id;
-            this.warmup.name = cycles[0].name;
-            this.warmup.detail = cycles[0].detail;
-            this.warmup.repetitions = cycles[0].repetitions;
-            aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[0].id, {
-                page: 0,
-                size: 10,
-                orderBy: 'order',
-                direction: 'asc'
-            });
-            this.warmup.cycleExercises = aux.content;
-
-
-            this.exerciseStage.splice(0, 1);
-            for (let i = 1; i < cycles.length - 1; i++) {
-                this.exerciseStage.push(new StoreCycle(cycles[i].name, 'exercise'));
-                this.exerciseStage[i - 1].id = cycles[i].id;
-                this.exerciseStage[i - 1].detail = cycles[i].detail;
-                this.exerciseStage[i - 1].repetitions = cycles[i].repetitions;
-                aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[i].id, {
+                this.warmup.id = cycles[0].id;
+                this.warmup.name = cycles[0].name;
+                this.warmup.detail = cycles[0].detail;
+                this.warmup.repetitions = cycles[0].repetitions;
+                aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[0].id, {
                     page: 0,
                     size: 10,
                     orderBy: 'order',
                     direction: 'asc'
                 });
-                this.exerciseStage[i - 1].cycleExercises = aux.content;
+                this.warmup.cycleExercises = aux.content;
+
+
+                this.exerciseStage.splice(0, 1);
+                for (let i = 1; i < cycles.length - 1; i++) {
+                    this.exerciseStage.push(new StoreCycle(cycles[i].name, 'exercise'));
+                    this.exerciseStage[i - 1].id = cycles[i].id;
+                    this.exerciseStage[i - 1].detail = cycles[i].detail;
+                    this.exerciseStage[i - 1].repetitions = cycles[i].repetitions;
+                    aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[i].id, {
+                        page: 0,
+                        size: 10,
+                        orderBy: 'order',
+                        direction: 'asc'
+                    });
+                    this.exerciseStage[i - 1].cycleExercises = aux.content;
+                }
+
+                this.cooldown.id = cycles[cycles.length - 1].id;
+                this.cooldown.name = cycles[cycles.length - 1].name;
+                this.cooldown.repetitions = cycles[cycles.length - 1].repetitions;
+                this.cooldown.detail = cycles[cycles.length - 1].detail
+                aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[cycles.length - 1].id, {
+                    page: 0,
+                    size: 10,
+                    orderBy: 'order',
+                    direction: 'asc'
+                });
+                this.cooldown.cycleExercises = aux.content;
+            }catch(error){
+                console.log(error);
             }
-
-            this.cooldown.id = cycles[cycles.length - 1].id;
-            this.cooldown.name = cycles[cycles.length - 1].name;
-            this.cooldown.repetitions = cycles[cycles.length - 1].repetitions;
-            this.cooldown.detail = cycles[cycles.length - 1].detail
-            aux = await CyclesExercisesStore.getAllCyclesExercises(cycles[cycles.length - 1].id, {
-                page: 0,
-                size: 10,
-                orderBy: 'order',
-                direction: 'asc'
-            });
-            this.cooldown.cycleExercises = aux.content;
-
         },
 
         async routineConfirmed() {

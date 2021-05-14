@@ -64,9 +64,12 @@ export default {
                 orderBy: 'order',
                 direction: 'asc'
             };
-            let aux = await CyclesExercisesStore.getAllCyclesExercises(this.cycle.id, data);
-            this.cycleExercises = aux.content;
-        },
+            try {
+                let aux = await CyclesExercisesStore.getAllCyclesExercises(this.cycle.id, data);
+                this.cycleExercises = aux.content;
+            }catch(error){
+                console.log(error);
+            }},
     }
 
 }

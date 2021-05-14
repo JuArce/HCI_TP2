@@ -74,24 +74,26 @@ export default {
                 orderBy: 'date',
                 direction: 'asc',
             }
+            try {
+                let aux = await AchievementsStore.getAchievements(data);
+                aux.content.forEach(ach => {
+                    let fullDate = new Date(ach.date);
+                    let day = fullDate.getDay();
+                    let month = fullDate.getMonth();
+                    let year = fullDate.getFullYear();
+                    let auxDate = day + '/' + month + '/' + year;
+                    this.labels.push(auxDate);
+                });
 
-            let aux = await AchievementsStore.getAchievements(data);
+                this.values = aux.content.map(ach => {
+                    return ach.weight;
+                });
 
-            aux.content.forEach(ach => {
-                let fullDate = new Date(ach.date);
-                let day = fullDate.getDay();
-                let month = fullDate.getMonth();
-                let year = fullDate.getFullYear();
-                let auxDate = day + '/' + month + '/' + year;
-                this.labels.push(auxDate);
-            });
-
-            this.values = aux.content.map(ach => {
-                return ach.weight;
-            });
-
-            this.page = this.page + 1;
-            this.isLastPage = aux.isLastPage;
+                this.page = this.page + 1;
+                this.isLastPage = aux.isLastPage;
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         async newAchievement() {
@@ -99,9 +101,11 @@ export default {
             this.labels = [];
             this.values = [];
             this.page = 0;
-
-            await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
-
+            try {
+                await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
+            } catch (error) {
+                console.log(error);
+            }
             await this.getAchievements();
         }
     }

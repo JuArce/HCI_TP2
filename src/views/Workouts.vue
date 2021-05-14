@@ -214,10 +214,14 @@ export default {
             if (this.selectedFilter.length > 0) {
                 data[this.selectedFilter] = this.filterTerm;
             }
+            try{
             let aux = await RoutineStore.getRoutines(data);
             this.routines.push(...aux.content);
             this.page = this.page + 1;
             this.isLastPage = aux.isLastPage;
+            }catch(error){
+                console.log(error);
+            }
         },
 
         showCopiedLink() {
@@ -237,6 +241,7 @@ export default {
         },
 
         async searchUpdate(){
+            try{
             if(this.selectedSearch === 'userId'){
                 let users = await UserStore.getAllUsers({search:this.searchTerm, page:0, size:1, orderBy:'username', direction:'asc'});
                 if(users.totalCount === 0) {
@@ -250,6 +255,9 @@ export default {
             this.filterTerm = this.searchTerm;
             await this.update();
             this.updateFilterLabel();
+            }catch(error){
+                console.log(error);
+            }
         },
 
         updateFilterLabel() {

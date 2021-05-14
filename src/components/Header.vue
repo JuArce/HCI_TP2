@@ -88,9 +88,13 @@ export default {
         },
 
         async getUserData() {
+            try{
             let userInfo = await UserStore.getCurrentUserData();
             this.user.firstName = userInfo.firstName;
             this.user.photo = userInfo.avatarUrl;
+            }catch(error){
+                console.log(error);
+            }
         }
     },
 }

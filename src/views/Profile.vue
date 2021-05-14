@@ -103,20 +103,22 @@ export default {
                 await this.store.modifyUser(this.username, this.firstName, this.lastName, this.email, this.phone, this.avatarUrl);
                 await router.replace('/Profile');
             } catch (error) {
-                console.log(error.code);
+                console.log(error);
             }
-            console.log(this.phone);
         },
 
         async getUserData() {
+            try{
             let userInfo = await this.store.getCurrentUserData();
-            console.log(userInfo.username);
             this.username = userInfo.username;
             this.firstName = userInfo.firstName;
             this.lastName = userInfo.lastName;
             this.avatarUrl = userInfo.avatarUrl;
             this.phone = userInfo.phone;
             this.email = userInfo.email;
+            }catch(error){
+                console.log(error);
+            }
         },
 
         async cancelChanges() {

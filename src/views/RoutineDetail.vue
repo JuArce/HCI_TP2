@@ -91,22 +91,37 @@ export default {
                 orderBy: 'id',
                 direction: 'asc'
             };
-            let cycles = await RoutineCyclesStore.getAllCycles(this.routine.id, data);
-            this.cycles = cycles.content;
+            try {
+                let cycles = await RoutineCyclesStore.getAllCycles(this.routine.id, data);
+                this.cycles = cycles.content;
+            }catch(error){
+                console.log(error);
+            }
         },
 
         async manageFav() {
             if ((this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id)) === false) {
                 this.favorite = true;
-                await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+                try {
+                    await FavoriteRoutinesStore.addToFavorites(this.routine.id);
+                }catch (error){
+                    console.log(error);
+                }
             } else {
                 this.favorite = false;
-                await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+                try {
+                    await FavoriteRoutinesStore.removeFavorite(this.routine.id);
+                }catch (error) {
+                    console.log(error);
+                }
             }
         },
         async rateRoutine(){
-            console.log(this.rating);
-            await ReviewsStore.addReview(this.routine.id, this.rating);
+            try {
+                await ReviewsStore.addReview(this.routine.id, this.rating);
+            }catch(error){
+                console.log(error);
+            }
         }
     },
 }
