@@ -64,6 +64,8 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <c-achievement></c-achievement>
     </div>
 </template>
 
@@ -71,12 +73,14 @@
 import Favorites from "../components/Favorites";
 import {UserStore} from "../store/userStore";
 import {router} from "../main";
+import AchievementCard from "../components/AchievementCard";
 
 export default {
     name: "Profile",
 
     components: {
         CFavorites: Favorites,
+        CAchievement: AchievementCard
     },
 
     data: () => ({
