@@ -58,13 +58,17 @@ export default {
     }),
 
     async created() {
-        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {
-            page: 0,
-            size: 1,
-            orderBy: 'id',
-            direction: 'asc'
-        });
-        this.image = aux.content[0].url;
+        try {
+            let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {
+                page: 0,
+                size: 1,
+                orderBy: 'id',
+                direction: 'asc'
+            });
+            this.image = aux.content[0].url;
+        }catch(error){
+            console.log(error);
+        }
     },
 
     methods: {

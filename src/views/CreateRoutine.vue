@@ -296,6 +296,7 @@ export default {
                     cooldownCreated = await RoutineCyclesStore.createCycle(routineCreated.id, this.cooldown.name, this.cooldown.detail, 'cooldown', cycleIndex++, parseInt(this.cooldown.repetitions));
                 } catch (error) {
                     console.log(error);
+                    return false;
                 }
                 for (const cycleEx of this.cooldown.cycleExercises) {
                     try {

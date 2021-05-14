@@ -148,7 +148,11 @@ export default {
         },
 
         async getRating() {
-            this.rating = await ReviewsStore.getRoutineScore(this.routine.id);
+            try {
+                this.rating = await ReviewsStore.getRoutineScore(this.routine.id);
+            }catch (error){
+                console.log(error);
+            }
         },
     },
 
