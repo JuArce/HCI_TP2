@@ -2,16 +2,16 @@ import {Api} from './api.js';
 
 export {ReviewsApi, Review};
 
-class ReviewsApi{
-    static get url(){
+class ReviewsApi {
+    static get url() {
         return `${Api.baseUrl}/reviews`;
     }
 
-    static async addReview(routineId, data,controller){
+    static async addReview(routineId, data, controller) {
         return await Api.post(`${ReviewsApi.url}/${routineId}`, true, data, controller);
     }
 
-    static async getReviews(routineId, data, controller){
+    static async getReviews(routineId, data, controller) {
         return await Api.get(`${ReviewsApi.url}/${routineId}?` + new URLSearchParams({...data}), true, controller);
     }
 }
@@ -22,6 +22,6 @@ class Review {
         this.date = Date.now();
         this.routineId = routineId;
         this.score = score;
-        this.review='';
+        this.review = '';
     }
 }

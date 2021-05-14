@@ -22,7 +22,7 @@ const RoutineStore = {
         await RoutineApi.modifyRoutine(routineId, routineData);
     },
 
-    async deleteRoutine(routineId){
+    async deleteRoutine(routineId) {
         await RoutineApi.deleteRoutine(routineId);
     },
 };

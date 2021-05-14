@@ -2,9 +2,9 @@
     <v-card class="mx-auto" max-width="344" outlined>
         <v-list-item three-line>
             <v-list-item-content>
-                <v-list-item-title class="headline mb-1 text-capitalize">{{message}}
+                <v-list-item-title class="headline mb-1 text-capitalize">{{ message }}
                 </v-list-item-title>
-                <v-list-item>Are you sure you want to {{message}}?</v-list-item>
+                <v-list-item>Are you sure you want to {{ message }}?</v-list-item>
             </v-list-item-content>
 
             <v-list-item-avatar tile size="80" color="transparent">

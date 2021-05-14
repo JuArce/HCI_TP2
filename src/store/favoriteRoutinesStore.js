@@ -5,13 +5,14 @@ export {FavoriteRoutinesStore};
 const FavoriteRoutinesStore = {
     favoriteRoutines: [],
     data: {
-        page:0,
-        size:1,
+        page: 0,
+        size: 1,
         orderBy: 'id',
-        direction: 'asc'},
+        direction: 'asc'
+    },
     isLastPage: false,
 
-    async addToFavorites(routineId){
+    async addToFavorites(routineId) {
         await FavoriteApi.add(routineId);
     },
 
@@ -19,13 +20,13 @@ const FavoriteRoutinesStore = {
         return await FavoriteApi.get(data);
     },
 
-    async removeFavorite(routineId){
+    async removeFavorite(routineId) {
         await FavoriteApi.remove(routineId);
     },
 
-    async isFavoriteRoutine(routineId){
+    async isFavoriteRoutine(routineId) {
         let aux = await this.getAllFavoriteRoutines(this.data);
-        if(aux.totalCount === 0) {
+        if (aux.totalCount === 0) {
             return false;
         }
 

@@ -2,14 +2,16 @@ import {Api} from "./api";
 
 export {ExercisesVideosApi, Video};
 
-class ExercisesVideosApi{
-    static get url(){
+class ExercisesVideosApi {
+    static get url() {
         return `${Api.baseUrl}/exercises`;
     }
+
     static async addVideo(exerciseId, data, controller) {
         return await Api.post(`${ExercisesVideosApi.url}/${exerciseId}/videos`, true, data, controller);
     }
-    static async getAllVideos(exerciseId, data, controller){
+
+    static async getAllVideos(exerciseId, data, controller) {
         return await Api.get(`${ExercisesVideosApi.url}/${exerciseId}/videos?` + new URLSearchParams({...data}), true, controller);
     }
 

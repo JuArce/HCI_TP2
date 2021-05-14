@@ -12,12 +12,12 @@
                 </template>
                 <v-list>
                     <v-list-item :to="{name: 'EditExercisePath', params: {id: exercise.id}}">
-                            <v-icon medium>mdi-pencil</v-icon>
-                             Edit
+                        <v-icon medium>mdi-pencil</v-icon>
+                        Edit
                     </v-list-item>
                     <v-list-item @click="overlay=true">
-                            <v-icon medium>mdi-close</v-icon>
-                             Delete
+                        <v-icon medium>mdi-close</v-icon>
+                        Delete
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -29,7 +29,7 @@
                                  @confirmationAccepted="deleteExercise()"></c-confirmation-card>
         </v-overlay>
 
-        <v-card-subtitle class="text-capitalize">{{exercise.type}}</v-card-subtitle>
+        <v-card-subtitle class="text-capitalize">{{ exercise.type }}</v-card-subtitle>
 
         <v-card-text class="text--primary">
             <div>{{ exercise.detail }}</div>
@@ -58,18 +58,22 @@ export default {
     }),
 
     async created() {
-        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {page:0, size:1, orderBy:'id', direction:'asc'});
+        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {
+            page: 0,
+            size: 1,
+            orderBy: 'id',
+            direction: 'asc'
+        });
         this.image = aux.content[0].url;
     },
 
     methods: {
-        async deleteExercise(){
-            try{
+        async deleteExercise() {
+            try {
                 await ExerciseStore.deleteExercise(this.exercise.id);
                 this.$emit('exerciseDeleted');
                 this.overlay = false;
-            }
-            catch(error){
+            } catch (error) {
                 console.log();
             }
         }

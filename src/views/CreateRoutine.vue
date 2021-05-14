@@ -3,7 +3,8 @@
         <h1 class="ma-5">Routine Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Name..." label="Name" class="width my-6 ml-4" color="teal"
-                          v-model="routine.name" no-resize dense @blur="$v.routine.name.$touch()" :error-messages=nameErrors>
+                          v-model="routine.name" no-resize dense @blur="$v.routine.name.$touch()"
+                          :error-messages=nameErrors>
             </v-text-field>
             <v-textarea placeholder="Type Description..." label="Description" rows="2" class="width my-6 ml-4"
                         v-model="routine.detail" color="teal" no-resize dense>
@@ -19,12 +20,14 @@
 
             <v-select v-model="routine.difficulty" :items="items" class="width my-6 ml-4 text-capitalize"
                       label="Difficulty" color="teal"
-                      data-vv-name="select" required @blur="$v.routine.difficulty.$touch()" :error-messages=difficultyErrors>
+                      data-vv-name="select" required @blur="$v.routine.difficulty.$touch()"
+                      :error-messages=difficultyErrors>
             </v-select>
 
             <v-select v-model="routine.category" :items="categories" class="width my-6 ml-4 text-capitalize"
                       label="Category" color="teal"
-                      data-vv-name="select" required @blur="$v.routine.category.$touch()" :error-messages="categoryErrors">
+                      data-vv-name="select" required @blur="$v.routine.category.$touch()"
+                      :error-messages="categoryErrors">
             </v-select>
 
         </v-card>
@@ -46,7 +49,8 @@
                 <c-cycle-card class="ma-5" :cycle="warmup" title="Warm-Up"></c-cycle-card>
             </v-col>
             <v-col class="px-4 pb-6" cols="4" v-for="(ex, index) in exerciseStage" :key="index">
-                <c-cycle-card class="ma-5" :cycle="ex" :stage-amount="exerciseStage.length" v-show="exerciseStage.length !== 0"
+                <c-cycle-card class="ma-5" :cycle="ex" :stage-amount="exerciseStage.length"
+                              v-show="exerciseStage.length !== 0"
                               :title="'Exercise ' + (index+1)" @cycleDeleted="deleteExerciseStage(index)">
                 </c-cycle-card>
             </v-col>
@@ -140,12 +144,12 @@ export default {
     }),
 
     async created() {
-        try{
-        await this.getCategories();
-        if (this.createdRoutine !== undefined) {
-            await this.fillInfo();
-        }
-        }catch(error){
+        try {
+            await this.getCategories();
+            if (this.createdRoutine !== undefined) {
+                await this.fillInfo();
+            }
+        } catch (error) {
             console.log(error);
             this.alert = true;
             this.alertMessage = "Failed to bring the routine info";
@@ -164,8 +168,8 @@ export default {
                         return e.name;
                     })
                 })
-            }catch(error){
-                console.log(error+" Failed to fetch the categories.");
+            } catch (error) {
+                console.log(error + " Failed to fetch the categories.");
             }
         },
 
@@ -222,7 +226,7 @@ export default {
                     direction: 'asc'
                 });
                 this.cooldown.cycleExercises = aux.content;
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },

@@ -64,10 +64,6 @@ export default {
 
         weight: '',
 
-        page: 0,
-        size: 10,
-        isLastPage: false,
-
         overlay: false
     }),
 
@@ -84,25 +80,27 @@ export default {
                 direction: 'desc',
             }
 
-            let aux = await AchievementsStore.getAchievements(data);
+            try {
+                let aux = await AchievementsStore.getAchievements(data);
+                aux.content.forEach(ach => {
+                    let fullDate = new Date(ach.date);
+                    let day = fullDate.getDate();
+                    let month = fullDate.getMonth() + 1;
+                    let year = fullDate.getFullYear();
+                    let auxDate = day + '/' + month + '/' + year;
+                    this.labels.push(auxDate);
+                });
 
-            aux.content.forEach(ach => {
-                let fullDate = new Date(ach.date);
-                let day = fullDate.getDate();
-                let month = fullDate.getMonth() + 1;
-                let year = fullDate.getFullYear();
-                let auxDate = day + '/' + month + '/' + year;
-                this.labels.push(auxDate);
-            });
+                aux.content.reverse();
 
-            aux.content.reverse();
+                this.values = aux.content.map(ach => {
+                    return ach.weight;
+                });
 
-            this.values = aux.content.map(ach => {
-                return ach.weight;
-            });
-
-            this.page = this.page + 1;
-            this.isLastPage = aux.isLastPage;
+                this.page = this.page + 1;
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         async newAchievement() {
@@ -110,9 +108,13 @@ export default {
             this.values = [];
             this.page = 0;
 
-            await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
+            try {
+                await AchievementsStore.createNewAchievement(parseInt(this.weight), 1);
+                await this.getAchievements();
+            } catch (error) {
+                console.log(error);
+            }
 
-            await this.getAchievements();
         }
     }
 }

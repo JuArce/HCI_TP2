@@ -64,23 +64,23 @@ export default {
                 this.exercises.push(...aux.content);
                 this.data.page = this.data.page + 1;
                 this.isLastPage = aux.isLastPage;
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },
 
         async refreshExercises() {
-            try{
-            let data = {
-                page: 0,
-                size: 12,
-                orderBy: 'id',
-                direction: 'asc'
-            }
-            let aux = await this.store.getAllExercises(data);
-            this.exercises = aux.content;
-            this.isLastPage = aux.isLastPage;
-            }catch(error){
+            try {
+                let data = {
+                    page: 0,
+                    size: 12,
+                    orderBy: 'id',
+                    direction: 'asc'
+                }
+                let aux = await this.store.getAllExercises(data);
+                this.exercises = aux.content;
+                this.isLastPage = aux.isLastPage;
+            } catch (error) {
                 console.log(error);
             }
         }

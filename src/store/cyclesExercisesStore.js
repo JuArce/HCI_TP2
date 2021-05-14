@@ -29,7 +29,7 @@ const CyclesExercisesStore = {
         await CyclesExercisesApi.modifyCycleExercise(cycleId, exerciseId, cycleExercise);
     },
 
-    async deleteCycleExercise(cycleId, exerciseId){
+    async deleteCycleExercise(cycleId, exerciseId) {
         await CyclesExercisesApi.deleteCycleExercise(cycleId, exerciseId);
     }
 

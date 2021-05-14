@@ -20,7 +20,8 @@
                           @blur="$v.image.$touch()" :error-messages=imageErrors>
             </v-text-field>
             <v-text-field placeholder="Enter a video URL" label="Video URL" class="width my-6 ml-4"
-                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()" :error-messages=videoErrors>
+                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()"
+                          :error-messages=videoErrors>
             </v-text-field>
         </v-card>
 
@@ -76,8 +77,8 @@ export default {
         name: '',
         detail: '',
         type: '',
-        image:'',
-        video:'',
+        image: '',
+        video: '',
         overlay: false,
         loading: false,
         items: ['exercise', 'rest'],
@@ -94,7 +95,7 @@ export default {
                 try {
                     let exercise = await ExerciseStore.createExercise(this.name, this.detail, this.type);
                     await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
-                    if (this.video!=='') await ExercisesVideosStore.addExerciseVideo(exercise.id, this.video);
+                    if (this.video !== '') await ExercisesVideosStore.addExerciseVideo(exercise.id, this.video);
                     await router.replace('/Exercises');
                 } catch (error) {
                     this.loading = false;
@@ -130,8 +131,8 @@ export default {
             required: required,
             url: url,
         },
-        video:{
-            url:url,
+        video: {
+            url: url,
         }
     },
     computed: {
@@ -153,7 +154,7 @@ export default {
             !this.$v.image.url && errors.push("Please enter a valid image URL.");
             return errors;
         },
-        videoErrors(){
+        videoErrors() {
             const errors = [];
             !this.$v.image.url && errors.push("Please enter a valid video URL.");
             return errors;

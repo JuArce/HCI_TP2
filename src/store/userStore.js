@@ -26,8 +26,8 @@ const UserStore = {
     async getCurrentUserData() {
         return await UserApi.getCurrentUserData();
     },
-    
-    async getAllUsers(data){
+
+    async getAllUsers(data) {
         return await UserApi.getUsers(data);
     },
 
@@ -36,15 +36,15 @@ const UserStore = {
         await UserApi.modifyCurrent(userData);
     },
 
-    async getCurrentUserRoutines(data){
+    async getCurrentUserRoutines(data) {
         return await UserApi.getCurrentRoutines(data);
     },
 
-    async getOtherUserData(id){
+    async getOtherUserData(id) {
         return await UserApi.getOtherData(id);
     },
 
-    async getOtherUserRoutines(id, data){
+    async getOtherUserRoutines(id, data) {
         return await UserApi.getOtherRoutines(id, data);
     }
 

@@ -9,11 +9,11 @@ const ExercisesImagesStore = {
         return exerciseImage;
     },
 
-    async getExerciseImages(exerciseId, data){
+    async getExerciseImages(exerciseId, data) {
         return await ExercisesImagesApi.getAllImages(exerciseId, data);
     },
 
-    async deleteExerciseImage(exerciseId, imageId, controller){
-        return await ExercisesImagesApi.removeImage(exerciseId,imageId,controller);
+    async deleteExerciseImage(exerciseId, imageId, controller) {
+        return await ExercisesImagesApi.removeImage(exerciseId, imageId, controller);
     }
 }

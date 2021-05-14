@@ -3,7 +3,7 @@
         <h1 class="ma-5">My Routines</h1>
         <v-list-item>
             <p class="ma-2">Filtering by:</p>
-            <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel}}</v-chip>
+            <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel }}</v-chip>
             <p class="ma-2">Ordering by:</p>
             <v-chip v-if="orderLabel !== 'None'" @click="changeDirection()" class="ma-2" color="teal" outlined>
                 {{ orderLabel }}
@@ -34,7 +34,8 @@
         <v-row>
             <v-col class="px-8 pb-6" xl="4" lg="6" md="12" v-for="(routine) in routines" :key="routine.id">
                 <c-routine-card :routine="routine" :path="'/Routines'"
-                                @copiedLinkToClipboard="showCopiedLink()" @deletedRoutine="routineDeleted()"></c-routine-card>
+                                @copiedLinkToClipboard="showCopiedLink()"
+                                @deletedRoutine="routineDeleted()"></c-routine-card>
             </v-col>
         </v-row>
 
@@ -104,7 +105,8 @@
                     <v-btn @click="orderOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); orderOverlay = false; direction='asc'" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); orderOverlay = false; direction='asc'" class="teal" outlined rounded text
+                           dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -186,7 +188,7 @@ export default {
         direction: 'asc',
 
         search: [
-            {text: 'Routine', value:'search'},
+            {text: 'Routine', value: 'search'},
             {text: 'None', value: 'none'}
         ],
         selectedSearch: '',
@@ -206,8 +208,8 @@ export default {
         try {
             let userData = await UserStore.getCurrentUserData();
             this.userId = userData.id;
-        }catch(error){
-           console.log(error);
+        } catch (error) {
+            console.log(error);
         }
         await this.getRoutines();
         try {
@@ -219,7 +221,7 @@ export default {
                     value: e.id
                 });
             });
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
 
@@ -273,7 +275,7 @@ export default {
             //this.filterLabel = this.filters.find(fil => fil.value === this.selectedFilter).text + ' ' + this.filterTerm;
         },
 
-        async searchUpdate(){
+        async searchUpdate() {
             this.selectedFilter = this.selectedSearch;
             this.filterTerm = this.searchTerm;
             await this.update();
@@ -282,7 +284,7 @@ export default {
 
         updateFilterLabel() {
             let aux;
-            switch(this.selectedFilter) {
+            switch (this.selectedFilter) {
                 case 'categoryId':
                     aux = this.categories[this.filterTerm - 1].text;
                     this.filterLabel = 'Category: ' + aux;
@@ -306,7 +308,7 @@ export default {
         },
 
         async changeDirection() {
-            if(this.direction === 'asc') {
+            if (this.direction === 'asc') {
                 this.direction = 'desc';
             } else {
                 this.direction = 'asc';
@@ -314,7 +316,7 @@ export default {
             await this.update();
         },
 
-        async routineDeleted(){
+        async routineDeleted() {
             let auxSize = this.size;
             let auxPage = this.page;
             this.size = this.routines.length - 1;

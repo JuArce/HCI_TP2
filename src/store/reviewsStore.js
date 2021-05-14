@@ -26,9 +26,9 @@ const ReviewsStore = {
             let aux = await this.getRoutineReviews(routineId, data);
             isLastPage = aux.isLastPage;
             aux.content.forEach(e => rating += e.score);
-            totalReviews=aux.totalCount;
+            totalReviews = aux.totalCount;
         }
-        if (totalReviews===0) return totalReviews;
-        return rating/totalReviews;
+        if (totalReviews === 0) return totalReviews;
+        return rating / totalReviews;
     }
 }

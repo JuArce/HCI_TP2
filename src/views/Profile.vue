@@ -108,20 +108,24 @@ export default {
         },
 
         async getUserData() {
-            try{
-            let userInfo = await this.store.getCurrentUserData();
-            this.username = userInfo.username;
-            this.firstName = userInfo.firstName;
-            this.lastName = userInfo.lastName;
-            this.avatarUrl = userInfo.avatarUrl;
-            this.email = userInfo.email;
-            }catch(error){
+            try {
+                let userInfo = await this.store.getCurrentUserData();
+                this.username = userInfo.username;
+                this.firstName = userInfo.firstName;
+                this.lastName = userInfo.lastName;
+                this.avatarUrl = userInfo.avatarUrl;
+                this.email = userInfo.email;
+            } catch (error) {
                 console.log(error);
             }
         },
 
         async cancelChanges() {
-            await this.getUserData();
+            try {
+                await this.getUserData();
+            } catch (error) {
+                console.log(error);
+            }
             this.editData = false;
         },
 

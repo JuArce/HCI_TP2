@@ -77,9 +77,15 @@ export default {
             CVideoBackground: VideoBackground,
         },
 
-    created() {
-        if(localStorage.getItem('securityToken') != null) {
-            router.replace("/Home");
+    async created() {
+        console.log(localStorage.getItem('securityToken') !== null);
+        try {
+            let response = await localStorage.getItem('securityToken') !== null;
+            if (response) {
+                await router.replace("/Home");
+            }
+        } catch (error) {
+            console.log(error);
         }
     },
 

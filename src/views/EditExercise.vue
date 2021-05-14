@@ -3,7 +3,8 @@
         <h1 class="ma-5">Exercise Creator</h1>
         <v-card class="ma-5" outlined>
             <v-text-field placeholder="Type Exercise Name..." label="Name" class="width my-6 ml-4"
-                          v-model="name" color="teal" no-resize dense @blur="$v.name.$touch()" :error-messages=nameErrors>
+                          v-model="name" color="teal" no-resize dense @blur="$v.name.$touch()"
+                          :error-messages=nameErrors>
             </v-text-field>
 
             <v-textarea placeholder="Type Exercise Description..." label="Description" rows="2"
@@ -19,7 +20,8 @@
                           @blur="$v.image.$touch()" :error-messages=imageErrors>
             </v-text-field>
             <v-text-field placeholder="Enter a video URL" label="Video URL" class="width my-6 ml-4"
-                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()" :error-messages=videoErrors>
+                          v-model="video" color="teal" no-resize dense @blur="$v.video.$touch()"
+                          :error-messages=videoErrors>
             </v-text-field>
         </v-card>
 
@@ -81,18 +83,18 @@ export default {
         name: '',
         type: '',
         detail: '',
-        prevImg:'',
-        image:'',
-        imageId:'',
-        prevVid:'',
-        video:'',
-        videoId:'',
+        prevImg: '',
+        image: '',
+        imageId: '',
+        prevVid: '',
+        video: '',
+        videoId: '',
         overlay: false,
         loading: false,
         items: ['exercise', 'rest'],
         invalidParams: false,
         alert: false,
-        alertMessage:'',
+        alertMessage: '',
     }),
 
     async mounted() {
@@ -108,7 +110,8 @@ export default {
                     if (this.prevImg !== this.image) {
                         await ExercisesImagesStore.deleteExerciseImage(exercise.id, this.imageId);
                         await ExercisesImagesStore.addExerciseImage(exercise.id, this.image);
-                    }if (this.prevVid !== this.video){
+                    }
+                    if (this.prevVid !== this.video) {
                         if (this.videoId !== '') await ExercisesVideosStore.deleteExerciseVideo(exercise.id, this.videoId);
                         if (this.video !== '') await ExercisesVideosStore.addExerciseVideo(exercise.id, this.video);
                     }
@@ -152,7 +155,7 @@ export default {
                     this.prevVid = this.video;
                 }
                 console.log(auxVid.content);
-                this.image= auxImg.content[0].url;
+                this.image = auxImg.content[0].url;
                 this.imageId = auxImg.content[0].id;
                 this.prevImg = this.image;
                 this.name = exercise.name;
@@ -206,7 +209,7 @@ export default {
             !this.$v.image.url && errors.push("Please enter a valid image URL.");
             return errors
         },
-        videoErrors(){
+        videoErrors() {
             const errors = [];
             !this.$v.image.url && errors.push("Please enter a valid video URL.");
             return errors;

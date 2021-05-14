@@ -44,17 +44,7 @@ export default {
         routine: {
             required: true
         },
-
-        generateUrl() {
-            let url = location.host + '/#/RoutineDetail?id=' + this.routine.id;
-            let urlText = document.createElement("input");
-            urlText.value = url;
-            document.body.append(urlText);
-            urlText.select();
-            document.execCommand("copy");
-            document.body.removeChild(urlText);
-            this.$emit("copiedLinkToClipboard");
-        },
+    },
 
     data: () => ({
         date: null,
@@ -80,15 +70,25 @@ export default {
                     this.favorite = false;
                     await FavoriteRoutinesStore.removeFavorite(this.routine.id);
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error);
-        }
-    },
-},
-        async getRating(){
-            this.rating= await ReviewsStore.getRoutineScore(this.routine.id);
+            }
         },
-    },
+        async getRating() {
+            this.rating = await ReviewsStore.getRoutineScore(this.routine.id);
+        },
+
+        generateUrl() {
+            let url = location.host + '/#/RoutineDetail?id=' + this.routine.id;
+            let urlText = document.createElement("input");
+            urlText.value = url;
+            document.body.append(urlText);
+            urlText.select();
+            document.execCommand("copy");
+            document.body.removeChild(urlText);
+            this.$emit("copiedLinkToClipboard");
+        },
+    }
 }
 
 </script>

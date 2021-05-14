@@ -10,7 +10,8 @@ class ExercisesImagesApi {
     static async addImage(exerciseId, data, controller) {
         return await Api.post(`${ExercisesImagesApi.url}/${exerciseId}/images`, true, data, controller);
     }
-    static async getAllImages(exerciseId, data, controller){
+
+    static async getAllImages(exerciseId, data, controller) {
         return await Api.get(`${ExercisesImagesApi.url}/${exerciseId}/images?` + new URLSearchParams({...data}), true, controller);
     }
 

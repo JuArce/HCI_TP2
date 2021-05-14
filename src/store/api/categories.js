@@ -7,7 +7,7 @@ class CategoriesApi {
         return `${Api.baseUrl}/categories`;
     }
 
-    static async addCategory(data, controller){
+    static async addCategory(data, controller) {
         await Api.post(`${CategoriesApi.url}`, true, data, controller);
     }
 
@@ -19,16 +19,16 @@ class CategoriesApi {
         return await Api.get(`${CategoriesApi.url}/${categoryId}`, true, controller);
     }
 
-    static async modifyCategory(categoryId, categoryData, controller){
+    static async modifyCategory(categoryId, categoryData, controller) {
         return await Api.put(`${CategoriesApi.url}/${categoryId}`, true, categoryData, controller);
     }
 
-    static async deleteCategory(categoryId, controller){
+    static async deleteCategory(categoryId, controller) {
         return await Api.delete(`${CategoriesApi.url}/${categoryId}`, true, controller);
     }
 }
 
-class Category{
+class Category {
     constructor(name, detail) {
         this.id = null;
         this.name = name;

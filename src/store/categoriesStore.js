@@ -13,11 +13,11 @@ const CategoriesStore = {
         return await CategoriesApi.getAllCategories(data);
     },
 
-    async deleteCategory(categoryId){
+    async deleteCategory(categoryId) {
         await CategoriesApi.deleteCategory(categoryId);
     },
 
-    async getCategoriesList(){
+    async getCategoriesList() {
         let isLastPage = false;
         const data = {
             page: 0,

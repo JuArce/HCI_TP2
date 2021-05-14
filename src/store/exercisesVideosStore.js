@@ -9,11 +9,11 @@ const ExercisesVideosStore = {
         return exerciseVideo;
     },
 
-    async getExerciseVideos(exerciseId, data){
+    async getExerciseVideos(exerciseId, data) {
         return await ExercisesVideosApi.getAllVideos(exerciseId, data);
     },
 
-    async deleteExerciseVideo(exerciseId, videoId, controller){
-        return await ExercisesVideosApi.removeVideo(exerciseId,videoId,controller);
+    async deleteExerciseVideo(exerciseId, videoId, controller) {
+        return await ExercisesVideosApi.removeVideo(exerciseId, videoId, controller);
     }
 }

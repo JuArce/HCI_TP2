@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <v-app-bar dense light>
             <v-toolbar-title>
                 <v-img src="../assets/ProFit-Logo-text-v1.1.png" max-height="110" max-width="110"></v-img>
@@ -43,7 +43,7 @@
         </v-app-bar>
 
         <v-overlay :value="overlay" :dark="false">
-            <c-confirmation-card message="log out" toPath="/" @confirmationClosed="overlay=false"
+            <c-confirmation-card message="log out" toPath="/Home" @confirmationClosed="overlay=false"
                                  @confirmationAccepted="logOut"></c-confirmation-card>
         </v-overlay>
     </div>
@@ -52,6 +52,7 @@
 <script>
 import {UserStore} from "../store/userStore";
 import ConfirmationCard from "./ConfirmationCard";
+import {router} from "../main";
 
 export default {
     name: "Header",
@@ -83,16 +84,21 @@ export default {
     methods: {
         async logOut() {
             this.overlay = false;
-            await UserStore.logOutUser();
+            try {
+                await UserStore.logOutUser();
+            } catch (error) {
+                console.log(error);
+            }
             this.$root.$emit('UserStatusChanged');
+            await router.replace('/');
         },
 
         async getUserData() {
-            try{
-            let userInfo = await UserStore.getCurrentUserData();
-            this.user.firstName = userInfo.firstName;
-            this.user.photo = userInfo.avatarUrl;
-            }catch(error){
+            try {
+                let userInfo = await UserStore.getCurrentUserData();
+                this.user.firstName = userInfo.firstName;
+                this.user.photo = userInfo.avatarUrl;
+            } catch (error) {
                 console.log(error);
             }
         }

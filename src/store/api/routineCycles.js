@@ -3,11 +3,11 @@ import {Api} from './api.js';
 export {RoutineCyclesApi, Cycle};
 
 class RoutineCyclesApi {
-    static get url(){
+    static get url() {
         return `${Api.baseUrl}/routines`;
     }
 
-    static async createCycle(routineId, data, controller){
+    static async createCycle(routineId, data, controller) {
         let response = await Api.post(`${RoutineCyclesApi.url}/${routineId}/cycles`, true, data, controller);
         data.id = response.id;
     }
@@ -27,11 +27,11 @@ class RoutineCyclesApi {
         return await Api.get(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, controller);
     }
 
-    static async modifyCycle(routineId, cycleId, data, controller){
+    static async modifyCycle(routineId, cycleId, data, controller) {
         return await Api.put(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, data, controller);
     }
 
-    static async deleteCycle(routineId, cycleId, controller){
+    static async deleteCycle(routineId, cycleId, controller) {
         return await Api.delete(`${RoutineCyclesApi.url}/${routineId}/cycles/${cycleId}`, true, controller);
     }
 }

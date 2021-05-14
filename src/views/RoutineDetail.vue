@@ -6,24 +6,25 @@
                     <v-list-item>
                         <h1 class="teal--text">{{ routine.name }}</h1>
                         <div class="ml-16">
-                        <v-card-actions>
-                            <v-icon>mdi-shield</v-icon>
-                            <v-card-subtitle class="text-capitalize">
-                                {{ routine.difficulty }}
-                            </v-card-subtitle>
-                            <v-spacer></v-spacer>
-                            <v-btn icon @click="manageFav()">
-                                <v-icon v-if="favorite" color="teal">mdi-heart</v-icon>
-                                <v-icon v-else>mdi-heart-outline</v-icon>
-                            </v-btn>
-                        </v-card-actions>
+                            <v-card-actions>
+                                <v-icon>mdi-shield</v-icon>
+                                <v-card-subtitle class="text-capitalize">
+                                    {{ routine.difficulty }}
+                                </v-card-subtitle>
+                                <v-spacer></v-spacer>
+                                <v-btn icon @click="manageFav()">
+                                    <v-icon v-if="favorite" color="teal">mdi-heart</v-icon>
+                                    <v-icon v-else>mdi-heart-outline</v-icon>
+                                </v-btn>
+                            </v-card-actions>
                         </div>
                     </v-list-item>
                 </v-list>
                 <v-card-subtitle class="mt-n5">by {{ user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" background-color="teal lighten-3" hover dense length="5" size="18" v-model="rating"></v-rating>
+                        <v-rating class="ml-3 mt-1" color="teal lighten-2" background-color="teal lighten-3" hover dense
+                                  length="5" size="18" v-model="rating"></v-rating>
                         <v-btn x-small rounded outlined class="ml-2 mt-1" @click="rateRoutine()" color="teal">
                             Rate now
                         </v-btn>
@@ -88,7 +89,7 @@ export default {
             try {
                 let cycles = await RoutineCyclesStore.getAllCycles(this.routine.id, data);
                 this.cycles = cycles.content;
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },
@@ -98,22 +99,22 @@ export default {
                 this.favorite = true;
                 try {
                     await FavoriteRoutinesStore.addToFavorites(this.routine.id);
-                }catch (error){
+                } catch (error) {
                     console.log(error);
                 }
             } else {
                 this.favorite = false;
                 try {
                     await FavoriteRoutinesStore.removeFavorite(this.routine.id);
-                }catch (error) {
+                } catch (error) {
                     console.log(error);
                 }
             }
         },
-        async rateRoutine(){
+        async rateRoutine() {
             try {
                 await ReviewsStore.addReview(this.routine.id, this.rating);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         }

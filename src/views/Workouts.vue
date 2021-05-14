@@ -2,7 +2,7 @@
     <div class="ma-3">
         <v-list-item>
             <p class="ma-2">Filtering by:</p>
-            <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel}}</v-chip>
+            <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel }}</v-chip>
             <p class="ma-2">Ordering by:</p>
             <v-chip v-if="orderLabel !== 'None'" @click="changeDirection()" class="ma-2" color="teal" outlined>
                 {{ orderLabel }}
@@ -33,7 +33,8 @@
         <v-row>
             <v-col class="px-8 pb-6" xl="4" lg="6" md="12" v-for="(routine) in routines" :key="routine.id">
                 <c-routine-card :routine="routine" :path="'/Workouts'"
-                                @copiedLinkToClipboard="showCopiedLink()" @deletedRoutine="routineDeleted()"></c-routine-card>
+                                @copiedLinkToClipboard="showCopiedLink()"
+                                @deletedRoutine="routineDeleted()"></c-routine-card>
             </v-col>
         </v-row>
 
@@ -94,7 +95,8 @@
                     <v-btn @click="orderOverlay = false" outlined rounded text>
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-btn @click="update(); orderOverlay = false; direction='asc'" class="teal" outlined rounded text dark>
+                    <v-btn @click="update(); orderOverlay = false; direction='asc'" class="teal" outlined rounded text
+                           dark>
                         <v-icon>mdi-send</v-icon>
                     </v-btn>
                 </v-card-actions>
@@ -109,9 +111,9 @@
                           data-vv-name="select" required>
                 </v-select>
                 <v-text-field v-if="selectedSearch.length > 0" v-model="searchTerm"
-                          class="width my-6 ml-4 text-capitalize"
-                          label="Name" color="teal"
-                          data-vv-name="select" required>
+                              class="width my-6 ml-4 text-capitalize"
+                              label="Name" color="teal"
+                              data-vv-name="select" required>
                 </v-text-field>
 
                 <v-card-actions>
@@ -175,7 +177,7 @@ export default {
         direction: 'asc',
 
         search: [
-            {text: 'Routine', value:'search'},
+            {text: 'Routine', value: 'search'},
             {text: 'Username', value: 'userId'},
             {text: 'None', value: 'none'}
         ],
@@ -193,7 +195,7 @@ export default {
 
     async created() {
         await this.getRoutines();
-        let aux = await CategoriesStore.getCategories({page:0, size:10, orderBy:'id', direction:'asc'});
+        let aux = await CategoriesStore.getCategories({page: 0, size: 10, orderBy: 'id', direction: 'asc'});
         let auxAux = aux.content;
         auxAux.forEach(e => {
             this.categories.push({
@@ -214,12 +216,12 @@ export default {
             if (this.selectedFilter.length > 0) {
                 data[this.selectedFilter] = this.filterTerm;
             }
-            try{
-            let aux = await RoutineStore.getRoutines(data);
-            this.routines.push(...aux.content);
-            this.page = this.page + 1;
-            this.isLastPage = aux.isLastPage;
-            }catch(error){
+            try {
+                let aux = await RoutineStore.getRoutines(data);
+                this.routines.push(...aux.content);
+                this.page = this.page + 1;
+                this.isLastPage = aux.isLastPage;
+            } catch (error) {
                 console.log(error);
             }
         },
@@ -234,35 +236,44 @@ export default {
         async update() {
             this.routines = [];
             this.page = 0;
-            await this.getRoutines();
+            try {
+                await this.getRoutines();
+            } catch (error) {
+                console.log(error);
+            }
             this.updateFilterLabel();
             this.updateOrderLabel();
-            //this.filterLabel = this.filters.find(fil => fil.value === this.selectedFilter).text + ' ' + this.filterTerm;
         },
 
-        async searchUpdate(){
-            try{
-            if(this.selectedSearch === 'userId'){
-                let users = await UserStore.getAllUsers({search:this.searchTerm, page:0, size:1, orderBy:'username', direction:'asc'});
-                if(users.totalCount === 0) {
-                    return //hacer algo mas?
+        async searchUpdate() {
+            try {
+                if (this.selectedSearch === 'userId') {
+                    let users = await UserStore.getAllUsers({
+                        search: this.searchTerm,
+                        page: 0,
+                        size: 1,
+                        orderBy: 'username',
+                        direction: 'asc'
+                    });
+                    if (users.totalCount === 0) {
+                        return
+                    }
+                    let userId = users.content[0].id;
+                    this.userQuery = this.searchTerm;
+                    this.searchTerm = userId;
                 }
-                let userId = users.content[0].id;
-                this.userQuery = this.searchTerm;
-                this.searchTerm = userId;
-            }
-            this.selectedFilter = this.selectedSearch;
-            this.filterTerm = this.searchTerm;
-            await this.update();
-            this.updateFilterLabel();
-            }catch(error){
+                this.selectedFilter = this.selectedSearch;
+                this.filterTerm = this.searchTerm;
+                await this.update();
+                this.updateFilterLabel();
+            } catch (error) {
                 console.log(error);
             }
         },
 
         updateFilterLabel() {
             let aux;
-            switch(this.selectedFilter) {
+            switch (this.selectedFilter) {
                 case 'categoryId':
                     aux = this.categories[this.filterTerm - 1].text;
                     this.filterLabel = 'Category: ' + aux;
@@ -290,7 +301,7 @@ export default {
         },
 
         async changeDirection() {
-            if(this.direction === 'asc') {
+            if (this.direction === 'asc') {
                 this.direction = 'desc';
             } else {
                 this.direction = 'asc';
@@ -298,7 +309,7 @@ export default {
             await this.update();
         },
 
-        async routineDeleted(){
+        async routineDeleted() {
             let auxSize = this.size;
             let auxPage = this.page;
             this.size = this.routines.length - 1;

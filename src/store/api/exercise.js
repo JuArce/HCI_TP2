@@ -3,11 +3,11 @@ import {Api} from './api.js';
 export {ExerciseApi, Exercise};
 
 class ExerciseApi {
-    static get url(){
+    static get url() {
         return `${Api.baseUrl}/exercises`;
     }
 
-    static async createExercise(data, controller){
+    static async createExercise(data, controller) {
         const response = await Api.post(`${ExerciseApi.url}`, true, data, controller);
         data.id = response.id;
     }
@@ -24,7 +24,7 @@ class ExerciseApi {
         return await Api.put(`${ExerciseApi.url}/${exerciseId}`, true, data, controller);
     }
 
-    static async deleteExercise(exerciseID, controller){
+    static async deleteExercise(exerciseID, controller) {
         return await Api.delete(`${ExerciseApi.url}/${exerciseID}`, true, controller);
     }
 }

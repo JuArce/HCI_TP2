@@ -41,10 +41,20 @@ export default {
 
 
     async created() {
-        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {page:0, size:1, orderBy:'id', direction:'asc'});
+        let aux = await ExercisesImagesStore.getExerciseImages(this.exercise.id, {
+            page: 0,
+            size: 1,
+            orderBy: 'id',
+            direction: 'asc'
+        });
         this.image = aux.content[0].url;
-        aux = await ExercisesVideosStore.getExerciseVideos(this.exercise.id, {page:0, size:1, orderBy:'id', direction:'asc'});
-        if(aux.content.length > 0) {
+        aux = await ExercisesVideosStore.getExerciseVideos(this.exercise.id, {
+            page: 0,
+            size: 1,
+            orderBy: 'id',
+            direction: 'asc'
+        });
+        if (aux.content.length > 0) {
             this.video = aux.content[0].url;
         }
     }

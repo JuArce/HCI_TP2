@@ -3,7 +3,7 @@ import {Api} from "./api";
 export {CyclesExercisesApi, CycleExercise};
 
 class CyclesExercisesApi {
-    static get url(){
+    static get url() {
         return `${Api.baseUrl}/cycles`;
     }
 
@@ -12,19 +12,19 @@ class CyclesExercisesApi {
         data.exercise = response.exercise;
     }
 
-    static async getAllCyclesExercises(cycleId, data, controller){
+    static async getAllCyclesExercises(cycleId, data, controller) {
         return await Api.get(`${CyclesExercisesApi.url}/${cycleId}/exercises?` + new URLSearchParams({...data}), true, controller);
     }
 
-    static async getCycleExercise(cycleId, exerciseId, controller){
+    static async getCycleExercise(cycleId, exerciseId, controller) {
         return await Api.get(`${CyclesExercisesApi.url}/${cycleId}/exercises/${exerciseId}`, true, controller);
     }
 
-    static async modifyCycleExercise(cycleId, exerciseId, exerciseData, controller){
+    static async modifyCycleExercise(cycleId, exerciseId, exerciseData, controller) {
         return await Api.put(`${CyclesExercisesApi.url}/${cycleId}/exercises/${exerciseId}`, true, exerciseData, controller);
     }
 
-    static async deleteCycleExercise(cycleId, exerciseId, controller){
+    static async deleteCycleExercise(cycleId, exerciseId, controller) {
         return await Api.delete(`${CyclesExercisesApi.url}/${cycleId}/exercises/${exerciseId}`, true, controller);
     }
 }

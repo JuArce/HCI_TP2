@@ -18,7 +18,6 @@ import CreateRoutine from "./views/CreateRoutine";
 import Error404 from "./views/Error404";
 import Exercises from "./views/Exercises";
 import CreateExercise from "./views/CreateExercise";
-import EditRoutine from "./views/EditRoutine";
 import EditExercise from "./views/EditExercise";
 import ValidateEmail from "./views/ValidateEmail";
 import CreateCycleExercise from "./components/CreateCycleExercise";
@@ -37,35 +36,34 @@ const router = new VueRouter({
         {path: '/Workouts', component: Workouts},
         {path: '/Profile', component: Profile},
         {path: '/Routines', component: Routines},
-        {path: '/Exercises', component:Exercises},
+        {path: '/Exercises', component: Exercises},
         {path: '/RoutineDetail', component: RoutineDetail, name: 'RoutineDetailPath', props: true},
         {path: '/CreateRoutine', component: CreateRoutine, name: 'CreateRoutinePath', props: true},
         {path: '/CreateExercise', component: CreateExercise},
-        {path: '/EditRoutine', component: EditRoutine, name: 'EditRoutinePath', props: true},
         {path: '/EditExercise', component: EditExercise, name: 'EditExercisePath', props: true},
         {path: '/Register', component: Register},
         {path: '/ValidateEmail', component: ValidateEmail},
-        {path: '/CreateCycleExercise', component: CreateCycleExercise}, //Borrar
+        {path: '/CreateCycleExercise', component: CreateCycleExercise},
         {path: '/Setup', component: Setup},
         {path: '/*', component: Error404},
     ]
 })
 
-router.beforeEach((to, from, next ) => {
-    if( isLogged() || isValidPath(to.path)){
+router.beforeEach((to, from, next) => {
+    if (isLogged() || isValidPath(to.path)) {
         next();
-    } else{
+    } else {
         next({
             path: '/',
         })
     }
 });
 
-function isLogged(){
+function isLogged() {
     return localStorage.getItem('securityToken');
 }
 
-function isValidPath(path){
+function isValidPath(path) {
     return path.localeCompare('/') === 0 || path.localeCompare('/Register') === 0 || path.localeCompare('/ValidateEmail') === 0;
 }
 

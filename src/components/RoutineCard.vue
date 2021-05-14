@@ -34,7 +34,8 @@
 
         <v-card-subtitle class="pb-0">by
             {{ routine.user.username }} · {{ date }}
-            <v-rating readonly color="teal lighten-2" background-color="teal lighten-3" half-increments hover length="5" size="16" v-model="rating"></v-rating>
+            <v-rating readonly color="teal lighten-2" background-color="teal lighten-3" half-increments hover length="5"
+                      size="16" v-model="rating"></v-rating>
         </v-card-subtitle>
 
         <v-card-text class="text--primary">
@@ -97,16 +98,16 @@ export default {
             this.belongsUser = currentUser.id === routineUserId;
             this.getRoutineDate();
             await this.getRating();
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     },
 
     methods: {
         async deleteRoutine() {
-            try{
-            await RoutineStore.deleteRoutine(this.routine.id);
-            }catch(error){
+            try {
+                await RoutineStore.deleteRoutine(this.routine.id);
+            } catch (error) {
                 console.log(error);
             }
             this.overlay = false;
@@ -122,7 +123,7 @@ export default {
                     this.favorite = false;
                     await FavoriteRoutinesStore.removeFavorite(this.routine.id);
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },
@@ -146,8 +147,8 @@ export default {
             this.$emit("copiedLinkToClipboard");
         },
 
-        async getRating(){
-            this.rating= await ReviewsStore.getRoutineScore(this.routine.id);
+        async getRating() {
+            this.rating = await ReviewsStore.getRoutineScore(this.routine.id);
         },
     },
 

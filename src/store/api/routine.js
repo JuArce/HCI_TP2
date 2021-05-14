@@ -3,11 +3,11 @@ import {Api} from './api.js';
 export {RoutineApi, Routine};
 
 class RoutineApi {
-    static get url(){
+    static get url() {
         return `${Api.baseUrl}/routines`;
     }
 
-    static async createRoutine(data, controller){
+    static async createRoutine(data, controller) {
         const response = await Api.post(`${RoutineApi.url}`, true, data, controller);
         data.id = response.id;
         data.user = response.user;
@@ -30,11 +30,11 @@ class RoutineApi {
         return await Api.get(`${RoutineApi.url}/${routineId}`, true, controller);
     }
 
-    static async modifyRoutine(routineId, routineData, controller){
+    static async modifyRoutine(routineId, routineData, controller) {
         return await Api.put(`${RoutineApi.url}/${routineId}`, true, routineData, controller);
     }
 
-    static async deleteRoutine(routineId, controller){
+    static async deleteRoutine(routineId, controller) {
         return await Api.delete(`${RoutineApi.url}/${routineId}`, true, controller);
     }
 }

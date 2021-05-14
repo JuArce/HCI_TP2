@@ -16,11 +16,11 @@ class UserApi {
     static async logout(controller) {
         await Api.post(`${UserApi.url}/logout`, true, controller);
         Api.token = undefined;
-        localStorage.removeItem('securityToken');
+        await localStorage.removeItem('securityToken');
     }
 
     static async register(data, controller) {
-        const response =  await Api.post(`${UserApi.url}`, false, data, controller);
+        const response = await Api.post(`${UserApi.url}`, false, data, controller);
         data.id = response.id;
     }
 
@@ -37,23 +37,23 @@ class UserApi {
         return await Api.get(`${UserApi.url}/current`, true, controller);
     }
 
-    static async modifyCurrent(data, controller){
+    static async modifyCurrent(data, controller) {
         return await Api.put(`${UserApi.url}/current`, true, data, controller);
     }
 
-    static async getCurrentRoutines(data, controller){
-        return await Api.get(`${UserApi.url}/current/routines/?`  + new URLSearchParams({...data}), true, controller);
+    static async getCurrentRoutines(data, controller) {
+        return await Api.get(`${UserApi.url}/current/routines/?` + new URLSearchParams({...data}), true, controller);
     }
 
-    static async getOtherData(id, controller){
+    static async getOtherData(id, controller) {
         return await Api.get(`${UserApi.url}/${id}`, true, controller);
     }
 
-    static async getUsers(data, controller){
+    static async getUsers(data, controller) {
         return await Api.get(`${UserApi.url}?` + new URLSearchParams({...data}), true, controller);
     }
 
-    static async getOtherRoutines(id, data, controller){
+    static async getOtherRoutines(id, data, controller) {
         return await Api.get(`${UserApi.url}/${id}/routines/?` + new URLSearchParams({...data}), true, controller);
     }
 }
@@ -72,8 +72,8 @@ class ValidateCredentials {
     }
 }
 
-class UserData{
-    constructor(username, password, firstName, lastName, gender, birthdate, email, phone, avatarUrl){
+class UserData {
+    constructor(username, password, firstName, lastName, gender, birthdate, email, phone, avatarUrl) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -87,8 +87,8 @@ class UserData{
     }
 }
 
-class UserNoPassword{
-    constructor(username, firstName, lastName, gender, birthdate, email, phone, avatarUrl){
+class UserNoPassword {
+    constructor(username, firstName, lastName, gender, birthdate, email, phone, avatarUrl) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -6,7 +6,9 @@
                 ></v-text-field>
             </v-col>
             <v-col cols="1">
-                <v-btn class="mt-4 ml-xl-4 ml-lg-8" large icon @click="$emit('cycleDeleted')"><v-icon>mdi-close</v-icon></v-btn>
+                <v-btn class="mt-4 ml-xl-4 ml-lg-8" large icon @click="$emit('cycleDeleted')">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
             </v-col>
         </v-row>
 
@@ -41,7 +43,10 @@
                         <v-col cols="10">
                             <v-list-item two-line>
                                 <v-list-item-content>
-                                    <v-list-item-title class="text--primary">{{ item.exercise.name }}</v-list-item-title>
+                                    <v-list-item-title class="text--primary">{{
+                                            item.exercise.name
+                                        }}
+                                    </v-list-item-title>
 
                                     <v-list-item-subtitle v-if="item.duration > 0 && item.repetitions > 0">
                                         {{ item.duration + ' seconds' + ' · ' + item.repetitions + ' times' }}
@@ -69,7 +74,7 @@
                                     </v-list-item>
                                     <v-list-item @click="deleteExercise(item)">
                                         <v-icon medium>mdi-close</v-icon>
-                                        <v-list-item-title >Delete</v-list-item-title>
+                                        <v-list-item-title>Delete</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
@@ -124,14 +129,14 @@ export default {
         isLastPage: false,
 
         overlay: false,
-        editOverlay:false
+        editOverlay: false
     }),
 
     methods: {
-        deleteExercise(ex){
+        deleteExercise(ex) {
             let aux = this.cycle.cycleExercises.indexOf(ex);
-            if(aux !== -1){
-                this.cycle.cycleExercises.splice(aux ,1);
+            if (aux !== -1) {
+                this.cycle.cycleExercises.splice(aux, 1);
             }
         }
     }

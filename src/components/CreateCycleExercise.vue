@@ -79,20 +79,22 @@ export default {
 
     methods: {
         async initExercises() {
-            try{
-            const aux = await ExerciseStore.getAllExercises(this.data);
-            this.exercises = aux.content;
-            let exNames = this.cycleExercises.map(cycleEx => {return cycleEx.exercise.id});
-
-            this.exercises = this.exercises.filter((e) => {
-                return !exNames.includes(e.id);
-            });
-            this.exercises.forEach(e => {
-                e.toString = (() => {
-                    return e.name;
+            try {
+                const aux = await ExerciseStore.getAllExercises(this.data);
+                this.exercises = aux.content;
+                let exNames = this.cycleExercises.map(cycleEx => {
+                    return cycleEx.exercise.id
                 });
-            })
-            }catch(error){
+
+                this.exercises = this.exercises.filter((e) => {
+                    return !exNames.includes(e.id);
+                });
+                this.exercises.forEach(e => {
+                    e.toString = (() => {
+                        return e.name;
+                    });
+                })
+            } catch (error) {
                 console.log(error);
             }
         },

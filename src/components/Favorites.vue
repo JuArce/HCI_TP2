@@ -2,7 +2,8 @@
     <div>
         <v-row>
             <v-col class="px-8 pb-6" cols="12" v-for="(routine, index) in currentRoutines" :key="index">
-                <c-favorite-routine-card class="ma-5" :routine="routine" @copiedLinkToClipboard="showCopiedLink()"></c-favorite-routine-card>
+                <c-favorite-routine-card class="ma-5" :routine="routine"
+                                         @copiedLinkToClipboard="showCopiedLink()"></c-favorite-routine-card>
             </v-col>
         </v-row>
 
@@ -61,7 +62,7 @@ export default {
                 this.totalPages = aux.totalCount;
                 this.pages = Math.ceil(this.totalPages / aux.size);
                 this.isLastPage = aux.isLastPage;
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         },

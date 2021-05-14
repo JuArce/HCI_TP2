@@ -142,7 +142,7 @@ export default {
     methods: {
         // Métodos que acceden a la API
         async processInput() {
-            this.invalidParams= true;
+            this.invalidParams = true;
             if (!this.$v.$invalid) {
                 this.loading = true;
                 try {
@@ -247,14 +247,14 @@ export default {
             !this.$v.username.maxLength && errors.push("Enter a shorter username.")
             return errors
         },
-        nameErrors(){
+        nameErrors() {
             const errors = []
             this.invalidParams && this.$v.firstName.$invalid && errors.push("Please enter your name.");
             !this.$v.firstName.minLength && errors.push("Please enter your name.")
             !this.$v.firstName.maxLength && errors.push("Is your name really that long..?")
             return errors
         },
-        surnameErrors(){
+        surnameErrors() {
             const errors = []
             this.invalidParams && this.$v.lastName.$invalid && errors.push("Please enter your last name.");
             !this.$v.lastName.minLength && errors.push("Please enter your last name.")

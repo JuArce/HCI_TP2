@@ -3,7 +3,7 @@ import {ExerciseApi, Exercise} from "./api/exercise";
 export {ExerciseStore, Exercise};
 
 const ExerciseStore = {
-    async createExercise(name, detail, type){
+    async createExercise(name, detail, type) {
         let exercise = new Exercise(name, detail, type);
         await ExerciseApi.createExercise(exercise);
         return exercise;
@@ -30,7 +30,7 @@ const ExerciseStore = {
         return await ExerciseApi.editExercise(exerciseID, exercise);
     },
 
-    async deleteExercise(exerciseID){
+    async deleteExercise(exerciseID) {
         return await ExerciseApi.deleteExercise(exerciseID);
     }
 }
