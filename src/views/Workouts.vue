@@ -285,7 +285,6 @@ export default {
                     this.filterLabel = 'Routine: ' + this.filterTerm;
                     break;
                 case 'userId':
-                    console.log("entre");
                     this.filterLabel = 'Username: ' + this.userQuery;
                     break;
                 default:

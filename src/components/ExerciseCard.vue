@@ -78,7 +78,7 @@ export default {
                 this.$emit('exerciseDeleted');
                 this.overlay = false;
             } catch (error) {
-                console.log();
+                console.log(error);
             }
         }
     }

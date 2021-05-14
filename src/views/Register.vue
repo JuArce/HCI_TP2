@@ -213,11 +213,6 @@ export default {
             minLength: minLength(2),
             maxLength: maxLength(100)
         },
-        // Largo de telefonos considerando caracteres adicionales.
-        phone: {
-            minLength: minLength(8),
-            maxLength: maxLength(12)
-        },
         email: {
             required: required,
             email: email

@@ -78,7 +78,6 @@ export default {
         },
 
     async created() {
-        console.log(localStorage.getItem('securityToken') !== null);
         try {
             let response = await localStorage.getItem('securityToken') !== null;
             if (response) {

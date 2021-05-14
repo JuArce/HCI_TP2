@@ -138,7 +138,6 @@ export default {
         },
 
         async getExercise(id) {
-            console.log(id);
             try {
                 const data = {
                     page: 0,
@@ -154,7 +153,6 @@ export default {
                     this.videoId = auxVid.content[0].id;
                     this.prevVid = this.video;
                 }
-                console.log(auxVid.content);
                 this.image = auxImg.content[0].url;
                 this.imageId = auxImg.content[0].id;
                 this.prevImg = this.image;
