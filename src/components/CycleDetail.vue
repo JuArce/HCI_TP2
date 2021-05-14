@@ -15,21 +15,25 @@
 
         <v-timeline dense>
             <v-timeline-item color="teal lighten-3" small v-for="(cycleEx, index) in cycleExercises" :key="index">
-                <v-card flat class="ma-1">
-                    <v-card-title>
-                        {{cycleEx.exercise.name}}
+                <v-list-item two-line>
+                    <v-list-item-content>
+                        <v-list-item-title class="text--primary">{{cycleEx.exercise.name}}
+                            <v-btn @click="exerciseDetailOverlay = true; exerciseInfo = cycleEx.exercise" class="ml-2" icon>
+                                <v-icon color="teal">mdi-information-outline</v-icon>
+                            </v-btn>
+                        </v-list-item-title>
 
-                        <v-btn @click="exerciseDetailOverlay = true; exerciseInfo = cycleEx.exercise" class="ml-2" icon>
-                            <v-icon color="teal">mdi-information-outline</v-icon>
-                        </v-btn>
-
-
-                    </v-card-title>
-                    <v-card-actions class="mt-n8">
-                        <v-card-subtitle>{{cycleEx.duration}} sec</v-card-subtitle>
-                        <v-card-subtitle v-show="cycleEx.exercise.type === 'exercise'">{{cycleEx.repetitions}} rep</v-card-subtitle>
-                    </v-card-actions>
-                </v-card>
+                        <v-list-item-subtitle v-if="cycleEx.duration > 0 && cycleEx.repetitions > 0">
+                            {{ cycleEx.duration + ' seconds' + ' · ' + cycleEx.repetitions + ' times' }}
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle v-else-if="cycleEx.duration  > 0">
+                            {{ cycleEx.duration + ' seconds' }}
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle v-else-if="cycleEx.repetitions > 0">
+                            {{ cycleEx.repetitions + ' times' }}
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
             </v-timeline-item>
         </v-timeline>
         <v-overlay :value="exerciseDetailOverlay" :dark="false">

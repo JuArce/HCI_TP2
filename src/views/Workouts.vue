@@ -10,12 +10,7 @@
                 <v-icon v-if="direction==='desc'">mdi-chevron-down</v-icon>
             </v-chip>
 
-            <v-list-item-content>
-                <div class="centered" v-if="routines.length===0">
-                    <h2>It seems there are no workouts created yet,</h2>
-                    <h2>Maybe create one yourself?</h2>
-                </div>
-            </v-list-item-content>
+            <v-spacer></v-spacer>
 
             <v-btn class="my-5 mr-7" @click="searchOverlay=true" right depressed rounded>
                 <v-icon>mdi-magnify</v-icon>
@@ -28,7 +23,12 @@
             </v-btn>
         </v-list-item>
 
-        <!--        <h1 class="ma-5">Workouts!</h1>-->
+        <v-list-item-content>
+            <div class="centered justify-center" v-if="routines.length===0">
+                <h2>It seems there are no workouts created yet,</h2>
+                <h2>Maybe create one yourself?</h2>
+            </div>
+        </v-list-item-content>
 
         <v-row>
             <v-col class="px-8 pb-6" xl="4" lg="6" md="12" v-for="(routine) in routines" :key="routine.id">

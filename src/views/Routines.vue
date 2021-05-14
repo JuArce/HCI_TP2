@@ -1,7 +1,7 @@
 <template>
     <div>
+        <h1 class="ma-5">My Routines</h1>
         <v-list-item>
-            <h1 class="ma-5">My Routines</h1>
             <p class="ma-2">Filtering by:</p>
             <v-chip v-if="filterLabel !== 'None'" class="ma-2" color="teal" outlined>{{ filterLabel}}</v-chip>
             <p class="ma-2">Ordering by:</p>
@@ -11,12 +11,7 @@
                 <v-icon v-if="direction==='desc'">mdi-chevron-down</v-icon>
             </v-chip>
 
-            <v-list-item-content>
-                <div class="centered" v-if="routines.length===0">
-                    <h2>It seems you have not created a routine yet,</h2>
-                    <h2>Press the bottom right button to create a new one!</h2>
-                </div>
-            </v-list-item-content>
+            <v-spacer></v-spacer>
 
             <v-btn class="my-5 mr-7" @click="searchOverlay=true" right depressed rounded>
                 <v-icon>mdi-magnify</v-icon>
@@ -28,6 +23,13 @@
                 <v-icon>mdi-filter-outline</v-icon>
             </v-btn>
         </v-list-item>
+
+        <v-list-item-content>
+            <div class="centered" v-if="routines.length===0">
+                <h2>It seems you have not created a routine yet,</h2>
+                <h2>Press the bottom right button to create a new one!</h2>
+            </div>
+        </v-list-item-content>
 
         <v-row>
             <v-col class="px-8 pb-6" xl="4" lg="6" md="12" v-for="(routine) in routines" :key="routine.id">
