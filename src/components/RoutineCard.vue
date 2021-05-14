@@ -133,23 +133,8 @@ export default {
             this.$emit("copiedLinkToClipboard");
         },
 
-        async getRating(){ 
-            let isLastPage= false;
-            let totalReviews = 0;
-            this.rating=0;
-            const data = {
-                page: 0,
-                size: 10,
-                orderBy: 'id',
-                direction: 'asc'
-            };
-            while(!isLastPage) {
-                let aux = await ReviewsStore.getRoutineReviews(this.routine.id, data);
-                isLastPage = aux.isLastPage;
-                aux.content.forEach(e=> this.rating+=e.score);
-                totalReviews++;
-            }
-            this.rating/=totalReviews;
+        async getRating(){
+            this.rating= await ReviewsStore.getRoutineScore(this.routine.id);
         },
     },
 

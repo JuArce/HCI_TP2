@@ -8,7 +8,7 @@ class ReviewsApi{
     }
 
     static async addReview(routineId, data,controller){
-        return await Api.post(`${ReviewsApi.url}/${routineId}/`, true, data, controller);
+        return await Api.post(`${ReviewsApi.url}/${routineId}`, true, data, controller);
     }
 
     static async getReviews(routineId, data, controller){
@@ -22,5 +22,6 @@ class Review {
         this.date = Date.now();
         this.routineId = routineId;
         this.score = score;
+        this.review='';
     }
 }

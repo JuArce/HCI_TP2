@@ -23,10 +23,10 @@
                 <v-card-subtitle class="mt-n5">by {{ user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                        <v-rating class="ml-3" :value="4.5" color="teal lighten-2" dense
-                                  half-increments readonly size="18">
-                        </v-rating>
-                        <div class="grey--text ml-4">4.5 (413)</div>
+                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" half-increments hover dense length="5" size="18" v-model="rating"></v-rating>
+                        <v-btn small class="ml-2" @click="rateRoutine()">
+                            Rate now
+                        </v-btn>
                     </v-row>
                 </v-card-text>
             </v-col>
@@ -50,6 +50,7 @@ import {FavoriteRoutinesStore} from "../store/favoriteRoutinesStore";
 import {RoutineCyclesStore} from "../store/routineCyclesStore";
 import CycleDetail from "../components/CycleDetail";
 import {RoutineStore} from "../store/RoutineStore";
+import {ReviewsStore} from "../store/reviewsStore";
 
 
 export default {
@@ -69,7 +70,7 @@ export default {
         routine: {},
         user: {},
         cycles: [],
-
+        rating: 0,
         favorite: false
     }),
 
@@ -78,6 +79,7 @@ export default {
         this.user = this.routine.user;
         this.favorite = await FavoriteRoutinesStore.isFavoriteRoutine(this.routine.id);
         await this.getCyclesData();
+        this.rating = await ReviewsStore.getRoutineScore(this.routine.id);
     },
 
     methods: {
@@ -102,6 +104,10 @@ export default {
                 await FavoriteRoutinesStore.removeFavorite(this.routine.id);
             }
         },
+        async rateRoutine(){
+            console.log(this.rating);
+            await ReviewsStore.addReview(this.routine.id, this.rating);
+        }
     },
 }
 </script>
