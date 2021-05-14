@@ -15,7 +15,6 @@
                             v-model="email"
                             label="Email*"
                             outlined
-                            hint="."
                             append-icon="mdi-email"
                             color="teal"
                             :error-messages=emailErrors
@@ -60,7 +59,7 @@
                         ></v-text-field>
                         <v-text-field
                             placeholder="Type your First Name..."
-                            label="First Name"
+                            label="First Name*"
                             v-model="firstName"
                             @blur="$v.firstName.$touch()"
                             :error-messages=nameErrors
@@ -70,7 +69,7 @@
                         ></v-text-field>
                         <v-text-field
                             placeholder="Type your Last Name..."
-                            label="Last Name"
+                            label="Last Name*"
                             v-model="lastName"
                             @blur="$v.lastName.$touch()"
                             :error-messages=surnameErrors
@@ -155,6 +154,7 @@ export default {
                     }, 2000);
 
                 } catch (error) {
+                    this.loading = false;
                     if (error.code === 2) {
                         this.errorMessage = "There seems to exist another user with your same email/username";
                     } else {
@@ -167,6 +167,7 @@ export default {
                     console.log(error);
                 }
             } else {
+                this.loading = false;
                 this.warningAlert = true;
                 if (this.confirmPassword !== this.password) this.warningMessage = "The passwords must match."
                 else this.warningMessage = "Please check your data, some fields may be missing."

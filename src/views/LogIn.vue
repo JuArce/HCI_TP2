@@ -46,7 +46,7 @@
                         </v-alert>
                     </v-form>
                     <v-btn to="/Register" elevation="0" color="transparent" class="teal--text">Don't have an account?
-                        Sign In
+                        Sign Up
                     </v-btn>
                 </v-card>
             </v-col>

@@ -96,7 +96,7 @@ export default {
     methods: {
         async editProfile() {
             try {
-                await this.store.modifyUser(this.username, this.firstName, this.lastName, this.email, this.phone, this.avatarUrl);
+                await this.store.modifyUser(this.username, this.firstName, this.lastName, this.email, '', this.avatarUrl);
                 await router.replace('/Profile');
             } catch (error) {
                 console.log(error);
