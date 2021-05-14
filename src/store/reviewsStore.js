@@ -15,7 +15,7 @@ const ReviewsStore = {
     async getRoutineScore(routineId) {
         let isLastPage = false;
         let totalReviews = 0;
-        this.rating = 0;
+        let rating = 0;
         const data = {
             page: 0,
             size: 10,
@@ -25,9 +25,9 @@ const ReviewsStore = {
         while (!isLastPage) {
             let aux = await this.getRoutineReviews(routineId, data);
             isLastPage = aux.isLastPage;
-            aux.content.forEach(e => this.rating += e.score);
-            totalReviews++;
+            aux.content.forEach(e => rating += e.score);
+            totalReviews=aux.totalCount;
         }
-        return this.rating /= totalReviews;
+        return rating/totalReviews;
     }
 }

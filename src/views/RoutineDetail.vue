@@ -23,7 +23,7 @@
                 <v-card-subtitle class="mt-n5">by {{ user.username }}</v-card-subtitle>
                 <v-card-text>
                     <v-row>
-                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" half-increments hover dense length="5" size="18" v-model="rating"></v-rating>
+                            <v-rating  class="ml-3 mt-1" color="teal lighten-2" hover dense length="5" size="18" v-model="rating"></v-rating>
                         <v-btn small class="ml-2" @click="rateRoutine()">
                             Rate now
                         </v-btn>
