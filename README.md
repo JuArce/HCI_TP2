@@ -1,6 +1,22 @@
-# hci_tp2
+![ProFit Logo Alt](src/assets/ProFit-Logo-text-v1.1.png)
+
+## Authors
+- [Julián Arce](https://github.com/juarce)
+- [Paula Domingues](https://github.com/pdomins) 
+- [Matías Lombardi](https://github.com/matiaslombardi)
+- [Gian Luca Pecile](https://github.com/glpecile)
+
+## About
+
+ProFit is a fitness website based on the JavaScript framework, Vue JS. It makes use of 
+the following plugins:
+
+- **Vue-Router**.
+- **Vuelidate**.
+- **Vuetify**.
 
 ## Project setup
+
 ```
 npm install
 ```
